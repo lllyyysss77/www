@@ -166,13 +166,11 @@ export const PriceTag = ({ eur, suffix = '/month', highlight = false }) => {
   const { symbol, word } = CURRENCIES[currency]
   const amount = formatPrice(eur, currency)
   const ariaLabel = `${amount} ${word} per month`
-  const amountNode = highlight
-    ? (
-      <Highlight as='span'>{amount}</Highlight>
-      )
-    : (
-        amount
-      )
+  const amountNode = highlight ? (
+    <Highlight as='span'>{amount}</Highlight>
+  ) : (
+    amount
+  )
 
   return (
     <Flex
@@ -333,7 +331,7 @@ const CurrencyToggle = () => {
 
 // ─── Plans ───────────────────────────────────────────────────────────────────
 
-const Plans = ({ canonicalUrl, stripeKey, showUsageStats = false }) => {
+const Plans = ({ canonicalUrl, stripeKey, footer = 'none' }) => {
   const [plan, setPlan] = useState(DEFAULT_PLAN)
   const [currency] = useCurrencyContext()
   const { monthlyPrice, id: planId, reqsPerMonth } = plan
@@ -569,7 +567,7 @@ const Plans = ({ canonicalUrl, stripeKey, showUsageStats = false }) => {
         </PricingCard>
       </Flex>
 
-      {showUsageStats && (
+      {footer !== 'none' && (
         <>
           <Box
             aria-hidden='true'
@@ -587,39 +585,62 @@ const Plans = ({ canonicalUrl, stripeKey, showUsageStats = false }) => {
             `}
           />
 
-          <Flex
-            css={theme({
-              pt: [3, 3, 4, 4],
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              alignItems: 'center',
-              fontSize: [0, 0, 1, 1],
-              color: 'black60',
-              fontWeight: 'bold',
-              letterSpacing: 1
-            })}
-          >
-            <Text as='span'>
-              <Text as='span' css={theme({ color: 'black' })}>
-                {formatCompact(totalStars)}
-              </Text>{' '}
-              GitHub stars
-            </Text>
-            <Dot />
-            <Text as='span'>
-              <Text as='span' css={theme({ color: 'black' })}>
-                641M+
-              </Text>{' '}
-              requests last month
-            </Text>
-            <Dot />
-            <Text as='span'>
-              <Text as='span' css={theme({ color: 'black' })}>
-                99.9%
-              </Text>{' '}
-              SLA
-            </Text>
-          </Flex>
+          {footer === 'stats' && (
+            <Flex
+              css={theme({
+                pt: [3, 3, 4, 4],
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: [0, 0, 1, 1],
+                color: 'black60',
+                fontWeight: 'bold',
+                letterSpacing: 1
+              })}
+            >
+              <Text as='span'>
+                <Text as='span' css={theme({ color: 'black' })}>
+                  {formatCompact(totalStars)}
+                </Text>{' '}
+                GitHub stars
+              </Text>
+              <Dot />
+              <Text as='span'>
+                <Text as='span' css={theme({ color: 'black' })}>
+                  641M+
+                </Text>{' '}
+                requests last month
+              </Text>
+              <Dot />
+              <Text as='span'>
+                <Text as='span' css={theme({ color: 'black' })}>
+                  99.9%
+                </Text>{' '}
+                SLA
+              </Text>
+            </Flex>
+          )}
+
+          {footer === 'compare' && (
+            <Flex
+              css={theme({
+                pt: [3, 3, 4, 4],
+                flexDirection: ['column', 'row', 'row', 'row'],
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: [1, 2, 2, 2],
+                textAlign: 'center',
+                fontSize: [1, 1, 2, 2]
+              })}
+            >
+              <Text as='span' css={theme({ color: 'black60' })}>
+                Need more details?
+              </Text>
+              <ArrowLink href='/pricing'>
+                Compare every plan side by side
+              </ArrowLink>
+            </Flex>
+          )}
         </>
       )}
     </Container>
