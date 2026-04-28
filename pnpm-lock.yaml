@@ -55,7 +55,7 @@ importers:
         version: 1.2.23
       cloudflare-bot-directory:
         specifier: ~1.0.20
-        version: 1.0.22
+        version: 1.0.23
       cssnano:
         specifier: ~7.1.5
         version: 7.1.5(postcss@8.5.6)
@@ -199,7 +199,7 @@ importers:
         version: 7.0.28
       top-user-agents:
         specifier: ~2.1.106
-        version: 2.1.108
+        version: 2.1.109
       truncate-url:
         specifier: ~3.0.0
         version: 3.0.0
@@ -4656,8 +4656,8 @@ packages:
     resolution: {integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==}
     engines: {node: '>=0.8'}
 
-  cloudflare-bot-directory@1.0.22:
-    resolution: {integrity: sha512-FvNgnW/tnmnChV7Ao+/9L/Mk73z79a3MvRhEVJ5H51j336FrhL0KFUd68LZ3jAhwG48tno6qZOM4ujA6t+UPfg==}
+  cloudflare-bot-directory@1.0.23:
+    resolution: {integrity: sha512-rQZyJlfVfvAEnF5l6txcdlgDsfx03C9K9KqoHV5OFG2kHQbVYfZgQEMokjvuGOl5ZVmroRvGGAQ311N016icjg==}
     engines: {node: '>= 20'}
 
   coffeescript@2.7.0:
@@ -10038,8 +10038,8 @@ packages:
     resolution: {integrity: sha512-OCVPnIObs4N29kxTjzLfUryOkvZEq+pf8jTF0lg8E7uETuWHA+v7j3c/xJmiqpX450191LlmZfUKkXxkTry7nA==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postcss@8.5.10:
-    resolution: {integrity: sha512-pMMHxBOZKFU6HgAZ4eyGnwXF/EvPGGqUr0MnZ5+99485wwW41kW91A4LOGxSHhgugZmSChL5AlElNdwlNgcnLQ==}
+  postcss@8.5.12:
+    resolution: {integrity: sha512-W62t/Se6rA0Az3DfCL0AqJwXuKwBeYg6nOaIgzP+xZ7N5BFCI7DYi1qs6ygUYT6rvfi6t9k65UMLJC+PHZpDAA==}
     engines: {node: ^10 || ^12 || >=14}
 
   postcss@8.5.6:
@@ -11709,8 +11709,8 @@ packages:
     resolution: {integrity: sha512-6udB24Q737UD/SDsKAHI9FCRP7Bqc9D/MQUV02ORQg5iskjtLJlZJNdN4kKtcdtwCeWIwIHDGaUsTsCCAa8sFQ==}
     engines: {node: '>=10'}
 
-  top-user-agents@2.1.108:
-    resolution: {integrity: sha512-19rqRI9HAOQ0gEGmdP/KsKKAAqyV593q3DqGXy5EBLx34ax3teg9sw8+fXd27PimPgj4AeagHXj79ptCVJX/bQ==}
+  top-user-agents@2.1.109:
+    resolution: {integrity: sha512-2p5ZsWXHDaN6zNzpj0AN+X55NUg0OLva9niB7iDCDzoFwa7boqS5x/8NENdegZo3TUH/8uZNJV16sY1NYfbmCA==}
 
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
@@ -19149,7 +19149,7 @@ snapshots:
 
   clone@2.1.2: {}
 
-  cloudflare-bot-directory@1.0.22: {}
+  cloudflare-bot-directory@1.0.23: {}
 
   coffeescript@2.7.0: {}
 
@@ -26302,7 +26302,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postcss@8.5.10:
+  postcss@8.5.12:
     dependencies:
       nanoid: 3.3.11
       picocolors: 1.1.1
@@ -28519,7 +28519,7 @@ snapshots:
       '@tokenizer/token': 0.3.0
       ieee754: 1.2.1
 
-  top-user-agents@2.1.108: {}
+  top-user-agents@2.1.109: {}
 
   tr46@0.0.3: {}
 
@@ -29069,7 +29069,7 @@ snapshots:
   vite@6.0.11(@types/node@25.5.0)(jiti@2.6.1)(sass@1.97.3)(terser@5.37.0)(yaml@2.7.0):
     dependencies:
       esbuild: 0.24.2
-      postcss: 8.5.10
+      postcss: 8.5.12
       rollup: 4.60.2
     optionalDependencies:
       '@types/node': 25.5.0
