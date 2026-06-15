@@ -25,7 +25,7 @@ import {
   buildCardHtml,
   deriveVariant
 } from 'helpers/link-card'
-import { FILENAMES, GENERATORS } from './generators'
+import { FILENAMES, GENERATORS, HIGHLIGHT_ALIASES } from './generators'
 import { MOBILE_BP } from 'components/pages/screenshot'
 
 /* ─── Config ───────────────────────────────────────────── */
@@ -928,6 +928,7 @@ const Builder = () => {
           autoHeight
           languages={snippets}
           download={FILENAMES}
+          aliases={HIGHLIGHT_ALIASES}
           style={{ maxHeight: 460 }}
         />
       </Box>

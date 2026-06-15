@@ -465,3 +465,15 @@ export const FILENAMES = {
   Astro: 'LinkPreview.astro',
   Vanilla: 'microlink.js'
 }
+
+// Syntax-highlight language per tab. Most labels highlight fine by default, but
+// `Vanilla`/`Vue` are reused on other pages for HTML snippets, so the editor
+// maps them to the monochrome `html` theme — we override that here, per-tab,
+// without affecting those pages. `sfc` keeps colors while muting the
+// `<!-- -->` usage banner; `js`/`jsx` are plain colorful code.
+export const HIGHLIGHT_ALIASES = {
+  Vanilla: 'js',
+  Vue: 'sfc',
+  Svelte: 'sfc',
+  Astro: 'jsx'
+}

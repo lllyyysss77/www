@@ -97,6 +97,7 @@ const MultiCodeEditor = ({
   interactive,
   languages: codeByLanguage,
   download,
+  aliases,
   ...props
 }) => {
   const [languageIndex, setLanguageIndex] = useLocalStorage(
@@ -112,6 +113,11 @@ const MultiCodeEditor = ({
   // need to be reset when the memoized language is missing
   if (!code) setLanguageIndex(DEFAULT_LANGUAGE_INDEX)
 
+  // The tab label (e.g. `Vanilla`) doubles as the highlight language, but a
+  // caller can remap it — e.g. the builder highlights its `Vanilla` tab as `js`
+  // so it gets colors, without affecting other pages that reuse the label.
+  const editorLanguage = (aliases && aliases[language]) || language
+
   const setLanguage = language => {
     const languageIndex = languages.findIndex(lang => lang === language)
     if (languageIndex < 0) return
@@ -122,7 +128,7 @@ const MultiCodeEditor = ({
     <CodeEditor
       interactive={interactive}
       header={{ style: { marginBottom: '8px' } }}
-      language={language}
+      language={editorLanguage}
       {...props}
       ActionComponent={props => (
         <ActionComponent
