@@ -25,7 +25,7 @@ import {
   buildCardHtml,
   deriveVariant
 } from 'helpers/link-card'
-import { GENERATORS } from './generators'
+import { FILENAMES, GENERATORS } from './generators'
 import { MOBILE_BP } from 'components/pages/screenshot'
 
 /* ─── Config ───────────────────────────────────────────── */
@@ -927,6 +927,7 @@ const Builder = () => {
         <MultiCodeEditor
           autoHeight
           languages={snippets}
+          download={FILENAMES}
           style={{ maxHeight: 460 }}
         />
       </Box>

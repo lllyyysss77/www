@@ -4,9 +4,10 @@ import Flex from 'components/elements/Flex'
 import Box from 'components/elements/Box'
 import { useLocalStorage } from 'components/hook/use-local-storage'
 import React, { useMemo } from 'react'
+import { Download } from 'react-feather'
 import Tabs from '../Tabs'
 import styled from 'styled-components'
-import { theme } from 'theme'
+import { cx, theme } from 'theme'
 
 export const SelectLanguage = ({ value, onClick, ...props }) => (
   <Tabs
@@ -24,7 +25,43 @@ const Actions = styled(Flex)`
   margin-left: auto;
 `
 
-const ActionComponent = ({ setLanguage, language, languages, text }) => {
+const DownloadButton = styled('button')`
+  position: relative;
+  top: -2px;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 14px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: ${cx('black20')};
+  transition: color 300ms;
+
+  &:hover {
+    color: ${cx('black')};
+  }
+`
+
+const downloadFile = (filename, text) => {
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const anchor = document.createElement('a')
+  anchor.href = url
+  anchor.download = filename
+  document.body.appendChild(anchor)
+  anchor.click()
+  document.body.removeChild(anchor)
+  URL.revokeObjectURL(url)
+}
+
+const ActionComponent = ({
+  setLanguage,
+  language,
+  languages,
+  filename,
+  text
+}) => {
   return (
     <>
       <Actions>
@@ -38,6 +75,16 @@ const ActionComponent = ({ setLanguage, language, languages, text }) => {
           </SelectLanguage>
         </Box>
       </Actions>
+      {filename && (
+        <DownloadButton
+          type='button'
+          aria-label={`Download ${filename}`}
+          title={`Download ${filename}`}
+          onClick={() => downloadFile(filename, text)}
+        >
+          <Download size={16} />
+        </DownloadButton>
+      )}
       <CodeCopy text={text} />
     </>
   )
@@ -49,6 +96,7 @@ const LOCALSTORAGE_KEY = ''
 const MultiCodeEditor = ({
   interactive,
   languages: codeByLanguage,
+  download,
   ...props
 }) => {
   const [languageIndex, setLanguageIndex] = useLocalStorage(
@@ -81,6 +129,7 @@ const MultiCodeEditor = ({
           setLanguage={setLanguage}
           language={language}
           languages={languages}
+          filename={download && download[language]}
           {...props}
         />
       )}

@@ -18,7 +18,15 @@ import Layout from 'components/patterns/Layout'
 
 import { Builder } from 'components/pages/builder'
 
-const FRAMEWORKS = ['React', 'Vue', 'Angular', 'Svelte', 'Vanilla JS']
+const FRAMEWORKS = [
+  'React',
+  'TypeScript',
+  'Vue',
+  'Angular',
+  'Svelte',
+  'Astro',
+  'Vanilla JS'
+]
 
 const STEPS = [
   {
@@ -29,7 +37,7 @@ const STEPS = [
   {
     title: 'Copy it',
     description:
-      'Grab a zero-dependency component for React, Vue, Angular, Svelte, or Vanilla JS — no SDK, no build step.'
+      'Grab a zero-dependency component for React, TypeScript, Vue, Angular, Svelte, Astro, or Vanilla JS — no SDK, no build step.'
   },
   {
     title: 'Ship it',
@@ -222,8 +230,8 @@ const BuilderPage = () => (
 
 export const Head = () => (
   <Meta
-    title='Link Preview Component Builder — React, Vue, Angular, Svelte & JS'
-    description='Visually design a link preview card, then copy a zero-dependency component for React, Vue, Angular, Svelte, and Vanilla JS. Fetches metadata from the Microlink API; pass an apiKey for Pro.'
+    title='Link Preview Component Builder — React, Vue, Svelte, Astro & TS'
+    description='Visually design a link preview card, then copy or download a zero-dependency component for React, TypeScript, Vue, Angular, Svelte, Astro, and Vanilla JS. Fetches metadata from the Microlink API; pass an apiKey for Pro.'
     image={cdnUrl('banner/sdk.jpeg')}
     structured={[
       {
@@ -232,16 +240,18 @@ export const Head = () => (
         '@id': 'https://microlink.io/integrations/builder',
         name: 'Microlink Link Preview Component Builder',
         description:
-          'Visually design a link preview card and generate a zero-dependency component for React, Vue, Angular, Svelte, and Vanilla JS.',
+          'Visually design a link preview card and generate a zero-dependency component for React, TypeScript, Vue, Angular, Svelte, Astro, and Vanilla JS.',
         url: 'https://microlink.io/integrations/builder',
         applicationCategory: 'DeveloperApplication',
         keywords: [
           'link preview component',
           'link preview generator',
           'react link preview',
+          'typescript link preview',
           'vue link preview',
           'angular link preview',
           'svelte link preview',
+          'astro link preview',
           'vanilla js link preview',
           'unfurl url',
           'microlink'
