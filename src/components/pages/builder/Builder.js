@@ -27,10 +27,22 @@ import {
 } from 'helpers/link-card'
 import { FILENAMES, GENERATORS, HIGHLIGHT_ALIASES } from './generators'
 import { MOBILE_BP } from 'components/pages/screenshot'
+import { TOOLBAR_PRIMARY_HEIGHT } from 'components/elements/Toolbar'
 
 /* ─── Config ───────────────────────────────────────────── */
 
 const LOCAL_STORAGE_KEY = 'builder-config'
+
+// Above this width the settings panel docks as a fixed rail on the left edge of
+// the page (always visible while scrolling) and the rest of the builder is a
+// single column centered in the page. Below it, everything stacks. The centered
+// column caps its width to `100% - 2×(RAIL_WIDTH + RAIL_GAP)` (see `Content`),
+// so it always stays clear of the rail and visually centered — no matter the
+// viewport — instead of needing a very high breakpoint.
+const RAIL_WIDTH = 360
+const RAIL_GAP = 24
+const RAIL_BREAKPOINT = 1320
+const CONTENT_MAX_WIDTH = '760px'
 
 const SIZE_OPTIONS = [
   { id: 'small', label: 'Small' },
@@ -393,13 +405,46 @@ const OmniboxButton = styled(Box).attrs({ as: 'button', type: 'button' })`
   }
 `
 
-const Grid = styled(Flex)`
-  ${theme({ gap: 3 })}
-  flex-direction: column;
-  align-items: stretch;
+// Layout shell. The builder is a single centered column (`Content`); on wide
+// screens the settings rail is lifted out of flow and pinned to the left edge
+// of the viewport with position: fixed, so it stays visible while scrolling and
+// the centered column reads as the middle of the page.
+const Root = styled(Box)`
+  width: 100%;
+`
 
-  @media (min-width: ${MOBILE_BP}px) {
-    flex-direction: row;
+const Content = styled(Box)`
+  ${theme({ mx: 'auto' })}
+  width: 100%;
+  max-width: ${CONTENT_MAX_WIDTH};
+
+  /* While the rail is docked, shrink the centered column before it could slide
+     under the rail, so it stays clear of it and centered in the page. */
+  @media (min-width: ${RAIL_BREAKPOINT}px) {
+    max-width: min(
+      ${CONTENT_MAX_WIDTH},
+      calc(100% - ${2 * (RAIL_WIDTH + RAIL_GAP)}px)
+    );
+  }
+`
+
+const SettingsRail = styled(Card)`
+  ${theme({ mb: 4 })}
+  width: 100%;
+  align-self: flex-start;
+
+  @media (min-width: ${RAIL_BREAKPOINT}px) {
+    position: fixed;
+    left: 0;
+    top: calc(${TOOLBAR_PRIMARY_HEIGHT} + 24px);
+    z-index: 3;
+    width: ${RAIL_WIDTH}px;
+    max-height: calc(100vh - ${TOOLBAR_PRIMARY_HEIGHT} - 48px);
+    margin-bottom: 0;
+    overflow-y: auto;
+    border-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 `
 
@@ -848,30 +893,25 @@ const Builder = () => {
   }, [])
 
   return (
-    <Box css={{ width: '100%' }}>
-      <Box css={theme({ maxWidth: '720px', mx: 'auto', pb: 4 })}>
-        <Omnibar
-          url={url}
-          setUrl={setUrl}
-          onSubmit={handleFetch}
-          isLoading={isLoading}
-        />
-        {error && (
-          <Text css={theme({ color: 'black40', fontSize: 0, pt: 2, pl: 3 })}>
-            {error}
-          </Text>
-        )}
-      </Box>
+    <Root>
+      <Content>
+        <Box css={theme({ maxWidth: '720px', mx: 'auto', pb: 4 })}>
+          <Omnibar
+            url={url}
+            setUrl={setUrl}
+            onSubmit={handleFetch}
+            isLoading={isLoading}
+          />
+          {error && (
+            <Text css={theme({ color: 'black40', fontSize: 0, pt: 2, pl: 3 })}>
+              {error}
+            </Text>
+          )}
+        </Box>
 
-      <Grid>
-        {/* Editor — a stacked sidebar of collapsible setting sections */}
-        <Card
-          css={theme({
-            width: ['100%', '100%', '380px', '380px'],
-            flexShrink: 0,
-            alignSelf: 'flex-start'
-          })}
-        >
+        {/* Settings — a fixed rail on the left edge on wide screens, an inline
+            card above the preview once the layout stacks */}
+        <SettingsRail>
           <Box css={theme({ px: 3 })}>
             {SECTIONS.map(({ id, label, Component }) => (
               <Section
@@ -893,17 +933,10 @@ const Builder = () => {
               Reset
             </GhostButton>
           </Flex>
-        </Card>
+        </SettingsRail>
 
-        {/* Preview */}
-        <Card
-          css={{
-            flex: 1,
-            minWidth: 0,
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
+        {/* Preview — centered, using the full width of the column */}
+        <Card css={{ display: 'flex', flexDirection: 'column' }}>
           <PreviewStage>
             <Box
               css={{ width: '100%', display: 'flex', justifyContent: 'center' }}
@@ -912,65 +945,65 @@ const Builder = () => {
             </Box>
           </PreviewStage>
         </Card>
-      </Grid>
 
-      {/* Generated component */}
-      <Box css={theme({ pt: [4, 4, 5, 5] })}>
-        <SectionLabel>Component code</SectionLabel>
-        <Text css={theme({ fontSize: 1, color: 'black60', pb: 3 })}>
-          A single self-contained file — no SDK, no build step, no npm install.
-          Pick your framework, copy it in, and render it with a{' '}
-          <InlineCode>url</InlineCode>.
-        </Text>
-        {/* `maxHeight` keeps the snippet in a scrollable, fade-edged box instead
-            of one enormous block — the embedded runtime renderer is long. */}
-        <MultiCodeEditor
-          autoHeight
-          languages={snippets}
-          download={FILENAMES}
-          aliases={HIGHLIGHT_ALIASES}
-          style={{ maxHeight: 460 }}
-        />
-      </Box>
-
-      {/* Usage */}
-      <Box css={theme({ pt: [4, 4, 5, 5] })}>
-        <SectionLabel>Usage</SectionLabel>
-        <Text css={theme({ fontSize: 1, color: 'black60', pb: 2 })}>
-          The component is self-contained: pass a <InlineCode>url</InlineCode>{' '}
-          and it fetches the metadata from Microlink and renders the card. Add
-          an <InlineCode>apiKey</InlineCode> to go Pro. These are the only props
-          it accepts:
-        </Text>
-        <Box css={theme({ pt: 1 })}>
-          {COMPONENT_PROPS.map(({ name, type, required, description }) => (
-            <PropRow key={name}>
-              <PropName>
-                <InlineCode>{name}</InlineCode>
-                <PropPill $required={required}>
-                  {required ? 'required' : 'optional'}
-                </PropPill>
-              </PropName>
-              <Box css={{ flex: 1, minWidth: 0 }}>
-                <Text
-                  css={theme({
-                    fontFamily: 'mono',
-                    fontSize: 0,
-                    color: 'black40',
-                    pb: 1
-                  })}
-                >
-                  {type}
-                </Text>
-                <Text css={theme({ fontSize: 1, color: 'black80' })}>
-                  {description}
-                </Text>
-              </Box>
-            </PropRow>
-          ))}
+        {/* Generated component */}
+        <Box css={theme({ pt: [4, 4, 5, 5] })}>
+          <SectionLabel>Component code</SectionLabel>
+          <Text css={theme({ fontSize: 1, color: 'black60', pb: 3 })}>
+            A single self-contained file — no SDK, no build step, no npm
+            install. Pick your framework, copy it in, and render it with a{' '}
+            <InlineCode>url</InlineCode>.
+          </Text>
+          {/* `maxHeight` keeps the snippet in a scrollable, fade-edged box
+              instead of one enormous block — the runtime renderer is long. */}
+          <MultiCodeEditor
+            autoHeight
+            languages={snippets}
+            download={FILENAMES}
+            aliases={HIGHLIGHT_ALIASES}
+            style={{ maxHeight: 460 }}
+          />
         </Box>
-      </Box>
-    </Box>
+
+        {/* Usage */}
+        <Box css={theme({ pt: [4, 4, 5, 5] })}>
+          <SectionLabel>Usage</SectionLabel>
+          <Text css={theme({ fontSize: 1, color: 'black60', pb: 2 })}>
+            The component is self-contained: pass a <InlineCode>url</InlineCode>{' '}
+            and it fetches the metadata from Microlink and renders the card. Add
+            an <InlineCode>apiKey</InlineCode> to go Pro. These are the only
+            props it accepts:
+          </Text>
+          <Box css={theme({ pt: 1 })}>
+            {COMPONENT_PROPS.map(({ name, type, required, description }) => (
+              <PropRow key={name}>
+                <PropName>
+                  <InlineCode>{name}</InlineCode>
+                  <PropPill $required={required}>
+                    {required ? 'required' : 'optional'}
+                  </PropPill>
+                </PropName>
+                <Box css={{ flex: 1, minWidth: 0 }}>
+                  <Text
+                    css={theme({
+                      fontFamily: 'mono',
+                      fontSize: 0,
+                      color: 'black40',
+                      pb: 1
+                    })}
+                  >
+                    {type}
+                  </Text>
+                  <Text css={theme({ fontSize: 1, color: 'black80' })}>
+                    {description}
+                  </Text>
+                </Box>
+              </PropRow>
+            ))}
+          </Box>
+        </Box>
+      </Content>
+    </Root>
   )
 }
 

@@ -11,7 +11,6 @@ import Subhead from 'components/elements/Subhead'
 import Text from 'components/elements/Text'
 import { Link } from 'components/elements/Link'
 
-import ArrowLink from 'components/patterns/ArrowLink'
 import Caption from 'components/patterns/Caption/Caption'
 import Faq from 'components/patterns/Faq/Faq'
 import Layout from 'components/patterns/Layout'
@@ -126,29 +125,23 @@ const Hero = () => (
       {FRAMEWORKS.join(', ')}. It fetches metadata from the Microlink API itself
       — pass an apiKey to go Pro.
     </Caption>
-    <Flex css={theme({ pt: [3, 3, 4, 4], fontSize: [2, 2, 3, 3] })}>
-      <ArrowLink css={theme({ pr: [2, 4, 4, 4] })} href='#builder'>
-        Start building
-      </ArrowLink>
-      <ArrowLink href='/integrations/sdk'>Or use the SDK</ArrowLink>
-    </Flex>
   </Flex>
 )
 
+// No maxWidth clamp: the Builder centers its own (now single-column) content,
+// and its settings rail docks to the page edge via position: fixed.
 const BuilderSection = () => (
-  <Container
+  <Box
     as='section'
     id='builder'
     css={theme({
-      alignItems: 'center',
-      maxWidth: layout.large,
       pt: [4, 4, 5, 5],
       mb: [4, 4, 5, 5],
       px: [3, 3, 4, 4]
     })}
   >
     <Builder />
-  </Container>
+  </Box>
 )
 
 const HowItWorks = () => (
