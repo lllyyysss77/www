@@ -128,8 +128,9 @@ const Hero = () => (
   </Flex>
 )
 
-// No maxWidth clamp: the Builder centers its own (now single-column) content,
-// and its settings rail docks to the page edge via position: fixed.
+// No maxWidth clamp, and no horizontal padding at the rail breakpoint: the
+// Builder centers its own single-column content, and its settings rail docks
+// flush to the page's left edge (so its pinned/parked states line up exactly).
 const BuilderSection = () => (
   <Box
     as='section'
@@ -137,7 +138,7 @@ const BuilderSection = () => (
     css={theme({
       pt: [4, 4, 5, 5],
       mb: [4, 4, 5, 5],
-      px: [3, 3, 4, 4]
+      px: [3, 3, 4, 0]
     })}
   >
     <Builder />

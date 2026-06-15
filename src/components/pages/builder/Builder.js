@@ -1,5 +1,5 @@
 import { colors, theme, transition } from 'theme'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, ChevronDown, RotateCcw } from 'react-feather'
 import isUrl from 'is-url-http/lightweight'
 import prependHttp from 'prepend-http'
@@ -27,22 +27,26 @@ import {
 } from 'helpers/link-card'
 import { FILENAMES, GENERATORS, HIGHLIGHT_ALIASES } from './generators'
 import { MOBILE_BP } from 'components/pages/screenshot'
-import { TOOLBAR_PRIMARY_HEIGHT } from 'components/elements/Toolbar'
 
 /* ─── Config ───────────────────────────────────────────── */
 
 const LOCAL_STORAGE_KEY = 'builder-config'
 
-// Above this width the settings panel docks as a fixed rail on the left edge of
-// the page (always visible while scrolling) and the rest of the builder is a
-// single column centered in the page. Below it, everything stacks. The centered
-// column caps its width to `100% - 2×(RAIL_WIDTH + RAIL_GAP)` (see `Content`),
-// so it always stays clear of the rail and visually centered — no matter the
-// viewport — instead of needing a very high breakpoint.
+// Above this width the settings panel docks as a rail on the left edge of the
+// page and the rest of the builder is a single column centered in the page.
+// Below it, everything stacks. The centered column caps its width to
+// `100% - 2×(RAIL_WIDTH + RAIL_GAP)` (see `Content`) so it always stays clear of
+// the rail and visually centered — no matter the viewport.
+//
+// The rail is pinned (fixed) only while the builder section is in view — a
+// scroll effect (see `useRail`) flips `data-rail-mode` so it parks at the
+// section's top/bottom instead of floating over the hero or the steps/FAQ.
 const RAIL_WIDTH = 360
 const RAIL_GAP = 24
 const RAIL_BREAKPOINT = 1320
 const CONTENT_MAX_WIDTH = '760px'
+// Where the rail pins: navbar height (64px) + a 24px gap.
+const RAIL_TOP_OFFSET = 88
 
 const SIZE_OPTIONS = [
   { id: 'small', label: 'Small' },
@@ -411,6 +415,11 @@ const OmniboxButton = styled(Box).attrs({ as: 'button', type: 'button' })`
 // the centered column reads as the middle of the page.
 const Root = styled(Box)`
   width: 100%;
+
+  /* Positioning context the rail parks against when it isn't pinned. */
+  @media (min-width: ${RAIL_BREAKPOINT}px) {
+    position: relative;
+  }
 `
 
 const Content = styled(Box)`
@@ -434,17 +443,33 @@ const SettingsRail = styled(Card)`
   align-self: flex-start;
 
   @media (min-width: ${RAIL_BREAKPOINT}px) {
-    position: fixed;
+    position: absolute;
     left: 0;
-    top: calc(${TOOLBAR_PRIMARY_HEIGHT} + 24px);
     z-index: 3;
     width: ${RAIL_WIDTH}px;
-    max-height: calc(100vh - ${TOOLBAR_PRIMARY_HEIGHT} - 48px);
+    max-height: calc(100vh - ${RAIL_TOP_OFFSET}px - 24px);
     margin-bottom: 0;
     overflow-y: auto;
     border-left: 0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+
+    /* before the section: parked at its top, scrolls up with the page */
+    &[data-rail-mode='top'] {
+      top: 0;
+    }
+
+    /* within the section: pinned to the viewport, always visible */
+    &[data-rail-mode='fixed'] {
+      position: fixed;
+      top: ${RAIL_TOP_OFFSET}px;
+    }
+
+    /* past the section: parked at its bottom, so it leaves before the steps */
+    &[data-rail-mode='bottom'] {
+      top: auto;
+      bottom: 0;
+    }
   }
 `
 
@@ -822,6 +847,46 @@ const Omnibar = ({ url, setUrl, onSubmit, isLoading }) => {
 
 /* ─── Builder ──────────────────────────────────────────── */
 
+// Pins the settings rail while the builder section is on screen, parking it at
+// the section's top before you reach it and its bottom once you pass — the
+// reliable stand-in for position: sticky, which the page's overflow-x:hidden
+// ancestor would otherwise break. `recomputeKey` re-measures when the rail's
+// height changes (e.g. a section is expanded/collapsed).
+const useRail = recomputeKey => {
+  const boundsRef = useRef(null)
+  const railRef = useRef(null)
+  const [railMode, setRailMode] = useState('top')
+
+  useEffect(() => {
+    const bounds = boundsRef.current
+    const rail = railRef.current
+    if (!bounds || !rail) return
+
+    let frame = 0
+    const measure = () => {
+      frame = 0
+      const rect = bounds.getBoundingClientRect()
+      const railHeight = rail.offsetHeight
+      if (rect.top > RAIL_TOP_OFFSET) setRailMode('top')
+      else if (rect.bottom <= RAIL_TOP_OFFSET + railHeight) { setRailMode('bottom') } else setRailMode('fixed')
+    }
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(measure)
+    }
+
+    measure()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [recomputeKey])
+
+  return { boundsRef, railRef, railMode }
+}
+
 const Builder = () => {
   const [stored, setStored] = useLocalStorage(
     LOCAL_STORAGE_KEY,
@@ -840,6 +905,9 @@ const Builder = () => {
   const [openSections, setOpenSections] = useState(() =>
     SECTIONS.map(s => s.id)
   )
+
+  // Rail docking: re-measure when the open sections change its height.
+  const { boundsRef, railRef, railMode } = useRail(openSections)
 
   const toggleSection = useCallback(
     id =>
@@ -893,7 +961,7 @@ const Builder = () => {
   }, [])
 
   return (
-    <Root>
+    <Root ref={boundsRef}>
       <Content>
         <Box css={theme({ maxWidth: '720px', mx: 'auto', pb: 4 })}>
           <Omnibar
@@ -909,9 +977,10 @@ const Builder = () => {
           )}
         </Box>
 
-        {/* Settings — a fixed rail on the left edge on wide screens, an inline
-            card above the preview once the layout stacks */}
-        <SettingsRail>
+        {/* Settings — a docked rail on the left on wide screens (pinned only
+            while the builder is in view), an inline card above the preview once
+            the layout stacks */}
+        <SettingsRail ref={railRef} data-rail-mode={railMode}>
           <Box css={theme({ px: 3 })}>
             {SECTIONS.map(({ id, label, Component }) => (
               <Section
