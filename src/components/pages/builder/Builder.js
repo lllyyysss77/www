@@ -13,7 +13,6 @@ import Text from 'components/elements/Text'
 
 import MultiCodeEditor from 'components/patterns/MultiCodeEditor/MultiCodeEditor'
 import { useLocalStorage } from 'components/hook/use-local-storage'
-import { cdnUrl } from 'helpers/cdn-url'
 import {
   COLOR_FIELDS,
   DEFAULT_CONFIG,
@@ -76,17 +75,28 @@ const BUILDER_DEFAULT_CONFIG = {
   height: 0
 }
 
-// Shown in the live preview before (and if) the user fetches a real URL.
+// Default URL previewed in the builder, and the placeholder shown in the
+// omnibar — a recognizable, well-designed card to land on.
+const DEFAULT_URL = 'stripe.com'
+
+// Shown in the live preview by default, before the user fetches another URL.
+// Baked from the Microlink API so the default card renders instantly (no
+// fetch-on-load), then any real URL the user enters replaces it.
 const SAMPLE_DATA = {
-  url: 'https://microlink.io',
-  title: 'Microlink — Turn websites into data',
+  url: 'https://stripe.com',
+  title: 'Stripe | Financial Infrastructure to Grow Your Revenue',
   description:
-    'Enter a URL, receive structured data. Get relevant information from any website, take a screenshot, or turn it into a PDF.',
-  publisher: 'Microlink',
+    'Stripe is a financial services platform that helps all types of businesses accept payments, build flexible billing models, and manage money movement.',
+  publisher: 'stripe.com',
   author: null,
   date: null,
-  image: { url: cdnUrl('banner/sdk.jpeg'), palette: ['#e94560'] },
-  logo: { url: 'https://icons.duckduckgo.com/ip3/microlink.io.ico' }
+  image: {
+    url: 'https://images.stripeassets.com/fzn2n1nzq965/XtX984S1GJVsVOXFC7kMu/01988281e867728dfb09aa7793a6e3b9/Stripe.jpg?q=80',
+    palette: ['#ED87D8']
+  },
+  logo: {
+    url: 'https://images.stripeassets.com/fzn2n1nzq965/4vVgZi0ZMoEzOhkcv7EVwK/8cce6fdcf2733b2ec8e99548908847ed/favicon.png?w=180&h=180'
+  }
 }
 
 // The props the generated component exposes. Unlike the v0 reference — which
@@ -808,7 +818,7 @@ const Omnibar = ({ url, setUrl, onSubmit, isLoading }) => {
         <OmniboxInput
           type='url'
           inputMode='url'
-          placeholder='Paste a URL to preview…'
+          placeholder={DEFAULT_URL}
           value={url}
           onChange={e => {
             setUrl(e.target.value)
@@ -868,7 +878,9 @@ const useRail = recomputeKey => {
       const rect = bounds.getBoundingClientRect()
       const railHeight = rail.offsetHeight
       if (rect.top > RAIL_TOP_OFFSET) setRailMode('top')
-      else if (rect.bottom <= RAIL_TOP_OFFSET + railHeight) { setRailMode('bottom') } else setRailMode('fixed')
+      else if (rect.bottom <= RAIL_TOP_OFFSET + railHeight) {
+        setRailMode('bottom')
+      } else setRailMode('fixed')
     }
     const onScroll = () => {
       if (!frame) frame = window.requestAnimationFrame(measure)
@@ -901,10 +913,8 @@ const Builder = () => {
   const [data, setData] = useState(SAMPLE_DATA)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  // Accordion: every section starts expanded so nothing is hidden by default.
-  const [openSections, setOpenSections] = useState(() =>
-    SECTIONS.map(s => s.id)
-  )
+  // Accordion: only the Layout section starts open; the rest start collapsed.
+  const [openSections, setOpenSections] = useState(['layout'])
 
   // Rail docking: re-measure when the open sections change its height.
   const { boundsRef, railRef, railMode } = useRail(openSections)
