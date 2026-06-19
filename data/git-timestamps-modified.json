@@ -938,5 +938,7 @@
   "src/pages/tools/website-to-pdf/index.js": "2026-05-26T00:00:00.000Z",
   "src/pages/tos.js": "2018-10-08T00:00:00.000Z",
   "src/pages/tos.md": "2022-11-27T00:00:00.000Z",
+  "src/pages/use-cases/index.js": "2026-06-19T00:00:00.000Z",
+  "src/pages/use-cases/upscale-extracted-images.js": "2026-06-19T00:00:00.000Z",
   "src/pages/user-agents.js": "2026-04-20T00:00:00.000Z"
 }
