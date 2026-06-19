@@ -103,7 +103,7 @@ If no SVG mark exists, ask the user for the asset instead of inventing one.
 
 ## Section order (individual page)
 
-```
+```text
 Hero        (partner logo + "Microlink + <Partner>", h1 = topic, intro paragraph, ArrowLink CTA to a Microlink product)
 WhatItDoes  (FigureImage screenshot, Eyebrow "What it does", h2, paragraphs WITH the inline partner link)
 WhyItWorks  (Eyebrow "Why it works", h2, lead paragraph, then 3× WhyCard each followed by a prose UseCaseItem — box/text/box/text/box/text)
