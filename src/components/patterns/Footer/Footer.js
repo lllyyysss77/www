@@ -50,6 +50,7 @@ const FOOTER_COLUMNS = [
       { label: 'SDK', href: '/integrations/sdk' },
       { label: 'CLI', href: '/integrations/cli' },
       { label: 'Blog', href: '/blog' },
+      { label: 'Use cases', href: '/use-cases' },
       { label: 'Changelog', href: '/changelog' },
       { label: 'Community', href: '/community' },
       { label: 'Benchmark', href: '/benchmarks/screenshot-api' },
