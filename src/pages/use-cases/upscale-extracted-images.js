@@ -214,7 +214,7 @@ const WhatItDoes = () => (
 /* ─── How it works ───────────────────────────────────────────────────────── */
 
 const HowItWorks = () => (
-  <Section id='how-it-works' css={theme({ pb: 0, scrollMarginTop: 4 })}>
+  <Section id='how-it-works' css={theme({ scrollMarginTop: 4 })}>
     <SectionInner>
       <Eyebrow accent={ACCENT} css={theme({ pb: 2, display: 'block' })}>
         How it works
@@ -225,7 +225,7 @@ const HowItWorks = () => (
         only when the resolution is below your target, send that hosted URL to
         Magnific and poll the task until the upscaled image is ready.
       </Text>
-      <Figure>
+      <Figure css={theme({ pb: 3 })}>
         <Flex
           css={theme({
             flexDirection: 'column',
@@ -239,6 +239,20 @@ const HowItWorks = () => (
           </CodeBlock>
         </Flex>
       </Figure>
+      <Text as='p'>
+        No image came back? Some pages don't expose a main image at all. In that
+        case you can fall back to Magnific's{' '}
+        <InlineLink
+          href='https://www.magnific.com/ai/image-generator'
+          target='_blank'
+          rel='noopener'
+        >
+          image generator
+        </InlineLink>{' '}
+        and create one from the page's title and description — handy for a
+        placeholder or social card, as long as a synthetic image is acceptable
+        there.
+      </Text>
     </SectionInner>
   </Section>
 )
