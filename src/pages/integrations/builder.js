@@ -1,4 +1,4 @@
-import { colors, gradient, layout, theme, transition } from 'theme'
+import { borders, colors, gradient, layout, theme, transition } from 'theme'
 import { cdnUrl } from 'helpers/cdn-url'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Check, Copy } from 'react-feather'
@@ -442,6 +442,11 @@ const CopyButton = styled(Box).attrs({ as: 'button', type: 'button' })`
 
   &:hover {
     opacity: 0.85;
+  }
+
+  &:focus-visible {
+    outline: ${borders[2]} ${colors.link};
+    outline-offset: 2px;
   }
 `
 
