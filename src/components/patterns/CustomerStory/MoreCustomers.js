@@ -151,7 +151,7 @@ export const MoreCustomers = ({ accent, currentSlug }) => {
               </Flex>
               <CarouselCardBlurb>{blurb}</CarouselCardBlurb>
               <CarouselCardLink
-                href={`/customers/${slug}`}
+                href={`/use-cases/${slug}`}
                 css={theme({ color: accent.text })}
               >
                 Read story →

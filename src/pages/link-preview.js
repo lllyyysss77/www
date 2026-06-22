@@ -1758,7 +1758,7 @@ const CustomerStories = () => {
         {stories.map(({ slug, name, blurb, icon }) => (
           <CustomerStoryCard
             key={slug}
-            href={`/customers/${slug}`}
+            href={`/use-cases/${slug}`}
             data-event-location='LinkPreview'
             data-event-name={`Customer Story ${name}`}
           >

@@ -324,6 +324,14 @@
     {
       "source": "/meta",
       "destination": "/metadata"
+    },
+    {
+      "source": "/customers",
+      "destination": "/use-cases"
+    },
+    {
+      "source": "/customers/:path*",
+      "destination": "/use-cases/:path*"
     }
   ],
   "rewrites": [
