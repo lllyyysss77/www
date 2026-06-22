@@ -1,7 +1,8 @@
 # UseCaseStory module & registry
 
-The use-cases section reuses the `customers` architecture with no testimonials. Everything a
-page may import comes from one barrel: `components/patterns/UseCaseStory`.
+Use cases and customer stories now share the `/use-cases` route, folder, and listing, but a use
+case stays testimonial-free. Everything a use-case page may import comes from one barrel:
+`components/patterns/UseCaseStory`.
 
 ## Barrel: `src/components/patterns/UseCaseStory/index.js`
 
@@ -22,7 +23,9 @@ Rules:
 
 - Import these by name. **Never redefine them locally.**
 - **Never edit the `CustomerStory` files** — the use-cases section borrows their accent-agnostic
-  primitives, but customers and use-cases are independent.
+  primitives. Customer-story *pages* now live alongside use-case pages under
+  `src/pages/use-cases/`, but they are authored with the separate `customer-story` skill and the
+  `CustomerStory` module is still off-limits to use-case work.
 - The only use-case-specific files are `use-cases.js` (data) and `MoreUseCases.js` (the
   "More use cases" carousel, a mirror of `MoreCustomers`).
 
@@ -31,7 +34,7 @@ Rules:
 | Export | Notes |
 |---|---|
 | `ACCENT` | `{ text: 'link', bgSoft: 'blue0', bgEdge: 'blue1', highlight: 'blue5' }`. Always blue. Pass `accent={ACCENT}` to accent-aware components. |
-| `USE_CASES` | The registry array. Drives the listing grid, the (hidden) logo bar, and `MoreUseCases`. |
+| `USE_CASES` | The registry array. Drives the "Use cases" grid on the listing and `MoreUseCases`. |
 | `Section`, `SectionInner` | Page section wrapper + max-width container. |
 | `Caption`, `Figure`, `FigureImage` | Layout primitives. `FigureImage` = rounded, shadowed, centered, `maxWidth: 600px` default. |
 | `DashedGridOverlay` | Decorative background; render once per page inside `<Layout>`. |
@@ -72,35 +75,29 @@ export const USE_CASES = [
 
 Append a new object per use case. Field usage:
 
-- **grid card** (`index.js`) → `slug, name, blurb, icon, category`
-- **logo bar** (`index.js`, currently hidden) → `slug, partner, icon`
+- **grid card** (`index.js`, "Use cases" grid) → `slug, name, blurb, icon, category`
 - **`MoreUseCases`** → `slug, name, blurb, icon`
-- `partnerUrl` — optional reference. `summary` — optional/legacy (the old featured hero card used
-  it; that card was removed). New entries can omit `summary`.
+- `partner` / `partnerUrl` — reference-only now. The partner brand still appears in the page
+  content (combo `name`, logo, inline link), but the "Pairs well with…" logo bar that rendered
+  `partner` was removed during unification, so the listing no longer reads these fields.
+- `summary` — optional/legacy (the old featured hero card used it; that card was removed). New
+  entries can omit `summary`.
 
 `slug` MUST equal the page filename (`src/pages/use-cases/<slug>.js`) and the
 `MoreUseCases currentSlug` on that page.
 
 ## The listing page — you don't edit it per use case
 
-`src/pages/use-cases/index.js` is fully data-driven:
+`src/pages/use-cases/index.js` is the unified, data-driven listing. In order it renders:
 
-- **Hero** — centered text only (`StoryTag` "Use cases", gradient h1, subtext). No card, no link.
-- **LogoBar** — "Pairs well with the tools you already use", hidden behind `const SHOW_LOGO_BAR = false`.
-- **UseCaseGrid** — centered grid:
+- **Hero** — the customer-story rotating featured card over `CUSTOMERS` (links to
+  `/use-cases/<slug>`). Customer-flavored; owned by the `customer-story` flow, not use-case work.
+- **LogoBar** — "Trusted by innovative companies", driven by `CUSTOMERS`. (The old use-case-only
+  "Pairs well with the tools you already use" bar and its `SHOW_LOGO_BAR` flag were removed.)
+- **Customer stories grid** — driven by `CUSTOMERS`.
+- **Use cases grid** — driven by `USE_CASES`. Centered grid:
   `grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 560px)); justify-content: center;`
   One card → ~560px centered; two → side-by-side; mobile → one column. Each card: logo + name,
   blurb, category `StoryTag`, "View use case →" link to `/use-cases/<slug>`.
 
-Adding a registry entry makes it appear in the grid (and logo bar, once shown) automatically.
-
-## Re-enabling the logo bar
-
-When the **second** use case ships, the logo bar becomes worth showing. Flip the flag in
-`index.js`:
-
-```js
-const SHOW_LOGO_BAR = true
-```
-
-The `LogoBar` component and its styles are intentionally kept in the file for this.
+Appending a `USE_CASES` registry entry makes it appear in the use-cases grid automatically.
