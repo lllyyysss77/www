@@ -767,13 +767,13 @@ const CAPABILITIES = [
         <polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2' />
       </svg>
     ),
-    title: 'Generate previews with AI',
+    title: 'Build a preview component visually',
     description:
-      'Paste the payload into Cursor, Claude Code, or any AI assistant and let it render a preview built from your own design system — same tokens, same components, no SDK to fight. Six ready-to-paste recipes (hero, inline, tweet, telegram, notification, chat bubble) ship with the guide.',
+      'Design a link preview card in the builder — size, image, colors, fonts, border, shadow — then copy a zero-dependency component for React, TypeScript, Vue, Angular, Svelte, Astro, or Vanilla JS. It fetches metadata from the Microlink API itself; pass an apiKey to go Pro. No SDK, no build step.',
     links: [
       {
-        label: 'AI-generated previews guide',
-        href: '/docs/guides/embed/custom-previews-with-ai'
+        label: 'Open the component builder',
+        href: '/integrations/builder'
       }
     ]
   },
