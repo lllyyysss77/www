@@ -2343,7 +2343,7 @@ const TOP_FAQ_ITEMS = [
   },
   {
     question: 'Can I customize the look of the embed?',
-    text: 'Yes. The SDK exposes CSS variables (--microlink-background-color, --microlink-border-style, --microlink-max-width, etc.) and stable BEM class names (microlink_card, microlink_card__media_video) so you can theme cards without forking. With styled-components or any CSS-in-JS library you can wrap the component to apply additional styles per instance.',
+    text: 'Yes. The SDK exposes CSS variables (--microlink-background-color, --microlink-border-style, --microlink-max-width, etc.) and stable BEM class names (microlink_card, microlink_card__media_video) so you can theme cards without forking. With styled-components or any CSS-in-JS library you can wrap the component to apply additional styles per instance. For full control over the markup, build your own zero-dependency preview component with the link preview component builder — design the card and copy the source for React, Vue, Svelte, Astro, and more.',
     answer: (
       <>
         <div>
@@ -2360,6 +2360,15 @@ const TOP_FAQ_ITEMS = [
           any CSS-in-JS library, you can wrap the component to apply additional
           styles per instance — see the{' '}
           <Link href='/docs/sdk/getting-started/styling/'>styling guide</Link>.
+        </div>
+        <div>
+          Want full control over the markup? Build your own zero-dependency
+          preview component with the{' '}
+          <Link href='/integrations/builder'>
+            link preview component builder
+          </Link>{' '}
+          — design the card and copy the source for React, Vue, Svelte, Astro,
+          and more.
         </div>
       </>
     )

@@ -1374,8 +1374,8 @@ const CopyPastePreview = ({ data }) => (
             gap: [3, 4, 4, 4]
           })}
         >
-          <ArrowLink href='/docs/guides/embed/custom-previews-with-ai#the-base-prompt'>
-            Generate previews with a prompt
+          <ArrowLink href='/integrations/builder'>
+            Build a component visually
           </ArrowLink>
         </Flex>
       </Flex>
@@ -2519,7 +2519,7 @@ const TOP_FAQ_ITEMS = [
   },
   {
     question: 'How do I build a custom URL preview from the API response?',
-    text: 'Fetch the metadata payload from https://api.microlink.io?url=YOUR_URL, then read data.title, data.description, data.image.url, data.logo.url, data.publisher, and data.image.palette. Map those fields into your own markup — whatever HTML and CSS fits your design system. The metadata-api guide ships a worked example, and the custom-previews-with-ai guide includes six recipes (hero card, inline, tweet, telegram, notification, chat bubble) you can paste into Cursor or Claude Code.',
+    text: 'Fetch the metadata payload from https://api.microlink.io?url=YOUR_URL, then read data.title, data.description, data.image.url, data.logo.url, data.publisher, and data.image.palette. Map those fields into your own markup — whatever HTML and CSS fits your design system. The metadata-api guide ships a worked example, and the custom-previews-with-ai guide includes six recipes (hero card, inline, tweet, telegram, notification, chat bubble) you can paste into Cursor or Claude Code. Prefer not to write the markup yourself? Design the card visually with the link preview component builder and copy a zero-dependency component for React, Vue, Svelte, Astro, and more.',
     answer: (
       <>
         <div>
@@ -2542,6 +2542,15 @@ const TOP_FAQ_ITEMS = [
             generate custom previews with AI
           </Link>
           .
+        </div>
+        <div>
+          Prefer not to write the markup yourself? Design the card visually with
+          the{' '}
+          <Link href='/integrations/builder'>
+            link preview component builder
+          </Link>{' '}
+          and copy a zero-dependency component for React, Vue, Svelte, Astro,
+          and more.
         </div>
       </>
     )

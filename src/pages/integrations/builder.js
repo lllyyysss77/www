@@ -130,7 +130,7 @@ const QUESTIONS = [
     )
   },
   {
-    question: 'Does it work with server-side rendering and SEO?',
+    question: 'Does it work with server-side rendering?',
     answer: (
       <>
         <div>
@@ -191,7 +191,8 @@ const QUESTIONS = [
           Without an <code>apiKey</code> the component queries{' '}
           <code>api.microlink.io</code> (free tier). Pass an <code>apiKey</code>{' '}
           prop and it switches to <code>pro.microlink.io</code> with your key,
-          unlocking higher rate limits and Pro features.
+          unlocking higher rate limits and Pro features. Both endpoints are the
+          same <Link href='/link-preview'>Microlink link preview API</Link>.
         </div>
       </>
     )
@@ -220,7 +221,8 @@ const QUESTIONS = [
           The <Link href='/integrations/sdk'>SDK</Link> is a prebuilt,
           batteries-included component you install from npm. This builder
           generates source you own and can edit — handy when you want a specific
-          look with zero dependencies.
+          look with zero dependencies. Either way, the component renders data
+          from the <Link href='/link-preview'>link preview API</Link>.
         </div>
       </>
     )
@@ -353,7 +355,9 @@ const HowItWorks = () => (
       })}
     >
       Design a card, copy the component for your framework, and drop it into
-      your app — no SDK and no build step in between.
+      your app. Each one calls the{' '}
+      <Link href='/link-preview'>link preview API</Link> directly — no SDK and
+      no build step in between.
     </Text>
     <StepsRow>
       {STEPS.map(({ title, description }, index) => (
@@ -545,7 +549,7 @@ const BuilderPage = () => (
     >
       <Faq
         css={theme({ py: [5, 5, 6, 6] })}
-        title='Frequently asked questions'
+        title='FAQ'
         questions={QUESTIONS}
       />
     </Box>
