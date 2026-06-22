@@ -24,7 +24,10 @@ The goal is a repo-native page that:
 
 ## Architecture — read this first
 
-The `/use-cases` section mirrors the `customers` section but with no testimonials.
+Customer stories and use cases now share the `/use-cases` route and folder. A use case is still a
+recipe (no testimonial); a customer story is a testimonial-led page built with the separate
+`customer-story` skill. They render together on the one listing — a "Customer stories" grid
+followed by a "Use cases" grid. The old `/customers` URLs 301-redirect to `/use-cases`.
 
 - **Shared module:** `src/components/patterns/UseCaseStory/` is a barrel that re-exports the
   accent-agnostic primitives from `CustomerStory` (`Section`, `SectionInner`, `Caption`,
@@ -32,9 +35,10 @@ The `/use-cases` section mirrors the `customers` section but with no testimonial
   plus the use-case-only pieces (`ACCENT`, `USE_CASES`, `MoreUseCases`). **Import everything
   from `components/patterns/UseCaseStory`. Never redefine these locally. Never edit the
   `CustomerStory` files.**
-- **The listing is data-driven.** `src/pages/use-cases/index.js` maps over the `USE_CASES`
-  registry to render the grid (and the hidden logo bar). Adding a use case = appending one
-  registry entry + creating one page file. **You do not edit `index.js` per use case.**
+- **The listing is data-driven.** `src/pages/use-cases/index.js` renders the customer hero +
+  logo bar + "Customer stories" grid (from `CUSTOMERS`), then maps over the `USE_CASES` registry
+  for the "Use cases" grid. Adding a use case = appending one registry entry + creating one page
+  file. **You do not edit `index.js` per use case.**
 - **`MoreUseCases`** self-omits when there are fewer than 2 entries, so it renders nothing
   until a second use case exists. That is expected.
 
@@ -44,7 +48,7 @@ Before planning or editing, read in order:
 
 1. `src/components/patterns/UseCaseStory/index.js` — barrel exports (what you may import).
 2. `src/pages/use-cases/upscale-extracted-images.js` — the canonical reference page. Mirror it.
-3. `src/pages/use-cases/index.js` — the data-driven listing (to understand what registry fields it consumes).
+3. `src/pages/use-cases/index.js` — the unified listing (customer-stories grid + use-cases grid) to see which `USE_CASES` fields the use-case grid consumes.
 4. `.cursor/skills/use-case-landing/references/page-template.md` — the page template with `{{TOKEN}}` placeholders.
 5. `.cursor/skills/use-case-landing/references/module-and-registry.md` — the `UseCaseStory` module map + the `USE_CASES` registry shape.
 6. `.cursor/skills/use-case-landing/references/partner-api-verification.md` — how to verify a partner API before writing any code block.
@@ -145,19 +149,24 @@ Append one entry to `src/components/patterns/UseCaseStory/use-cases.js`:
 }
 ```
 
-Fields consumed today: the grid uses `slug, name, blurb, icon, category`; the logo bar uses
-`slug, partner, icon`; `MoreUseCases` uses `slug, name, blurb, icon`. `partnerUrl` is optional.
+Fields consumed today: the use-cases grid uses `slug, name, blurb, icon, category`;
+`MoreUseCases` uses `slug, name, blurb, icon`. `partner`/`partnerUrl` are reference-only now —
+the partner brand still appears in the page content (combo name, logo, inline link), but the
+"Pairs well with…" logo bar that rendered `partner` was removed during unification.
 
-## Logo bar (hidden until ≥2 use cases)
+## Listing layout
 
-`src/pages/use-cases/index.js` currently hides the "Pairs well with the tools you already use"
-logo bar behind `const SHOW_LOGO_BAR = false`. When the **second** use case lands, offer to flip
-`SHOW_LOGO_BAR` to `true`. Do not delete the `LogoBar` component.
+The unified listing leads with the customer-story hero and the "Trusted by innovative companies"
+logo bar (both driven by `CUSTOMERS`), then the "Customer stories" grid, then the "Use cases"
+grid (driven by `USE_CASES`). The old use-case-only "Pairs well with the tools you already use"
+logo bar and its `SHOW_LOGO_BAR` flag were removed during unification — there is no logo bar to
+toggle anymore. Appending a `USE_CASES` entry surfaces it in the use-cases grid automatically.
 
-## Footer
+## Footer & nav
 
-`/use-cases` is already linked from the footer's **Resources** column (one-time, global).
-Individual use-case pages do **not** get their own footer entries.
+`/use-cases` is already linked from the footer's **Resources** column and the top-nav
+**Resources** menu (one-time, global). The old "Customers" footer link was removed in the
+unification. Individual use-case pages do **not** get their own footer or nav entries.
 
 ## Workflow
 

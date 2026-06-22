@@ -1,16 +1,23 @@
 ---
 name: customer-story
-description: Scaffold a customer use-case page under src/pages/customers/ from CustomerStory module.
+description: Scaffold a customer story page under src/pages/use-cases/ from the CustomerStory module.
 ---
 
 # Customer Story
 
-Build a customer page at `src/pages/customers/<slug>.js`.
+Build a customer page at `src/pages/use-cases/<slug>.js` (route `/use-cases/<slug>`).
+
+> **Unified route.** Customer stories and use cases now live together under
+> `src/pages/use-cases/`. Customer pages still use the **CustomerStory** module (testimonial,
+> flow diagram, thanks section) — this skill — while use-case recipes use the **UseCaseStory**
+> module (see the `use-case-landing` skill). The two render side by side on the shared
+> `/use-cases` listing: a "Customer stories" grid followed by a "Use cases" grid. The old
+> `/customers` and `/customers/<slug>` URLs 301-redirect to `/use-cases` via `vercel.json`.
 
 ## Read first
 
 1. `src/components/patterns/CustomerStory/index.js` — barrel exports.
-2. `src/pages/customers/luckynote.js` — reference page. Mirror its structure.
+2. `src/pages/use-cases/luckynote.js` — reference page. Mirror its structure.
 3. `.cursor/skills/customer-story/references/template.md` — template with `{{TOKEN}}` placeholders.
 4. `.cursor/skills/customer-story/references/cta-routing.md` — use-case → CTA href mapping.
 
@@ -83,6 +90,11 @@ When adding a customer, append to `src/components/patterns/CustomerStory/custome
 }
 ```
 
+The unified `/use-cases` listing (`src/pages/use-cases/index.js`) is data-driven over
+`CUSTOMERS` — the rotating hero, the "Trusted by innovative companies" logo bar, and the
+"Customer stories" grid all map over it. Appending here is enough; **you do not edit
+`index.js` per customer.** The cards link to `/use-cases/<slug>`.
+
 ## Hard rules
 
 - Never invent customer claims, metrics, or features. If the website doesn't say it, ask.
@@ -92,13 +104,13 @@ When adding a customer, append to `src/components/patterns/CustomerStory/custome
 - `<h1>` must include `scrollMarginTop: 4`.
 - Head title format: `<name>: <use case>` (no brand suffix — `Meta` appends ` — Microlink`).
 - Head image must be absolute URL: `cdnUrl('banner/screenshot.jpeg')`.
-- Never run prettier. Lint with `npx standard src/pages/customers/<slug>.js`.
+- Never run prettier. Lint with `npx standard src/pages/use-cases/<slug>.js`.
 
 ## Workflow
 
 Ask one question at a time:
 
-1. **Customer name** — compute slug, verify no collision in `src/pages/customers/`.
+1. **Customer name** — compute slug, verify no collision in `src/pages/use-cases/` (the folder now holds customer stories *and* use-case recipes).
 2. **Website URL** — WebFetch homepage + key pages. Build factual notes.
 3. **How they use Microlink** — which products, where in stack. Feeds How/Why sections + CTA routing.
 4. **Testimonial** — real quote (author + role + avatar), placeholder, or none.
@@ -110,7 +122,7 @@ Ask one question at a time:
 
 ## Verification
 
-1. `npx standard src/pages/customers/<slug>.js` — fix until clean.
+1. `npx standard src/pages/use-cases/<slug>.js` — fix until clean.
 2. Grep for `{{` — no placeholders remaining.
 3. Verify section order matches canonical list.
 4. Verify Hero CTA ≠ Bottom CTA label.

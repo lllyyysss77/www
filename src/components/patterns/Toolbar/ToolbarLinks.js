@@ -370,6 +370,12 @@ export const NAVIGATION_SECTIONS = [
         icon: WandSparklesIcon
       }),
       createNavigationItem({
+        label: 'Use cases',
+        href: '/use-cases',
+        description: 'See how teams build with Microlink',
+        icon: Layers
+      }),
+      createNavigationItem({
         label: 'Skills',
         href: '/skills',
         description: 'Browse reusable workflow skills',

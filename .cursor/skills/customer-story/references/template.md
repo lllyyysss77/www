@@ -1,6 +1,8 @@
 # Template
 
-Canonical template for `src/pages/customers/<slug>.js`. Mirrors `luckynote.js`.
+Canonical template for `src/pages/use-cases/<slug>.js` (route `/use-cases/<slug>`). Mirrors
+`src/pages/use-cases/luckynote.js`. The page still imports from the **CustomerStory** module —
+only its location and route moved during the customers → use-cases unification.
 
 ## Token reference
 
