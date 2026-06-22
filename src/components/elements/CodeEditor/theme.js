@@ -55,6 +55,15 @@ languageColors.html = `
   }
 `
 
+// Single-file components (Vue, Svelte): keep the colorful defaults for the
+// code, but mute the `<!-- -->` usage banner like a regular comment. Unlike
+// `html`, this does NOT flatten every token to gray.
+languageColors.sfc = `
+  .sh__token--html-comment * {
+    color: var(--gray5) !important;
+  }
+`
+
 languageColors.text = `
   --sh-class: var(--gray9);
   --sh-identifier: var(--gray9);

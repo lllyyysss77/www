@@ -24,7 +24,12 @@ const toAlias = (lang = '') => {
     case 'vanilla':
       return 'html'
     case 'react':
+    case 'angular':
+    case 'typescript':
       return 'jsx'
+    case 'vue':
+    case 'svelte':
+      return 'html'
     case 'jekyll':
       return 'markdown'
     case 'curl':
@@ -51,6 +56,7 @@ const getClassName = ({ className, metastring = '' }) =>
 const STRIP_HTML_TAGS_REGEX = /<[^>]+>/g
 const HTML_COMMENT_START_REGEX = /^\s*<!/
 const HTML_COMMENT_ENTITY_START_REGEX = /^\s*&lt;!/
+const HTML_COMMENT_END_REGEX = /--(?:&gt;|>)/
 
 const applyBashCommentLineClass = line => {
   const isBashCommentLine =
@@ -77,17 +83,28 @@ const applyBashInlineCommentClass = line => {
   )
 }
 
-const applyHtmlCommentLineClass = line => {
-  const text = line.replace(STRIP_HTML_TAGS_REGEX, '')
-  const isHtmlComment =
-    HTML_COMMENT_START_REGEX.test(text) ||
-    HTML_COMMENT_ENTITY_START_REGEX.test(text)
-  if (!isHtmlComment) return line
+// Mark every line that falls inside an HTML comment (`<!-- … -->`) so the theme
+// can mute it. Stateful, so multi-line comments — e.g. the usage banner at the
+// top of the generated Vue/Svelte components — are grayed in full, not just
+// their opening line.
+const markHtmlCommentLines = highlightedHtml => {
+  let inComment = false
+  return highlightedHtml
+    .split('\n')
+    .map(line => {
+      const text = line.replace(STRIP_HTML_TAGS_REGEX, '')
+      const opens =
+        HTML_COMMENT_START_REGEX.test(text) ||
+        HTML_COMMENT_ENTITY_START_REGEX.test(text)
+      if (!inComment && !opens) return line
 
-  return line.replace(
-    'class="sh__line"',
-    'class="sh__line sh__token--html-comment"'
-  )
+      inComment = !HTML_COMMENT_END_REGEX.test(text)
+      return line.replace(
+        'class="sh__line"',
+        'class="sh__line sh__token--html-comment"'
+      )
+    })
+    .join('\n')
 }
 
 const CustomCodeBlock = styled.pre`
@@ -178,11 +195,8 @@ export const Code = ({
       .join('\n')
   }
 
-  if (language === 'html') {
-    highlightedHtml = highlightedHtml
-      .split('\n')
-      .map(line => applyHtmlCommentLineClass(line))
-      .join('\n')
+  if (language === 'html' || language === 'sfc') {
+    highlightedHtml = markHtmlCommentLines(highlightedHtml)
   }
 
   const textHtml = wrapLinesWithHighlight(highlightedHtml, highlightLines)

@@ -4,9 +4,10 @@ import Flex from 'components/elements/Flex'
 import Box from 'components/elements/Box'
 import { useLocalStorage } from 'components/hook/use-local-storage'
 import React, { useMemo } from 'react'
+import { Download } from 'react-feather'
 import Tabs from '../Tabs'
 import styled from 'styled-components'
-import { theme } from 'theme'
+import { cx, theme } from 'theme'
 
 export const SelectLanguage = ({ value, onClick, ...props }) => (
   <Tabs
@@ -24,7 +25,43 @@ const Actions = styled(Flex)`
   margin-left: auto;
 `
 
-const ActionComponent = ({ setLanguage, language, languages, text }) => {
+const DownloadButton = styled('button')`
+  position: relative;
+  top: -2px;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 14px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: ${cx('black20')};
+  transition: color 300ms;
+
+  &:hover {
+    color: ${cx('black')};
+  }
+`
+
+const downloadFile = (filename, text) => {
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const anchor = document.createElement('a')
+  anchor.href = url
+  anchor.download = filename
+  document.body.appendChild(anchor)
+  anchor.click()
+  document.body.removeChild(anchor)
+  URL.revokeObjectURL(url)
+}
+
+const ActionComponent = ({
+  setLanguage,
+  language,
+  languages,
+  filename,
+  text
+}) => {
   return (
     <>
       <Actions>
@@ -38,6 +75,16 @@ const ActionComponent = ({ setLanguage, language, languages, text }) => {
           </SelectLanguage>
         </Box>
       </Actions>
+      {filename && (
+        <DownloadButton
+          type='button'
+          aria-label={`Download ${filename}`}
+          title={`Download ${filename}`}
+          onClick={() => downloadFile(filename, text)}
+        >
+          <Download size={16} />
+        </DownloadButton>
+      )}
       <CodeCopy text={text} />
     </>
   )
@@ -49,6 +96,8 @@ const LOCALSTORAGE_KEY = ''
 const MultiCodeEditor = ({
   interactive,
   languages: codeByLanguage,
+  download,
+  aliases,
   ...props
 }) => {
   const [languageIndex, setLanguageIndex] = useLocalStorage(
@@ -64,6 +113,11 @@ const MultiCodeEditor = ({
   // need to be reset when the memoized language is missing
   if (!code) setLanguageIndex(DEFAULT_LANGUAGE_INDEX)
 
+  // The tab label (e.g. `Vanilla`) doubles as the highlight language, but a
+  // caller can remap it — e.g. the builder highlights its `Vanilla` tab as `js`
+  // so it gets colors, without affecting other pages that reuse the label.
+  const editorLanguage = (aliases && aliases[language]) || language
+
   const setLanguage = language => {
     const languageIndex = languages.findIndex(lang => lang === language)
     if (languageIndex < 0) return
@@ -74,13 +128,14 @@ const MultiCodeEditor = ({
     <CodeEditor
       interactive={interactive}
       header={{ style: { marginBottom: '8px' } }}
-      language={language}
+      language={editorLanguage}
       {...props}
       ActionComponent={props => (
         <ActionComponent
           setLanguage={setLanguage}
           language={language}
           languages={languages}
+          filename={download && download[language]}
           {...props}
         />
       )}
