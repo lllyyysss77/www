@@ -11,6 +11,7 @@ import Subhead from 'components/elements/Subhead'
 import Text from 'components/elements/Text'
 import { Link } from 'components/elements/Link'
 
+import ArrowLink from 'components/patterns/ArrowLink'
 import Caption from 'components/patterns/Caption/Caption'
 import Faq from 'components/patterns/Faq/Faq'
 import Layout from 'components/patterns/Layout'
@@ -199,6 +200,48 @@ const HowItWorks = () => (
   </Container>
 )
 
+const NextStep = () => (
+  <Container
+    as='section'
+    css={theme({
+      alignItems: 'center',
+      maxWidth: layout.large,
+      pb: [5, 5, 6, 6],
+      textAlign: 'center'
+    })}
+  >
+    <Subhead variant='gradient' css={theme({ fontSize: [3, 3, 4, 4] })}>
+      Ship it in minutes
+    </Subhead>
+    <Text
+      css={theme({
+        pt: [3, 3, 4, 4],
+        px: 4,
+        maxWidth: '560px',
+        fontSize: [1, 1, 2, 2],
+        color: 'black60'
+      })}
+    >
+      Copy the component above into your project, or explore the other ways to
+      render link previews with Microlink.
+    </Text>
+    <Flex
+      css={theme({
+        pt: [3, 3, 4, 4],
+        gap: 4,
+        flexDirection: ['column', 'row', 'row', 'row'],
+        alignItems: 'center',
+        fontSize: [1, 2, 2, 2]
+      })}
+    >
+      <ArrowLink href='/integrations/sdk'>Use the prebuilt SDK</ArrowLink>
+      <ArrowLink href='/docs/api/getting-started/overview/'>
+        Read the API docs
+      </ArrowLink>
+    </Flex>
+  </Container>
+)
+
 const BuilderPage = () => (
   <Layout>
     <Hero />
@@ -215,10 +258,11 @@ const BuilderPage = () => (
       <HowItWorks />
     </Box>
     <Faq
-      css={theme({ py: [5, 5, 6, 6] })}
+      css={theme({ pt: [5, 5, 6, 6], pb: [4, 4, 5, 5] })}
       title='Frequently asked questions'
       questions={QUESTIONS}
     />
+    <NextStep />
   </Layout>
 )
 

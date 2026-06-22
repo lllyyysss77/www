@@ -64,10 +64,12 @@ export const ELEMENT_GROUPS = [
   }
 ]
 
+// `meta` colors the whole meta row (site name, author, and date) — not just the
+// website, so it's labeled "Metadata".
 export const COLOR_FIELDS = [
   { id: 'headline', label: 'Headline' },
   { id: 'description', label: 'Description' },
-  { id: 'meta', label: 'Website' },
+  { id: 'meta', label: 'Metadata' },
   { id: 'background', label: 'Background' },
   { id: 'border', label: 'Border' }
 ]
@@ -76,7 +78,6 @@ export const DEFAULT_LIGHT_COLORS = {
   headline: '#000000',
   description: '#000000',
   meta: '#999999',
-  website: '#999999',
   background: '#ffffff',
   border: '#dedede'
 }
@@ -85,7 +86,6 @@ export const DEFAULT_DARK_COLORS = {
   headline: '#ffffff',
   description: '#ffffff',
   meta: '#808080',
-  website: '#808080',
   background: '#000000',
   border: '#222222'
 }
@@ -451,11 +451,9 @@ export const buildSmallCard = (data, s) => {
     'frame'
   )} href="${href}" target="_blank" rel="noopener noreferrer" style="display:flex;text-decoration:none;color:inherit;gap:10px;align-items:flex-start;width:100%;max-width:${maxWidth}px;padding:12px 14px;border-radius:${
     s.radius
-  };background:${
-    s.palette.background
-  };-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);border:${
-    s.border
-  };box-shadow:${s.shadow};font-family:${s.fontFamily}">
+  };background:${s.palette.background};border:${s.border};box-shadow:${
+    s.shadow
+  };font-family:${s.fontFamily}">
   ${iconNode}
   <div style="flex:1;min-width:0">${body}</div>
 </a>`

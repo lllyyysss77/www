@@ -616,38 +616,48 @@ const ColorRow = ({ label, value, onChange }) => (
 
 /* ─── Tabs ─────────────────────────────────────────────── */
 
-const LayoutSection = ({ config, set }) => (
-  <Box>
-    <SegmentedField
-      label='Size'
-      options={SIZE_OPTIONS}
-      value={config.size}
-      onChange={size => set({ size, ...SIZE_PRESETS[size] })}
-    />
-    <SegmentedField
-      label='Image position'
-      options={IMAGE_POSITION_OPTIONS}
-      value={config.imagePosition}
-      onChange={imagePosition => set({ imagePosition })}
-    />
-    <RangeField
-      label='Width'
-      value={config.width}
-      min={280}
-      max={680}
-      suffix='px'
-      onChange={width => set({ width })}
-    />
-    <RangeField
-      label='Image height'
-      value={config.height}
-      min={0}
-      max={400}
-      suffix={config.height === 0 ? 'auto' : 'px'}
-      onChange={height => set({ height })}
-    />
-  </Box>
-)
+const LayoutSection = ({ config, set }) => {
+  // The Small variant is a compact, icon-only card: it has no hero image, so
+  // image position and image height don't apply — hide them to avoid dead
+  // controls that look like they do nothing.
+  const hasImage = config.size !== 'small'
+  return (
+    <Box>
+      <SegmentedField
+        label='Size'
+        options={SIZE_OPTIONS}
+        value={config.size}
+        onChange={size => set({ size, ...SIZE_PRESETS[size] })}
+      />
+      {hasImage && (
+        <SegmentedField
+          label='Image position'
+          options={IMAGE_POSITION_OPTIONS}
+          value={config.imagePosition}
+          onChange={imagePosition => set({ imagePosition })}
+        />
+      )}
+      <RangeField
+        label='Width'
+        value={config.width}
+        min={280}
+        max={680}
+        suffix='px'
+        onChange={width => set({ width })}
+      />
+      {hasImage && (
+        <RangeField
+          label='Image height'
+          value={config.height}
+          min={0}
+          max={400}
+          suffix={config.height === 0 ? 'auto' : 'px'}
+          onChange={height => set({ height })}
+        />
+      )}
+    </Box>
+  )
+}
 
 const ElementsSection = ({ config, set }) => (
   <Box>
@@ -802,8 +812,9 @@ const Omnibar = ({ url, setUrl, onSubmit, isLoading }) => {
   const [error, setError] = useState('')
 
   const handleSubmit = useCallback(() => {
-    const next = prependHttp((url || '').trim())
-    if (!next || !isUrl(next)) {
+    // An empty submit previews the placeholder URL rather than erroring.
+    const next = prependHttp((url || '').trim() || DEFAULT_URL)
+    if (!isUrl(next)) {
       setError('Please enter a valid URL (e.g. stripe.com)')
       return
     }
@@ -904,8 +915,23 @@ const Builder = () => {
     LOCAL_STORAGE_KEY,
     BUILDER_DEFAULT_CONFIG
   )
+  // Deep-merge the nested objects so a config saved by an older version (which
+  // may be missing element/color keys added later) backfills from the defaults
+  // instead of shallow-replacing them.
   const config = useMemo(
-    () => ({ ...BUILDER_DEFAULT_CONFIG, ...stored }),
+    () => ({
+      ...BUILDER_DEFAULT_CONFIG,
+      ...stored,
+      elements: { ...BUILDER_DEFAULT_CONFIG.elements, ...stored?.elements },
+      lightColors: {
+        ...BUILDER_DEFAULT_CONFIG.lightColors,
+        ...stored?.lightColors
+      },
+      darkColors: {
+        ...BUILDER_DEFAULT_CONFIG.darkColors,
+        ...stored?.darkColors
+      }
+    }),
     [stored]
   )
 
@@ -964,7 +990,7 @@ const Builder = () => {
       const { data } = await mql(nextUrl, { palette: true })
       setData(data)
     } catch (err) {
-      setError('Could not fetch that URL. Showing the sample preview.')
+      setError('Could not fetch that URL. Keeping the current preview.')
     } finally {
       setIsLoading(false)
     }

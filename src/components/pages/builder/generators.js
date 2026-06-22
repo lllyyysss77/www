@@ -118,7 +118,7 @@ function buildSmall (data, s) {
   var titleHtml = '<div style="font-size:' + (s.headlineSize - 3) + 'px;font-weight:' + s.fontWeight + ';color:' + s.palette.headline + ';line-height:' + s.lineHeight + ';margin-bottom:2px">' + title + '</div>'
   var descriptionHtml = description ? '<div style="font-size:' + (s.descriptionSize - 1) + 'px;color:' + s.palette.description + ';line-height:' + s.lineHeight + ';display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">' + description + '</div>' : ''
   var body = s.metaBefore ? (metaRow + titleHtml + descriptionHtml) : (titleHtml + descriptionHtml + metaRow)
-  return '<a href="' + href + '" target="_blank" rel="noopener noreferrer" style="display:flex;text-decoration:none;color:inherit;gap:10px;align-items:flex-start;width:100%;max-width:' + maxWidth + 'px;padding:12px 14px;border-radius:' + s.radius + ';background:' + s.palette.background + ';-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);border:' + s.border + ';box-shadow:' + s.shadow + ';font-family:' + s.fontFamily + '">\\n  ' + iconNode + '\\n  <div style="flex:1;min-width:0">' + body + '</div>\\n</a>'
+  return '<a href="' + href + '" target="_blank" rel="noopener noreferrer" style="display:flex;text-decoration:none;color:inherit;gap:10px;align-items:flex-start;width:100%;max-width:' + maxWidth + 'px;padding:12px 14px;border-radius:' + s.radius + ';background:' + s.palette.background + ';border:' + s.border + ';box-shadow:' + s.shadow + ';font-family:' + s.fontFamily + '">\\n  ' + iconNode + '\\n  <div style="flex:1;min-width:0">' + body + '</div>\\n</a>'
 }
 function renderCard (data, s) {
   if (!data) return ''
@@ -129,12 +129,19 @@ function renderCard (data, s) {
 
 /* ─── Shared fetch core (shipped verbatim into every snippet) ──────────── */
 
-export const FETCH_CORE = `function microlinkFetch (url, apiKey) {
+export const FETCH_CORE = `function withProtocol (url) {
+  var str = String(url == null ? '' : url).trim()
+  if (!str || /^https?:\\/\\//i.test(str)) return str
+  var normalized = 'https://' + str.replace(/^\\/+/, '')
+  console.warn('[microlink] "' + str + '" has no protocol — assuming "' + normalized + '". Pass a full URL with an explicit https:// (or http://) to avoid this.')
+  return normalized
+}
+function microlinkFetch (url, apiKey) {
   var endpoint = apiKey ? 'https://pro.microlink.io/' : 'https://api.microlink.io/'
-  var qs = new URLSearchParams({ url: url, palette: 'true' }).toString()
+  var qs = new URLSearchParams({ url: withProtocol(url), palette: 'true' }).toString()
   var headers = apiKey ? { 'x-api-key': apiKey } : {}
   return fetch(endpoint + '?' + qs, { headers: headers })
-    .then(function (r) { return r.json() })
+    .then(function (r) { return r.ok ? r.json() : null })
     .then(function (res) { return res && res.data })
     .catch(function () { return null })
 }`
@@ -277,10 +284,12 @@ ${FETCH_CORE}
 
 const html = ref('')
 
-watchEffect(() => {
+watchEffect(onCleanup => {
   if (!props.url) return
+  let active = true
+  onCleanup(() => { active = false })
   microlinkFetch(props.url, props.apiKey).then(data => {
-    if (data) html.value = renderCard(data, STYLE)
+    if (active && data) html.value = renderCard(data, STYLE)
   })
 })
 </script>
@@ -317,13 +326,16 @@ export class LinkPreviewComponent implements OnChanges {
   @Input() url!: string
   @Input() apiKey?: string
   html: SafeHtml = ''
+  private token = 0
 
   constructor (private sanitizer: DomSanitizer) {}
 
   ngOnChanges () {
     if (!this.url) return
+    const current = ++this.token
     microlinkFetch(this.url, this.apiKey).then(data => {
-      if (data) this.html = this.sanitizer.bypassSecurityTrustHtml(renderCard(data, STYLE))
+      // Ignore a slow earlier response once a newer url is in flight.
+      if (current === this.token && data) this.html = this.sanitizer.bypassSecurityTrustHtml(renderCard(data, STYLE))
     })
   }
 }
@@ -352,9 +364,12 @@ ${indent(RUNTIME_RENDERER, '  ')}
 ${indent(FETCH_CORE, '  ')}
 
   let html = ''
+  let token = 0
   $: if (url) {
+    const current = ++token
     microlinkFetch(url, apiKey).then(data => {
-      if (data) html = renderCard(data, STYLE)
+      // Ignore a slow earlier response once a newer url is in flight.
+      if (current === token && data) html = renderCard(data, STYLE)
     })
   }
 </script>
