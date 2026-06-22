@@ -463,7 +463,9 @@ const PromptSection = () => {
   )
 
   const handleCopy = useCallback(() => {
-    toClipboard({ copy: AI_PROMPT, text: 'Prompt copied to clipboard' })
+    if (!toClipboard({ copy: AI_PROMPT, text: 'Prompt copied to clipboard' })) {
+      return
+    }
     setCopied(true)
     if (timerRef.current) clearTimeout(timerRef.current)
     timerRef.current = setTimeout(() => setCopied(false), 1500)

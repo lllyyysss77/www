@@ -15,7 +15,7 @@ export const useClipboard = () => {
   const toClipboard = useCallback(({ copy, text }) => {
     if (typeof navigator === 'undefined' || !navigator.clipboard) {
       console.warn("[hook/use-clipboard]: 'navigator.clipboard' is undefined")
-      return
+      return false
     }
 
     if (timerRef.current) clearTimeout(timerRef.current)
@@ -28,6 +28,8 @@ export const useClipboard = () => {
       setIsCopied(true)
       timerRef.current = setTimeout(() => setIsCopied(false), 1500)
     })
+
+    return true
   }, [])
 
   const ClipboardComponent = useCallback(() => {
