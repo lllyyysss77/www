@@ -495,7 +495,7 @@ const Hero = function Hero ({
               gap: [3, 4, 4, 4]
             })}
           >
-            <ArrowLink href='/docs/guides/embed/metadata-api'>
+            <ArrowLink href='/integrations/builder'>
               Build a link preview
             </ArrowLink>
           </Flex>
@@ -822,8 +822,8 @@ const CAPABILITIES = [
       'React, Vue, and Next.js sites that inject metadata at runtime are captured as a real visitor sees them — no stale SSR, no empty meta tags. Smart TTL caching keeps responses fresh against source changes while delivering sub-second previews from 240+ Cloudflare edge locations.',
     links: [
       {
-        label: 'Headless rendering docs',
-        href: '/docs/api/parameters/waitUntil'
+        label: 'How prerendering works',
+        href: '/docs/api/parameters/prerender'
       }
     ]
   }
