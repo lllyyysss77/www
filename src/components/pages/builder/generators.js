@@ -146,6 +146,99 @@ function microlinkFetch (url, apiKey) {
     .catch(function () { return null })
 }`
 
+/* ─── Tailwind runtime renderer (shipped when the Tailwind option is on) ─── */
+
+// Same structure as RUNTIME_RENDERER, but every element reads its class string
+// from the baked STYLE object instead of carrying inline styles. The class
+// strings are precomputed at generation time (see `tailwindStyle`) so they
+// appear verbatim in the output file — which is what lets Tailwind's JIT
+// compiler discover them. Only data-driven backgrounds (the image palette
+// fallback) stay as inline styles, since they cannot be a static class.
+export const RUNTIME_RENDERER_TW = `function escA (v) {
+  return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+function escT (v) {
+  return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+function trunc (t, max) {
+  var str = String(t == null ? '' : t)
+  if (!max || str.length <= max) return str
+  var slice = str.slice(0, max - 1)
+  var trimmed = slice.replace(/\\s+\\S*$/, '')
+  return (trimmed || slice) + '…'
+}
+function fmtDate (v) {
+  if (!v) return ''
+  try {
+    var d = new Date(v)
+    if (isNaN(d.getTime())) return ''
+    return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+  } catch (e) { return '' }
+}
+function fallbackBg (data) {
+  return (data.image && data.image.palette && data.image.palette[0]) || 'rgba(0,0,0,0.05)'
+}
+function logoFallbackAttr (logoUrl) {
+  return logoUrl ? 'onerror="this.onerror=null;this.src=\\'' + logoUrl.replace(/'/g, '&#39;') + '\\';this.style.objectFit=\\'contain\\';this.style.padding=\\'15%\\'" ' : ''
+}
+function buildMeta (data, s) {
+  var pieces = []
+  if (s.elements.siteIcon && data.logo && data.logo.url) {
+    pieces.push('<img class="' + s.metaIconClass + '" src="' + escA(data.logo.url) + '" alt="" />')
+  }
+  if (s.elements.siteName && data.publisher) {
+    pieces.push('<span class="' + s.metaNameClass + '">' + escT(data.publisher) + '</span>')
+  }
+  if (s.elements.authorTopic && data.author) {
+    pieces.push('<span class="' + s.metaAuthorClass + '">' + escT(data.author) + '</span>')
+  }
+  if (s.elements.date && data.date) {
+    var dateStr = fmtDate(data.date)
+    if (dateStr) {
+      pieces.push('<span class="' + s.metaDateClass + '">' + escT(dateStr) + '</span>')
+    }
+  }
+  if (!pieces.length) return ''
+  return '<div class="' + s.metaWrapClass + '">' + pieces.join('') + '</div>'
+}
+function buildStandard (data, s) {
+  var href = escA((data && data.url) || '')
+  var imageUrl = (data.image && data.image.url) ? escA(data.image.url) : ''
+  var logoUrl = (data.logo && data.logo.url) ? escA(data.logo.url) : ''
+  var title = escT(trunc((data && data.title) || '', s.titleLimit))
+  var description = s.elements.description ? escT(trunc((data && data.description) || '', s.descLimit)) : ''
+  var bg = escA(fallbackBg(data))
+  var metaHtml = buildMeta(data, s)
+  var mediaInner = imageUrl ? '<img class="w-full h-full object-cover block" src="' + imageUrl + '" alt="" ' + logoFallbackAttr(logoUrl) + '/>' : ''
+  var titleHtml = '<div class="' + s.titleClass + '">' + title + '</div>'
+  var descriptionHtml = description ? '<div class="' + s.descriptionClass + '">' + description + '</div>' : ''
+  var body = s.metaBefore ? (metaHtml + titleHtml + descriptionHtml) : (titleHtml + descriptionHtml + metaHtml)
+  return '<a class="' + s.frameClass + '" href="' + href + '" target="_blank" rel="noopener noreferrer">' +
+    '<div class="' + s.mediaBoxClass + '" style="background:' + bg + '">' + mediaInner + '</div>' +
+    '<div class="' + s.bodyClass + '">' + body + '</div></a>'
+}
+function buildSmall (data, s) {
+  var href = escA((data && data.url) || '')
+  var logoUrl = (data.logo && data.logo.url) ? escA(data.logo.url) : ''
+  var title = escT(trunc((data && data.title) || '', s.titleLimit))
+  var description = s.elements.description ? escT(trunc((data && data.description) || '', s.descLimit)) : ''
+  var bg = escA(fallbackBg(data))
+  var iconNode = !s.elements.siteIcon ? '' : (logoUrl ? '<img class="' + s.iconClass + '" src="' + logoUrl + '" alt="" />' : '<div class="' + s.iconBoxClass + '" style="background:' + bg + '"></div>')
+  var publisherText = (s.elements.siteName && data.publisher) ? '<span class="' + s.publisherClass + '">' + escT(data.publisher) + '</span>' : ''
+  var authorText = (s.elements.authorTopic && data.author) ? '<span aria-hidden="true" class="' + s.authorDotClass + '">· </span><span class="' + s.authorClass + '">' + escT(data.author) + '</span>' : ''
+  var dateText = (s.elements.date && data.date) ? '<span class="' + s.dateClass + '">' + escT(fmtDate(data.date)) + '</span>' : ''
+  var metaRow = (publisherText || authorText) ? '<div class="' + s.metaRowClass + '"><span class="' + s.metaInnerClass + '">' + publisherText + authorText + '</span>' + dateText + '</div>' : ''
+  var titleHtml = '<div class="' + s.titleClass + '">' + title + '</div>'
+  var descriptionHtml = description ? '<div class="' + s.descriptionClass + '">' + description + '</div>' : ''
+  var body = s.metaBefore ? (metaRow + titleHtml + descriptionHtml) : (titleHtml + descriptionHtml + metaRow)
+  return '<a class="' + s.frameClass + '" href="' + href + '" target="_blank" rel="noopener noreferrer">' + iconNode + '<div class="' + s.contentClass + '">' + body + '</div></a>'
+}
+function renderCard (data, s) {
+  if (!data) return ''
+  if (s.variant === 'small') return buildSmall(data, s)
+  return buildStandard(data, s)
+}`
+
 /* ─── Helpers ──────────────────────────────────────────────────────────── */
 
 // The serialized, runtime style object baked into each component. Includes the
@@ -154,6 +247,138 @@ const serializeStyle = config => {
   const style = { ...resolveStyle(config), variant: config.variant }
   return JSON.stringify(style, null, 2)
 }
+
+/* ─── Tailwind class builder (generation-time) ─────────────────────────── */
+
+// The builder offers three font families and four weights — both map cleanly to
+// Tailwind's own utilities, so we avoid arbitrary font-family/weight values.
+const TW_FONT = { sans: 'font-sans', serif: 'font-serif', mono: 'font-mono' }
+const TW_WEIGHT = {
+  light: 'font-light',
+  regular: 'font-normal',
+  medium: 'font-medium',
+  bold: 'font-bold'
+}
+
+// A box-shadow becomes an arbitrary `shadow-[...]` utility; Tailwind requires
+// spaces inside arbitrary values to be underscores.
+const twShadow = shadow =>
+  shadow === 'none' ? 'shadow-none' : `shadow-[${shadow.replace(/ /g, '_')}]`
+
+// Precompute every element's complete Tailwind class string for the resolved
+// card. The design (colors, sizes, radius, shadow, font) is baked into
+// arbitrary-value utilities here, at generation time, so the strings land
+// verbatim in the output file and Tailwind's JIT can find them.
+const tailwindStyle = config => {
+  const r = resolveStyle(config)
+  const p = r.palette
+  const variant = config.variant
+  const font = TW_FONT[config.fontBase] || 'font-sans'
+  const weight = TW_WEIGHT[config.fontWeight] || 'font-normal'
+  const shadow = twShadow(r.shadow)
+  const border = `border-[${config.border}px] border-solid border-[${p.border}]`
+  const radius = `rounded-[${config.radius}px]`
+  const bg = `bg-[${p.background}]`
+  const lh = `leading-[${r.lineHeight}]`
+  const headline = `text-[${p.headline}]`
+  const desc = `text-[${p.description}]`
+  const meta = `text-[${p.meta}]`
+  const H = r.headlineSize
+  const D = r.descriptionSize
+  const M = r.metaSize
+  const width = config.width || (variant === 'small' ? 380 : 460)
+
+  const base = {
+    variant,
+    elements: r.elements,
+    metaBefore: r.metaBefore
+  }
+
+  const metaShared = {
+    metaWrapClass: `flex items-center gap-[8px] flex-wrap min-h-[${M + 4}px]`,
+    metaIconClass: `w-[${M + 4}px] h-[${M + 4}px] rounded-[4px] shrink-0`,
+    metaNameClass: `text-[${M}px] ${weight} ${meta} tracking-[0.5px] uppercase`,
+    metaAuthorClass: `text-[${M}px] ${meta}`,
+    metaDateClass: `text-[${M}px] ${meta}`
+  }
+
+  if (variant === 'small') {
+    return {
+      ...base,
+      titleLimit: 60,
+      descLimit: 140,
+      frameClass: `flex no-underline text-inherit gap-[10px] items-start w-full max-w-[${width}px] px-[14px] py-[12px] ${radius} ${bg} ${border} ${shadow} ${font}`,
+      iconClass: 'w-[36px] h-[36px] rounded-[8px] shrink-0',
+      iconBoxClass: 'w-[36px] h-[36px] rounded-[8px] shrink-0',
+      contentClass: 'flex-1 min-w-0',
+      metaRowClass: 'flex items-center justify-between mb-[2px] gap-[8px]',
+      metaInnerClass: 'flex items-center gap-[4px] min-w-0 overflow-hidden',
+      publisherClass: `text-[${M + 1}px] ${weight} ${meta}`,
+      authorDotClass: `text-[${M}px] ${meta}`,
+      authorClass: `text-[${M}px] ${meta}`,
+      dateClass: `text-[${M}px] ${meta}`,
+      titleClass: `text-[${H - 3}px] ${weight} ${headline} ${lh} mb-[2px]`,
+      descriptionClass: `text-[${D - 1}px] ${desc} ${lh} line-clamp-2`
+    }
+  }
+
+  if (variant === 'wide') {
+    const minHeight = config.height || 140
+    const rowReverse =
+      config.imagePosition === 'right' ? 'flex-row-reverse ' : ''
+    return {
+      ...base,
+      titleLimit: 0,
+      descLimit: 0,
+      frameClass: `flex ${rowReverse}no-underline text-inherit w-full max-w-[${width}px] min-h-[${minHeight}px] ${bg} ${radius} overflow-hidden ${border} ${shadow} ${font}`,
+      mediaBoxClass: 'w-[140px] shrink-0 self-stretch overflow-hidden',
+      bodyClass:
+        'p-[14px] flex flex-col gap-[4px] flex-1 min-w-0 justify-center',
+      titleClass: `text-[${H}px] ${weight} ${headline} ${lh} line-clamp-2`,
+      descriptionClass: `text-[${D}px] ${desc} ${lh} line-clamp-2`,
+      ...metaShared
+    }
+  }
+
+  // large (standard cover)
+  const mediaBoxClass = config.height
+    ? `w-full h-[${config.height}px] overflow-hidden`
+    : 'w-full aspect-[16/9] overflow-hidden'
+  return {
+    ...base,
+    titleLimit: 90,
+    descLimit: 220,
+    frameClass: `block no-underline text-inherit w-full max-w-[${width}px] ${bg} ${radius} overflow-hidden ${border} ${shadow} ${font}`,
+    mediaBoxClass,
+    bodyClass: 'px-[16px] py-[14px] flex flex-col gap-[6px]',
+    titleClass: `text-[${H}px] ${weight} ${headline} ${lh} m-0`,
+    descriptionClass: `text-[${D}px] ${desc} ${lh} line-clamp-3 m-0`,
+    ...metaShared
+  }
+}
+
+const serializeTailwindStyle = config =>
+  JSON.stringify(tailwindStyle(config), null, 2)
+
+// Picks the renderer + serialized style for a snippet. With Tailwind on, the
+// component carries Tailwind classes instead of inline styles.
+const rendererFor = (config, { typescript = false, tailwind } = {}) => {
+  const useTw = tailwind === undefined ? !!config.tailwind : tailwind
+  const base = useTw ? RUNTIME_RENDERER_TW : RUNTIME_RENDERER
+  return {
+    useTw,
+    STYLE: useTw ? serializeTailwindStyle(config) : serializeStyle(config),
+    RENDERER: typescript ? toTypeScript(base) : base
+  }
+}
+
+// A note added to the generated file header when Tailwind mode is on. `prefix`
+// is the per-line comment marker (` * ` for block comments, `  ` for the HTML
+// comments used by the Vue/Svelte headers).
+const twHeaderNote = (useTw, prefix = ' * ') =>
+  useTw
+    ? `\n${prefix}Styled with Tailwind CSS — include this file in your Tailwind 'content'\n${prefix}config (Tailwind v3.3+) so the classes below are generated.`
+    : ''
 
 const indent = (src, pad) =>
   src
@@ -182,10 +407,12 @@ const toTypeScript = src =>
 /* ─── Per-framework generators ─────────────────────────────────────────── */
 
 export const generateReact = config => {
-  const STYLE = serializeStyle(config)
+  const { STYLE, RENDERER, useTw } = rendererFor(config)
   return `/*
  * Link preview — generated by microlink.io/integrations/builder
- * Zero dependencies. Drop this file in and render it with a url.
+ * Zero dependencies. Drop this file in and render it with a url.${twHeaderNote(
+   useTw
+ )}
  *
  *   import LinkPreview from './LinkPreview'
  *
@@ -196,7 +423,7 @@ import { useEffect, useState } from 'react'
 
 const STYLE = ${STYLE}
 
-${RUNTIME_RENDERER}
+${RENDERER}
 
 ${FETCH_CORE}
 
@@ -217,10 +444,12 @@ export default function LinkPreview ({ url, apiKey }) {
 }
 
 export const generateTypeScript = config => {
-  const STYLE = serializeStyle(config)
+  const { STYLE, RENDERER, useTw } = rendererFor(config, { typescript: true })
   return `/*
  * Link preview — generated by microlink.io/integrations/builder
- * Zero dependencies, fully typed. Drop this file in and render it with a url.
+ * Zero dependencies, fully typed. Drop this file in and render it with a url.${twHeaderNote(
+   useTw
+ )}
  *
  *   import LinkPreview from './LinkPreview'
  *
@@ -236,7 +465,7 @@ type LinkPreviewProps = {
 
 const STYLE = ${STYLE}
 
-${toTypeScript(RUNTIME_RENDERER)}
+${RENDERER}
 
 ${toTypeScript(FETCH_CORE)}
 
@@ -257,10 +486,13 @@ export default function LinkPreview ({ url, apiKey }: LinkPreviewProps) {
 }
 
 export const generateVue = config => {
-  const STYLE = serializeStyle(config)
+  const { STYLE, RENDERER, useTw } = rendererFor(config)
   return `<!--
   Link preview — generated by microlink.io/integrations/builder
-  Zero dependencies. Drop this file in and render it with a url.
+  Zero dependencies. Drop this file in and render it with a url.${twHeaderNote(
+    useTw,
+    '  '
+  )}
 
     import LinkPreview from './LinkPreview.vue'
 
@@ -278,7 +510,7 @@ const props = defineProps({ url: String, apiKey: String })
 
 const STYLE = ${indent(STYLE, '')}
 
-${RUNTIME_RENDERER}
+${RENDERER}
 
 ${FETCH_CORE}
 
@@ -297,11 +529,11 @@ watchEffect(onCleanup => {
 }
 
 export const generateAngular = config => {
-  const STYLE = serializeStyle(config)
+  const { STYLE, RENDERER, useTw } = rendererFor(config)
   return `/*
  * Link preview — generated by microlink.io/integrations/builder
  * Zero dependencies, standalone. Add LinkPreviewComponent to your component
- * imports, then use the <link-preview> element.
+ * imports, then use the <link-preview> element.${twHeaderNote(useTw)}
  *
  *   import { LinkPreviewComponent } from './link-preview.component'
  *
@@ -313,7 +545,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 
 const STYLE = ${STYLE}
 
-${RUNTIME_RENDERER}
+${RENDERER}
 
 ${FETCH_CORE}
 
@@ -343,10 +575,13 @@ export class LinkPreviewComponent implements OnChanges {
 }
 
 export const generateSvelte = config => {
-  const STYLE = serializeStyle(config)
+  const { STYLE, RENDERER, useTw } = rendererFor(config)
   return `<!--
   Link preview — generated by microlink.io/integrations/builder
-  Zero dependencies. Drop this file in and render it with a url.
+  Zero dependencies. Drop this file in and render it with a url.${twHeaderNote(
+    useTw,
+    '  '
+  )}
 
     import LinkPreview from './LinkPreview.svelte'
 
@@ -359,7 +594,7 @@ export const generateSvelte = config => {
 
   const STYLE = ${indent(STYLE, '  ').trimStart()}
 
-${indent(RUNTIME_RENDERER, '  ')}
+${indent(RENDERER, '  ')}
 
 ${indent(FETCH_CORE, '  ')}
 
@@ -427,12 +662,14 @@ ${indent(FETCH_CORE, '  ')}
 }
 
 export const generateAstro = config => {
-  const STYLE = serializeStyle(config)
+  const { STYLE, RENDERER, useTw } = rendererFor(config, { typescript: true })
   return `---
 /*
  * Link preview — generated by microlink.io/integrations/builder
  * Zero dependencies. Fetched on the server at render time, so the card ships as
- * static HTML — no client JS, SEO-friendly. Import it, then render with a url.
+ * static HTML — no client JS, SEO-friendly. Import it, then render with a url.${twHeaderNote(
+   useTw
+ )}
  *
  *   import LinkPreview from '../components/LinkPreview.astro'
  *
@@ -448,7 +685,7 @@ const { url, apiKey } = Astro.props
 
 const STYLE = ${STYLE}
 
-${toTypeScript(RUNTIME_RENDERER)}
+${RENDERER}
 
 ${toTypeScript(FETCH_CORE)}
 

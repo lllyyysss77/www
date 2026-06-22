@@ -72,7 +72,11 @@ const BUILDER_DEFAULT_CONFIG = {
   size: 'medium',
   imagePosition: 'top',
   width: 460,
-  height: 0
+  height: 0,
+  // Output mode: when true the generated components use Tailwind classes
+  // instead of inline styles (Vanilla JS always stays inline). Doesn't affect
+  // the live preview, which always renders with inline styles.
+  tailwind: false
 }
 
 // Default URL previewed in the builder, and the placeholder shown in the
@@ -1068,6 +1072,34 @@ const Builder = () => {
             aliases={HIGHLIGHT_ALIASES}
             style={{ maxHeight: 460 }}
           />
+          <Flex
+            css={theme({
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 2,
+              mt: 3,
+              px: 3,
+              py: 2,
+              borderRadius: '10px'
+            })}
+            style={{ background: colors.black05, flexWrap: 'wrap' }}
+          >
+            <CheckboxWrap>
+              <input
+                type='checkbox'
+                checked={!!config.tailwind}
+                onChange={e => set({ tailwind: e.target.checked })}
+              />
+              <FieldLabel style={{ fontWeight: 600 }}>
+                Use Tailwind CSS classes
+              </FieldLabel>
+            </CheckboxWrap>
+            <Text
+              css={theme({ fontFamily: 'sans', fontSize: 0, color: 'black40' })}
+            >
+              Every framework except Vanilla JS
+            </Text>
+          </Flex>
         </Box>
 
         {/* Usage */}
