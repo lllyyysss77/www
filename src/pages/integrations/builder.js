@@ -1,6 +1,7 @@
 import { colors, gradient, layout, theme, transition } from 'theme'
 import { cdnUrl } from 'helpers/cdn-url'
-import React from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { Check, Copy } from 'react-feather'
 import styled from 'styled-components'
 
 import Box from 'components/elements/Box'
@@ -17,6 +18,7 @@ import Caption from 'components/patterns/Caption/Caption'
 import Faq from 'components/patterns/Faq/Faq'
 import Layout from 'components/patterns/Layout'
 
+import { useClipboard } from 'components/hook/use-clipboard'
 import { Builder } from 'components/pages/builder'
 
 const FRAMEWORKS = [
@@ -46,6 +48,45 @@ const STEPS = [
       'Drop it in, pass a url. It fetches metadata from the Microlink API itself. Add an apiKey for Pro.'
   }
 ]
+
+// A copy-paste prompt for AI coding agents (Cursor, Claude Code, Copilot, …).
+// It tells the model to interview the user, inspect the repo's styling, and
+// only then generate a Microlink link-preview component tailored to the stack.
+// Authored without backticks or ${} so it lives safely inside this template
+// literal.
+const AI_PROMPT = `You are an expert frontend engineer. Add a link preview component to THIS project — a component that takes a url and renders a rich preview card (image, title, description, favicon, site name) from the Microlink API.
+
+Microlink API basics:
+- Free: GET https://api.microlink.io/?url=THE_URL&palette=true
+- Pro: GET https://pro.microlink.io/?url=THE_URL&palette=true with an "x-api-key" header
+- The JSON response exposes data.title, data.description, data.url, data.publisher, data.author, data.date, data.image.url, data.logo.url and data.image.palette.
+
+Do NOT write any code yet. First interview me and inspect this repository so the component matches my stack and design system exactly.
+
+1. Detect my stack. Inspect package.json, config files, file extensions and existing components to infer the framework (React, Vue, Svelte, Angular, Astro, Solid or vanilla JS), the language (JavaScript or TypeScript) and the styling approach (Tailwind, CSS Modules, styled-components, Emotion, vanilla CSS, CSS variables, …). Tell me what you found and ask me to confirm. If you cannot tell, ask me — never assume.
+
+2. Learn my design system. Read my theme/tokens, global styles, Tailwind or theme config and a few existing components to extract my color palette, font families and sizes, border radius, spacing scale, shadows and how I handle light/dark mode. Reuse my tokens and utility classes instead of hardcoding values. If the design language is ambiguous, show me 2-3 concrete options and ask which I prefer.
+
+3. Confirm the details, one question at a time, waiting for my answer before moving on:
+   - Which framework and language should the component be written in? (default: match the repo)
+   - Which styling method should it use? (default: match the repo)
+   - Layout: large image on top, horizontal (image beside the text) or compact?
+   - Which fields to show: image, title, description, favicon, site name, author, date?
+   - Light theme, dark theme or both?
+   - Free Microlink API or Pro with an API key? If Pro, where should the key live — an env var, a prop or a server-side proxy?
+   - Any loading and error states you want?
+
+4. Implement it only after I have confirmed framework, language and styling. Generate a single, self-contained, dependency-free component that:
+   - Accepts a required "url" prop and an optional "apiKey" prop.
+   - Fetches metadata from Microlink, prepending "https://" to bare domains and warning once if it had to.
+   - Renders the card using MY project's styling conventions and tokens — not generic styles.
+   - Handles loading and failed requests gracefully (render a fallback or nothing; never crash).
+   - Is accessible: the whole card is one link, images have alt text and the semantics are correct.
+   - Comes with a short usage example.
+
+5. Keep iterating. After generating it, ask me what to refine and adjust the layout, styling and props until the preview looks exactly how I want it inside my app.
+
+Rule: whenever anything about my framework, language or design system is unclear, ask me a question instead of guessing.`
 
 const QUESTIONS = [
   {
@@ -339,6 +380,146 @@ const HowItWorks = () => (
   </Container>
 )
 
+/* ─── AI prompt section ───────────────────────────────────────────────────── */
+
+const PromptCard = styled(Box)`
+  ${theme({ borderRadius: '16px' })}
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  background: ${colors.white};
+  border: 1px solid ${colors.black10};
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+`
+
+const PromptHeader = styled(Flex)`
+  ${theme({ px: [3, 4, 4, 4], py: 3 })}
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid ${colors.black05};
+`
+
+const PromptBody = styled(Box).attrs({ as: 'pre' })`
+  ${theme({
+    fontFamily: 'mono',
+    fontSize: [0, 0, 1, 1],
+    px: [3, 4, 4, 4],
+    py: [3, 4, 4, 4]
+  })}
+  margin: 0;
+  max-height: 460px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.7;
+  color: ${colors.black80};
+`
+
+const CopyButton = styled(Box).attrs({ as: 'button', type: 'button' })`
+  ${theme({
+    fontFamily: 'sans',
+    fontSize: 0,
+    fontWeight: 'bold',
+    px: 3,
+    py: 2,
+    borderRadius: '8px'
+  })}
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  color: ${colors.white};
+  background: ${colors.link};
+  transition: opacity ${transition.short};
+
+  &:hover {
+    opacity: 0.85;
+  }
+`
+
+const PromptSection = () => {
+  const [ClipboardComponent, toClipboard] = useClipboard()
+  const [copied, setCopied] = useState(false)
+  const timerRef = useRef(null)
+
+  useEffect(
+    () => () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+    },
+    []
+  )
+
+  const handleCopy = useCallback(() => {
+    toClipboard({ copy: AI_PROMPT, text: 'Prompt copied to clipboard' })
+    setCopied(true)
+    if (timerRef.current) clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => setCopied(false), 1500)
+  }, [toClipboard])
+
+  return (
+    <Container
+      as='section'
+      id='ai-prompt'
+      css={theme({
+        alignItems: 'center',
+        maxWidth: layout.large,
+        py: [5, 5, 6, 6],
+        px: [3, 3, 4, 4]
+      })}
+    >
+      <Eyebrow>Use your AI coding agent</Eyebrow>
+      <Subhead
+        variant='gradient'
+        css={theme({ pt: 2, fontSize: [3, 3, 4, 4], textAlign: 'center' })}
+      >
+        Generate it with a prompt
+      </Subhead>
+      <Text
+        css={theme({
+          pt: [3, 3, 3, 3],
+          maxWidth: '600px',
+          textAlign: 'center',
+          fontSize: [1, 1, 2, 2],
+          color: 'black60'
+        })}
+      >
+        Prefer to stay in your editor? Paste this prompt into Cursor, Claude
+        Code, Copilot, or any LLM. It interviews you, inspects your repo&rsquo;s
+        styling, and builds a Microlink preview component tailored to your
+        stack.
+      </Text>
+      <PromptCard css={theme({ mt: [4, 4, 5, 5] })}>
+        <PromptHeader>
+          <Caps
+            css={theme({
+              fontSize: 0,
+              fontWeight: 'bold',
+              color: 'black60',
+              letterSpacing: 1
+            })}
+          >
+            Prompt
+          </Caps>
+          <CopyButton
+            onClick={handleCopy}
+            aria-label={copied ? 'Prompt copied' : 'Copy prompt to clipboard'}
+            aria-live='polite'
+          >
+            {copied ? <Check size={14} /> : <Copy size={14} />}
+            <span>{copied ? 'Copied!' : 'Copy prompt'}</span>
+          </CopyButton>
+        </PromptHeader>
+        <PromptBody>{AI_PROMPT}</PromptBody>
+      </PromptCard>
+      <ClipboardComponent />
+    </Container>
+  )
+}
+
 const BuilderPage = () => (
   <Layout>
     <Hero />
@@ -354,11 +535,20 @@ const BuilderPage = () => (
     >
       <HowItWorks />
     </Box>
-    <Faq
-      css={theme({ py: [5, 5, 6, 6] })}
-      title='Frequently asked questions'
-      questions={QUESTIONS}
-    />
+    <PromptSection />
+    <Box
+      css={theme({
+        bg: 'pinky',
+        borderTop: 1,
+        borderTopColor: 'black10'
+      })}
+    >
+      <Faq
+        css={theme({ py: [5, 5, 6, 6] })}
+        title='Frequently asked questions'
+        questions={QUESTIONS}
+      />
+    </Box>
   </Layout>
 )
 
