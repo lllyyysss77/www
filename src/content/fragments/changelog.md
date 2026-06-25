@@ -1,6 +1,11 @@
 ### June 2026
 
-- [Microlink API](/docs/api/getting-started/overview): Improved [markdown](/docs/api/parameters/markdown) rendering by stripping non-content DOM.
+- [Microlink](/): Added [builder](/integrations/builder) to generate link preview component code.
+- [Microlink](/): Added [use cases](/use-cases) landing with the first story.
+- [Microlink Blog](/blog): Published [Faster WebGL Screenshots](/blog/faster-webgl-screenshots).
+- [Microlink API](/docs/api/getting-started/overview): Improved antibot resolution for Reddit, Weibo, Dribbble, and Douban.
+- [unavatar.io](https://unavatar.io): Added [PayPal](https://unavatar.io/paypal), [Wise](https://unavatar.io/wise), [Venmo](https://unavatar.io/venmo), [Cash App](https://unavatar.io/cashapp), [Tidal](https://unavatar.io/tidal), and [Deezer](https://unavatar.io/deezer) support.
+- [unavatar.io](https://unavatar.io): Added [Bilibili](https://unavatar.io/bilibili), [Gitee](https://unavatar.io/gitee), [Juejin](https://unavatar.io/juejin), [NetEase Music](https://unavatar.io/netease-music), [QQ](https://unavatar.io/qq), [Tieba](https://unavatar.io/tieba), [Weibo](https://unavatar.io/weibo), and [Zhihu](https://unavatar.io/zhihu) support.
 - [unavatar.io](https://unavatar.io): Added [Primal](https://unavatar.io/primal), [Hevy](https://unavatar.io/hevy), [Cursor](https://unavatar.io/cursor), [Strava](https://unavatar.io/strava), and [Raycast](https://unavatar.io/raycast) support.
 - [Microlink](/): Added [pricing](/pricing) currency auto-detection and adaptive pricing.
 
