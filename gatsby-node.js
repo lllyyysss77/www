@@ -16,6 +16,7 @@ const path = require('node:path')
 
 const { getLastModifiedDate, branchName } = require('./src/helpers/git')
 const { title: formatTitle } = require('./src/helpers/title')
+const { generate: generateOgCards, slug, imagePath } = require('@microlink/og')
 
 const RECIPES_BY_FEATURES_KEYS = Object.keys(
   require('@microlink/recipes/by-feature')
@@ -101,6 +102,61 @@ exports.onCreateWebpackConfig = ({ stage, actions, getConfig }) => {
 
 exports.onPostBuild = async ({ graphql, reporter }) => {
   await createDocsMarkdownFiles({ graphql, reporter })
+  await generateOgImages({ graphql, reporter })
+}
+
+// Render an OG card for every page into `public/og/<slug>.png` so the images
+// ship as static files with the build; `Meta.js` points `og:image` at them for
+// pages without an explicit `image` prop.
+//
+// The build fails only on a total failure (the page query fails, generation
+// crashes, or every card fails) — then every `og:image` would be broken. A
+// single failed card just warns: most pages carry an explicit banner image and
+// never reference their card, so one miss shouldn't block a deploy.
+const generateOgImages = async ({ graphql, reporter }) => {
+  const result = await graphql('{ allSitePage { nodes { path } } }')
+  if (result.errors) {
+    return reporter.panicOnBuild(
+      'OG images: failed to query pages',
+      result.errors
+    )
+  }
+
+  const pathnames = result.data.allSitePage.nodes
+    .map(node => node.path)
+    .filter(imagePath) // drop Gatsby internals (/404, app shell, …)
+
+  let cards
+  try {
+    cards = await generateOgCards({
+      pathnames,
+      outDir: path.join(process.cwd(), 'public', 'og'),
+      onError: (pathname, error) =>
+        reporter.warn(`OG ${pathname}: ${error.message}`)
+    })
+  } catch (error) {
+    return reporter.panicOnBuild(
+      `OG images: generation failed — ${error.message}`
+    )
+  }
+
+  // `generate` dedupes by slug and returns one entry per card it wrote, so its
+  // count vs the unique expected count tells us what failed. Each failure was
+  // already logged via `onError`; only a *total* failure fails the build.
+  const expected = new Set(pathnames.map(slug)).size
+
+  if (cards.length === 0 && expected > 0) {
+    return reporter.panicOnBuild('OG images: every card failed to generate')
+  }
+
+  if (cards.length < expected) {
+    reporter.warn(
+      `OG images: ${expected - cards.length}/${expected} cards did not ` +
+        'generate (see the warnings above).'
+    )
+  }
+
+  reporter.info(`Generated ${cards.length} OG images`)
 }
 
 exports.onCreateNode = async ({ node, getNode, actions }) => {

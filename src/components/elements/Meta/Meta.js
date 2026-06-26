@@ -7,6 +7,7 @@ import { useSiteMetadata } from 'components/hook/use-site-meta'
 import React, { useMemo } from 'react'
 import { generateStructuredData } from './structured'
 import { toDate } from 'helpers/to-date'
+import { imageUrl as ogImageUrl } from '@microlink/og'
 
 const getPage = ({ pathname }) => pathname.replace(/\/+$/, '').substring(1)
 
@@ -22,7 +23,14 @@ const normalizeAuthor = (authors, fallbackAuthor) => {
 }
 
 const mergeMeta = (props, location, metadata) => {
-  const { siteUrl, video, twitter, headline, author: fallbackAuthor } = metadata
+  const {
+    siteUrl,
+    ogImageBase,
+    video,
+    twitter,
+    headline,
+    author: fallbackAuthor
+  } = metadata
   const title = props.title || getTitle(location) || headline
 
   let {
@@ -30,7 +38,6 @@ const mergeMeta = (props, location, metadata) => {
     dataLabel2,
     dataValue1,
     dataValue2,
-    image,
     logo,
     name,
     noSuffix,
@@ -47,6 +54,13 @@ const mergeMeta = (props, location, metadata) => {
   const description = props.description || metadata.description || headline
 
   const url = location ? `${siteUrl}${location.pathname}` : siteUrl
+
+  // Prefer an explicit `image` prop, else the per-page card generated at build
+  // time (`public/og/<slug>.png`), falling back to the default banner. The card
+  // lives on the deploy host (`ogImageBase`) — empty in dev, and distinct from
+  // the canonical `siteUrl` on preview deployments.
+  const image =
+    props.image || ogImageUrl(location?.pathname, ogImageBase) || metadata.image
 
   const author = normalizeAuthor(inputAuthors, fallbackAuthor)
 
