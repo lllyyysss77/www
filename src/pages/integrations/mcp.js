@@ -1,5 +1,4 @@
 import { borders, layout, colors, fonts, theme } from 'theme'
-import { cdnUrl } from 'helpers/cdn-url'
 import React, { useState, useMemo, useCallback } from 'react'
 
 import Box from 'components/elements/Box'
@@ -426,17 +425,16 @@ export const Head = () => (
   <Meta
     title='Microlink MCP — Web scraping & browser tools for AI agents'
     description='Give Claude, Cursor, and any MCP client screenshots, PDFs, web scraping, markdown, and metadata extraction. One config block, nine browser tools, zero boilerplate.'
-    image={cdnUrl('logo/banner.jpeg')}
     noSuffix
     structured={[
       {
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
-        '@id': 'https://microlink.io/mcp',
+        '@id': 'https://microlink.io/integrations/mcp',
         name: 'Microlink MCP',
         description:
           'An MCP server that gives Claude, Cursor, and any AI client access to screenshots, PDFs, web scraping, markdown conversion, and metadata extraction. One config block, nine browser tools.',
-        url: 'https://microlink.io/mcp',
+        url: 'https://microlink.io/integrations/mcp',
         applicationCategory: ['DeveloperApplication', 'API'],
         keywords: [
           'MCP server',
@@ -478,7 +476,7 @@ export const Head = () => (
         name: 'Microlink MCP in action',
         description:
           'See how Claude and other AI agents use Microlink MCP to take screenshots, convert pages to markdown, and scrape structured data through natural language.',
-        thumbnailUrl: cdnUrl('logo/banner.jpeg'),
+        thumbnailUrl: 'https://cdn.microlink.io/logo/banner.jpeg',
         contentUrl: 'https://cdn.microlink.io/mcp/codex.mp4',
         uploadDate: '2025-02-01',
         publisher: {
@@ -490,8 +488,8 @@ export const Head = () => (
       {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        '@id': 'https://microlink.io/mcp#faq',
-        url: 'https://microlink.io/mcp',
+        '@id': 'https://microlink.io/integrations/mcp#faq',
+        url: 'https://microlink.io/integrations/mcp',
         mainEntity: [
           {
             '@type': 'Question',
