@@ -150,7 +150,7 @@ const nodejs = {
     primaryCta: { label: 'Get started free', href: '#quickstart' },
     secondaryCta: {
       label: 'Read the docs',
-      href: '/docs/mql/getting-started/installation'
+      href: '/docs/guides/screenshot'
     }
   },
 

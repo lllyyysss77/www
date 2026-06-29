@@ -149,7 +149,7 @@ const python = {
     primaryCta: { label: 'Get started free', href: '#quickstart' },
     secondaryCta: {
       label: 'Read the docs',
-      href: '/docs/api/getting-started/overview'
+      href: '/docs/guides/screenshot'
     }
   },
 
