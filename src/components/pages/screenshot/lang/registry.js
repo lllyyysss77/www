@@ -5,7 +5,9 @@
 // /screenshot product page — keeping every spoke internally linked rather than
 // orphaned. Order is the display order.
 export const LANG_LANDINGS = [
-  { lang: 'nodejs', label: 'Node.js', href: '/screenshot/nodejs' }
+  { lang: 'nodejs', label: 'Node.js', href: '/screenshot/nodejs' },
+  { lang: 'python', label: 'Python', href: '/screenshot/python' },
+  { lang: 'php', label: 'PHP', href: '/screenshot/php' }
 ]
 
 export default LANG_LANDINGS
