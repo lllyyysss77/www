@@ -1,5 +1,4 @@
 import React from 'react'
-import { cdnUrl } from 'helpers/cdn-url'
 import { colors } from 'theme'
 import { Link } from 'components/elements/Link'
 
@@ -12,7 +11,7 @@ const Accent = ({ children }) => (
 )
 
 const PAGE_URL = 'https://microlink.io/screenshot/python'
-const OG_IMAGE = cdnUrl('banner/screenshot.jpeg')
+const OG_IMAGE = 'https://cdn.microlink.io/banner/screenshot.jpeg'
 
 const python = {
   lang: 'python',
@@ -51,7 +50,10 @@ const python = {
           '@type': 'Organization',
           name: 'Microlink',
           url: 'https://microlink.io',
-          logo: { '@type': 'ImageObject', url: cdnUrl('logo/logo.png') }
+          logo: {
+            '@type': 'ImageObject',
+            url: 'https://cdn.microlink.io/logo/logo.png'
+          }
         },
         isPartOf: {
           '@type': 'WebSite',

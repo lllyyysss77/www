@@ -12,7 +12,6 @@ import {
   radii
 } from 'theme'
 import React, { useState, useCallback, useRef, useEffect } from 'react'
-import { cdnUrl } from 'helpers/cdn-url'
 import { trackEvent } from 'helpers/plausible'
 import styled, { css, keyframes } from 'styled-components'
 
@@ -34,7 +33,7 @@ import {
 import { normalizeApiError } from 'helpers/api-error'
 
 const FIRST_URL = 'https://apple.com'
-const FIRST_IMAGE_URL = cdnUrl('www/apple.png')
+const FIRST_IMAGE_URL = 'https://cdn.microlink.io/www/apple.png'
 
 const NerdButton = styled(Button).attrs({ variant: 'black' })`
   &&& {
