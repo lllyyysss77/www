@@ -48,6 +48,15 @@ const mergeMeta = (props, location, metadata) => {
 
   const url = location ? `${siteUrl}${location.pathname}` : siteUrl
 
+  // twitter:domain expects the bare host (e.g. microlink.io), not a full URL.
+  const domain = (() => {
+    try {
+      return new URL(siteUrl).host
+    } catch (_) {
+      return siteUrl
+    }
+  })()
+
   const author = normalizeAuthor(inputAuthors, fallbackAuthor)
 
   if (!modifiedDate) {
@@ -70,6 +79,7 @@ const mergeMeta = (props, location, metadata) => {
     title,
     twitter,
     url,
+    domain,
     video,
     robots,
     noSuffix,
@@ -96,6 +106,7 @@ function Meta ({ structured, ...props }) {
     title,
     twitter,
     url,
+    domain,
     video,
     robots,
     noSuffix,
@@ -164,7 +175,7 @@ function Meta ({ structured, ...props }) {
       <meta name='twitter:title' content={fullTitle} />
       <meta name='twitter:description' content={description} />
       <meta name='twitter:site' content={twitter} />
-      <meta name='twitter:domain' content={url} />
+      <meta name='twitter:domain' content={domain} />
       <meta name='twitter:player:stream' content={video} />
       <meta name='twitter:image' content={image} />
       <meta name='twitter:creator' content={twitter} />

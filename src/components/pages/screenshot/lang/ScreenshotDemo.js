@@ -537,7 +537,7 @@ const addToHistory = (history, url) => {
   return [url, ...filtered].slice(0, MAX_HISTORY)
 }
 
-const ScreenshotDemo = ({ onRequestTiming }) => {
+const ScreenshotDemo = ({ onRequestTiming, alt = 'Website screenshot' }) => {
   const [inputUrl, setInputUrl] = useState(FIRST_URL)
   const [isFocused, setIsFocused] = useState(false)
   const [history, setHistory] = useState(DEFAULT_HISTORY)
@@ -1049,7 +1049,7 @@ const ScreenshotDemo = ({ onRequestTiming }) => {
           <img
             key={imgKey}
             src={screenshotSrc}
-            alt='Website screenshot'
+            alt={alt}
             decoding='async'
             loading='eager'
             fetchpriority='high'

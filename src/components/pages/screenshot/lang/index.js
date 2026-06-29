@@ -177,7 +177,7 @@ const Breadcrumb = ({ items }) => (
       gap: 2,
       alignItems: 'center',
       flexWrap: 'wrap',
-      fontSize: [0, 0, 1, 1],
+      fontSize: [1, 1, 2, 2],
       pb: [3, 3, 4, 4],
       justifyContent: 'center'
     })}
@@ -260,7 +260,7 @@ const Hero = ({ hero, breadcrumb }) => (
         justifyContent: 'center'
       })}
     >
-      <ScreenshotDemo />
+      <ScreenshotDemo alt={hero.demoAlt} />
     </Flex>
   </Container>
 )

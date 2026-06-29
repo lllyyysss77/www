@@ -139,11 +139,12 @@ const nodejs = {
   hero: {
     title: (
       <>
-        Website Screenshot API for <Accent>Node.js</Accent>
+        <Accent>Node.js</Accent> Screenshot API
       </>
     ),
     subtitle:
       'Capture pixel-perfect screenshots of any URL in three lines of Node.js — no Puppeteer, no Chromium, no servers to maintain.',
+    demoAlt: 'Node.js website screenshot API example',
     primaryCta: { label: 'Get started free', href: '#quickstart' },
     secondaryCta: {
       label: 'Read the docs',
