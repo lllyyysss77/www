@@ -25,7 +25,6 @@ import { FeaturedToolCard } from 'components/patterns/Tools/ToolCards'
 import { TOOLS as TOOL_CATALOG } from 'components/patterns/Tools/toolCatalog'
 
 import ScreenshotDemo from './ScreenshotDemo'
-import { LANG_LANDINGS } from './registry'
 
 // Flattened tool catalog, so the playground section can pull the matching
 // FeaturedToolCard by href (same card the /screenshot landing renders).
@@ -534,83 +533,44 @@ const FinalCta = ({ cta }) => (
   </SectionContainer>
 )
 
-// ── Sibling languages ─────────────────────────────────────────────────────────
-const Siblings = ({ siblings }) => (
-  <SectionContainer>
-    <Flex
-      css={theme({
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 3,
-        maxWidth: layout.normal,
-        mx: 'auto'
-      })}
-    >
-      <Caps as='p' css={theme({ color: 'black60', fontSize: [0, 0, 1, 1] })}>
-        Other languages
-      </Caps>
-      <Flex
-        css={theme({
-          gap: [3, 3, 4, 4],
-          flexWrap: 'wrap',
-          justifyContent: 'center'
-        })}
-      >
-        {siblings.map(sibling => (
-          <Link key={sibling.href} href={sibling.href}>
-            Screenshot API for {sibling.label}
-          </Link>
-        ))}
-      </Flex>
-    </Flex>
-  </SectionContainer>
-)
-
 // ── Page + Head ───────────────────────────────────────────────────────────────
-const ScreenshotLang = ({ config }) => {
-  // Cross-link the other language landings from the shared registry so every
-  // spoke points at its siblings (topical cluster, no orphans).
-  const siblings = LANG_LANDINGS.filter(item => item.lang !== config.lang)
-
-  return (
-    <Layout css={theme({ position: 'relative' })}>
-      <DashedGridOverlay aria-hidden='true' />
-      <Box css={theme({ position: 'relative', zIndex: 1 })}>
-        <Hero hero={config.hero} breadcrumb={config.breadcrumb} />
-        <Quickstart quickstart={config.quickstart} />
-        <Framework framework={config.framework} />
-        <Comparison comparison={config.comparison} />
-        <Features
-          css={theme({ bg: 'transparent', pt: [4, 4, 5, 5], pb: [3, 3, 4, 4] })}
-          title={
-            <Subhead
-              titleize={false}
-              css={theme({
-                width: '100%',
-                textAlign: 'left',
-                fontSize: ['28px', '34px', '42px', '46px']
-              })}
-            >
-              {config.features.title}
-            </Subhead>
-          }
-          caption={config.features.caption}
-          features={config.features.items}
-        />
-        <ToolCta tool={config.tool} />
-        <Faq
-          title={config.faq.title}
-          titleSize={['40px', 4, 5, 5]}
-          caption={config.faq.caption}
-          css={theme({ bg: 'transparent', pb: [4, 4, 5, 5] })}
-          questions={config.faq.questions}
-        />
-        <FinalCta cta={config.cta} />
-        {siblings.length > 0 && <Siblings siblings={siblings} />}
-      </Box>
-    </Layout>
-  )
-}
+const ScreenshotLang = ({ config }) => (
+  <Layout css={theme({ position: 'relative' })}>
+    <DashedGridOverlay aria-hidden='true' />
+    <Box css={theme({ position: 'relative', zIndex: 1 })}>
+      <Hero hero={config.hero} breadcrumb={config.breadcrumb} />
+      <Quickstart quickstart={config.quickstart} />
+      <Framework framework={config.framework} />
+      <Comparison comparison={config.comparison} />
+      <Features
+        css={theme({ bg: 'transparent', pt: [4, 4, 5, 5], pb: [3, 3, 4, 4] })}
+        title={
+          <Subhead
+            titleize={false}
+            css={theme({
+              width: '100%',
+              textAlign: 'left',
+              fontSize: ['28px', '34px', '42px', '46px']
+            })}
+          >
+            {config.features.title}
+          </Subhead>
+        }
+        caption={config.features.caption}
+        features={config.features.items}
+      />
+      <ToolCta tool={config.tool} />
+      <Faq
+        title={config.faq.title}
+        titleSize={['40px', 4, 5, 5]}
+        caption={config.faq.caption}
+        css={theme({ bg: 'transparent', pb: [4, 4, 5, 5] })}
+        questions={config.faq.questions}
+      />
+      <FinalCta cta={config.cta} />
+    </Box>
+  </Layout>
+)
 
 export const LangHead = ({ config }) => (
   <Meta
