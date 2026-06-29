@@ -131,13 +131,14 @@ const Eyebrow = ({ children, css: cssProp }) => (
   </Caps>
 )
 
-const SectionHead = ({ title, caption, maxWidth = CONTENT_WIDTH }) => (
+const SectionHead = ({ title, caption, maxWidth = CONTENT_WIDTH, pt }) => (
   <Box
     css={theme({
       textAlign: 'center',
       width: '100%',
       maxWidth,
       mx: 'auto',
+      pt,
       pb: [4, 4, 5, 5]
     })}
   >
@@ -266,8 +267,12 @@ const Hero = ({ hero, breadcrumb }) => (
 
 // ── Quickstart (vertical, progressively deeper code) ──────────────────────────
 const Quickstart = ({ quickstart }) => (
-  <SectionContainer id='quickstart' css={{ pt: [6, 6, 7, 7] }}>
-    <SectionHead title={quickstart.title} caption={quickstart.caption} />
+  <SectionContainer id='quickstart'>
+    <SectionHead
+      title={quickstart.title}
+      caption={quickstart.caption}
+      pt={[4, 4, 5, 5]}
+    />
     <Box css={theme({ width: '100%', maxWidth: CONTENT_WIDTH, mx: 'auto' })}>
       {quickstart.steps.map((step, index) => (
         <Box
