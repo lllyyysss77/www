@@ -16,6 +16,7 @@ const path = require('node:path')
 
 const { getLastModifiedDate, branchName } = require('./src/helpers/git')
 const { title: formatTitle } = require('./src/helpers/title')
+const { generate: generateOgCards, slug, imagePath } = require('@microlink/og')
 
 const RECIPES_BY_FEATURES_KEYS = Object.keys(
   require('@microlink/recipes/by-feature')
@@ -101,6 +102,106 @@ exports.onCreateWebpackConfig = ({ stage, actions, getConfig }) => {
 
 exports.onPostBuild = async ({ graphql, reporter }) => {
   await createDocsMarkdownFiles({ graphql, reporter })
+  await generateOgImages({ graphql, reporter })
+}
+
+// Each page's built HTML already carries its real og:title/og:description (set
+// by Meta). Read them back so the card renders from the page's actual metadata
+// — e.g. "Model Context Protocol (MCP)" instead of the slug-derived "Mcp" — the
+// way the URL-mode service does. @microlink/og cleans and merges them over the
+// slug-derived base; a page whose HTML can't be read falls back to the slug.
+// `fromCodePoint` (not `fromCharCode`) so astral entities like `&#x1F680;`
+// (🚀) round-trip; out-of-range values decode to nothing rather than throwing.
+const entityChar = (code, radix) => {
+  const cp = parseInt(code, radix)
+  return cp <= 0x10ffff ? String.fromCodePoint(cp) : ''
+}
+
+const decodeEntities = value =>
+  value
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#(\d+);/g, (_, code) => entityChar(code, 10))
+    .replace(/&#x([\da-f]+);/gi, (_, code) => entityChar(code, 16))
+    .replace(/&amp;/g, '&')
+
+const ogContent = (html, name) => {
+  const match = html.match(
+    new RegExp(`<meta property="og:${name}" content="([^"]*)"`)
+  )
+  return match ? decodeEntities(match[1]) : undefined
+}
+
+const pageMetadata = pathname => {
+  // `pathname` is a route ("/integrations/mcp", "/"); strip the leading slash
+  // so it joins as a relative segment under public/.
+  const relativePath = pathname.replace(/^\//, '')
+  const file = path.join(process.cwd(), 'public', relativePath, 'index.html')
+  let html
+  try {
+    html = readFileSync(file, 'utf8')
+  } catch {
+    return undefined
+  }
+  return {
+    title: ogContent(html, 'title'),
+    description: ogContent(html, 'description')
+  }
+}
+
+// Render an OG card for every page into `public/images/og/<slug>.png` so the
+// images ship as plain static files (served at /images/og/<slug>.png, like any
+// other /images asset); `Meta.js` points `og:image` at them.
+//
+// The build fails only on a total failure (the page query fails, generation
+// crashes, or every card fails). A single failed card just warns rather than
+// blocking the deploy — render failures are rare and isolated.
+const generateOgImages = async ({ graphql, reporter }) => {
+  const result = await graphql('{ allSitePage { nodes { path } } }')
+  if (result.errors) {
+    return reporter.panicOnBuild(
+      'OG images: failed to query pages',
+      result.errors
+    )
+  }
+
+  const pathnames = result.data.allSitePage.nodes
+    .map(node => node.path)
+    .filter(imagePath) // drop Gatsby internals (/404, app shell, …)
+
+  let cards
+  try {
+    cards = await generateOgCards({
+      pathnames,
+      outDir: path.join(process.cwd(), 'public', 'images', 'og'),
+      metadata: pageMetadata,
+      onError: (pathname, error) =>
+        reporter.warn(`OG ${pathname}: ${error.message}`)
+    })
+  } catch (error) {
+    return reporter.panicOnBuild(
+      `OG images: generation failed — ${error.message}`
+    )
+  }
+
+  // `generate` dedupes by slug and returns one entry per card it wrote, so its
+  // count vs the unique expected count tells us what failed. Each failure was
+  // already logged via `onError`; only a *total* failure fails the build.
+  const expected = new Set(pathnames.map(slug)).size
+
+  if (cards.length === 0 && expected > 0) {
+    return reporter.panicOnBuild('OG images: every card failed to generate')
+  }
+
+  if (cards.length < expected) {
+    reporter.warn(
+      `OG images: ${expected - cards.length}/${expected} cards did not ` +
+        'generate (see the warnings above).'
+    )
+  }
+
+  reporter.info(`Generated ${cards.length} OG images`)
 }
 
 exports.onCreateNode = async ({ node, getNode, actions }) => {
