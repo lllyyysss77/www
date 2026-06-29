@@ -1,10 +1,16 @@
 import React from 'react'
 import { cdnUrl } from 'helpers/cdn-url'
+import { colors } from 'theme'
 import { Link } from 'components/elements/Link'
 
 // Per-language configuration for the `/screenshot/<lang>` landing pages.
 // Everything language-specific lives here so `index.js` stays generic and a
 // new language (python, php, …) is just another config file + a page file.
+
+// Inline red accent for headline keywords, mirroring the /integrations/sdk page.
+const Accent = ({ children }) => (
+  <span style={{ color: colors.red6 }}>{children}</span>
+)
 
 const PAGE_URL = 'https://microlink.io/screenshot/nodejs'
 const OG_IMAGE = cdnUrl('banner/screenshot.jpeg')
@@ -129,91 +135,29 @@ const nodejs = {
     { label: 'Node.js' }
   ],
 
-  // ── Hero (code-first) ─────────────────────────────────────────────────────
+  // ── Hero (centered, code-free) ────────────────────────────────────────────
   hero: {
-    eyebrow: 'Screenshot API · Node.js',
-    title: 'Website Screenshot API for Node.js',
+    title: (
+      <>
+        Website Screenshot API for <Accent>Node.js</Accent>
+      </>
+    ),
     subtitle:
       'Capture pixel-perfect screenshots of any URL in three lines of Node.js — no Puppeteer, no Chromium, no servers to maintain.',
     primaryCta: { label: 'Get started free', href: '#quickstart' },
     secondaryCta: {
       label: 'Read the docs',
       href: '/docs/mql/getting-started/installation'
-    },
-    // Token-based snippet so the URL inside the string can be typed live.
-    // Each token is [text, role]; role ∈ kw | fn | str | sign | url.
-    // The `url` token is replaced at runtime by the host being typed + caret.
-    code: {
-      title: 'screenshot.js',
-      lines: [
-        [
-          ['const ', 'kw'],
-          ['mql', 'fn'],
-          [' = ', 'sign'],
-          ['require', 'fn'],
-          ['(', 'sign'],
-          ["'@microlink/mql'", 'str'],
-          [')', 'sign']
-        ],
-        [],
-        [
-          ['const ', 'kw'],
-          ['{ ', 'sign'],
-          ['data', 'fn'],
-          [' }', 'sign'],
-          [' = ', 'sign'],
-          ['await ', 'kw'],
-          ['mql', 'fn'],
-          ['(', 'sign'],
-          ["'https://", 'str'],
-          ['', 'url'],
-          ["'", 'str'],
-          [', {', 'sign']
-        ],
-        [
-          ['  screenshot', 'fn'],
-          [': ', 'sign'],
-          ['true', 'kw']
-        ],
-        [['})', 'sign']],
-        [],
-        [
-          ['console', 'fn'],
-          ['.', 'sign'],
-          ['log', 'fn'],
-          ['(', 'sign'],
-          ['data', 'fn'],
-          ['.', 'sign'],
-          ['screenshot', 'fn'],
-          ['.', 'sign'],
-          ['url', 'fn'],
-          [')', 'sign']
-        ]
-      ]
-    },
-    // Screenshots cycle in sync with the URL typed above. Images come straight
-    // from the live API (embed=screenshot.url) — the page demoes the product.
-    demo: {
-      hosts: [
-        {
-          host: 'apple.com',
-          alt: 'Screenshot of apple.com captured with the Microlink API in Node.js'
-        },
-        {
-          host: 'microlink.io',
-          alt: 'Screenshot of microlink.io captured with the Microlink API in Node.js'
-        },
-        {
-          host: 'unavatar.io',
-          alt: 'Screenshot of unavatar.io captured with the Microlink API in Node.js'
-        }
-      ]
     }
   },
 
-  // ── Quickstart steps ──────────────────────────────────────────────────────
+  // ── Quickstart steps (vertical, progressively deeper) ─────────────────────
   quickstart: {
-    title: 'Take a screenshot in Node.js',
+    title: (
+      <>
+        Take a <Accent>screenshot</Accent> in Node.js
+      </>
+    ),
     caption:
       'The official SDK, @microlink/mql, is a tiny Promise-based client. Install it, point it at a URL, and you get back a hosted screenshot URL — ready to embed or store.',
     steps: [
@@ -282,17 +226,53 @@ await fs.writeFile('screenshot.png', buffer)`
     ]
   },
 
-  // ── Framework integration (Next.js) ───────────────────────────────────────
+  // ── Framework integration (tabbed) ────────────────────────────────────────
+  // The same screenshot endpoint, written for the five most popular Node.js
+  // frameworks (vanilla Node.js last). The labels double as MultiCodeEditor
+  // tabs so the reader can jump between them.
   framework: {
-    eyebrow: 'Framework',
-    title: 'Drop it into Next.js',
+    title: (
+      <>
+        Drop it into your <Accent>framework</Accent>
+      </>
+    ),
     caption:
-      'A Route Handler turns the Screenshot API into your own endpoint — perfect ' +
-      'for dynamic Open Graph images. It runs on the App Router, Node or Edge runtime.',
-    code: {
-      language: 'js',
-      title: 'app/api/screenshot/route.js',
-      source: `import mql from '@microlink/mql'
+      'A route handler, a controller, or a plain HTTP server — the same ' +
+      'three-line call becomes your own screenshot endpoint, perfect for ' +
+      'dynamic Open Graph images on any runtime.',
+    examples: [
+      {
+        id: 'express',
+        label: 'Express',
+        code: {
+          language: 'js',
+          title: 'server.js',
+          source: `import express from 'express'
+import mql from '@microlink/mql'
+
+const app = express()
+
+// GET /screenshot?url=https://example.com
+app.get('/screenshot', async (req, res) => {
+  const { data } = await mql(req.query.url, {
+    screenshot: true,
+    meta: false
+  })
+
+  // redirect to the hosted image, or res.json(data.screenshot.url)
+  res.redirect(data.screenshot.url)
+})
+
+app.listen(3000)`
+        }
+      },
+      {
+        id: 'nextjs',
+        label: 'Next.js',
+        code: {
+          language: 'js',
+          title: 'app/api/screenshot/route.js',
+          source: `import mql from '@microlink/mql'
 
 // GET /api/screenshot?url=https://example.com
 export async function GET (request) {
@@ -307,17 +287,87 @@ export async function GET (request) {
   // redirect to the hosted image, or return data.screenshot.url as JSON
   return Response.redirect(data.screenshot.url)
 }`
-    },
-    footnote: {
-      text: 'Running on the Edge runtime? Import the lightweight build:',
-      code: "import mql from '@microlink/mql/lightweight'"
-    }
+        }
+      },
+      {
+        id: 'fastify',
+        label: 'Fastify',
+        code: {
+          language: 'js',
+          title: 'server.js',
+          source: `import Fastify from 'fastify'
+import mql from '@microlink/mql'
+
+const fastify = Fastify()
+
+// GET /screenshot?url=https://example.com
+fastify.get('/screenshot', async (request, reply) => {
+  const { data } = await mql(request.query.url, {
+    screenshot: true,
+    meta: false
+  })
+
+  return reply.redirect(data.screenshot.url)
+})
+
+await fastify.listen({ port: 3000 })`
+        }
+      },
+      {
+        id: 'nestjs',
+        label: 'NestJS',
+        code: {
+          language: 'js',
+          title: 'screenshot.controller.ts',
+          source: `import { Controller, Get, Query, Redirect } from '@nestjs/common'
+import mql from '@microlink/mql'
+
+@Controller('screenshot')
+export class ScreenshotController {
+  // GET /screenshot?url=https://example.com
+  @Get()
+  @Redirect()
+  async capture (@Query('url') url: string) {
+    const { data } = await mql(url, { screenshot: true, meta: false })
+    return { url: data.screenshot.url }
+  }
+}`
+        }
+      },
+      {
+        id: 'node',
+        label: 'Node.js',
+        code: {
+          language: 'js',
+          title: 'server.js',
+          source: `const http = require('node:http')
+const mql = require('@microlink/mql')
+
+// GET /screenshot?url=https://example.com
+http
+  .createServer(async (req, res) => {
+    const { searchParams } = new URL(req.url, 'http://localhost')
+
+    const { data } = await mql(searchParams.get('url'), {
+      screenshot: true,
+      meta: false
+    })
+
+    res.writeHead(302, { Location: data.screenshot.url }).end()
+  })
+  .listen(3000)`
+        }
+      }
+    ]
   },
 
   // ── Why the API vs self-hosting Puppeteer ─────────────────────────────────
   comparison: {
-    eyebrow: 'Why an API',
-    title: 'Skip the Puppeteer maintenance',
+    title: (
+      <>
+        Skip the <Accent>Puppeteer</Accent> maintenance
+      </>
+    ),
     caption:
       'Running Headless Chrome yourself means shipping a 300 MB browser, tuning memory, and fighting cold starts. The API gives you the same control without any of the infrastructure.',
     columns: [
@@ -350,7 +400,11 @@ export async function GET (request) {
 
   // ── Features (Node-flavored) ──────────────────────────────────────────────
   features: {
-    title: 'Built for the way you write Node.',
+    title: (
+      <>
+        Built for the way you write <Accent>Node</Accent>.
+      </>
+    ),
     caption: (
       <>
         A REST API designed to feel native in JavaScript — typed, Promise-based,
@@ -411,8 +465,11 @@ export async function GET (request) {
 
   // ── Try it live ───────────────────────────────────────────────────────────
   tool: {
-    eyebrow: 'No code yet?',
-    title: 'Try it live in the playground',
+    title: (
+      <>
+        Try it live in the <Accent>playground</Accent>
+      </>
+    ),
     caption:
       'Paste a URL and see the exact API request before you write a line of Node.',
     cta: {
@@ -536,7 +593,11 @@ export async function GET (request) {
 
   // ── Final CTA ─────────────────────────────────────────────────────────────
   cta: {
-    title: 'Start capturing in Node.js',
+    title: (
+      <>
+        Start <Accent>capturing</Accent> in Node.js
+      </>
+    ),
     caption:
       'Get 50 requests/day with zero commitment — no account and no credit card. Install the SDK and ship your first screenshot in minutes.',
     primary: {
