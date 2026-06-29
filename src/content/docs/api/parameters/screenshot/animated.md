@@ -54,7 +54,7 @@ Pass an object to tune the recording:
 | Field      | Type       | Default | Description                                                           |
 | ---------- | ---------- | ------- | -------------------------------------------------------------------- |
 | `duration` | `<number>` | `5000`  | Recording length in milliseconds (also accepts `'5s'`). Max `10000`. |
-| `fps`      | `<number>` | `60`    | Frames per second. Max `60`.                                         |
+| `fps`      | `<number>` | `30`    | Frames per second. Max `60`.                                         |
 | `type`     | `<string>` | `'mp4'` | Video container: `'mp4'` (H.264) or `'webm'` (VP9).                  |
 
 <MultiCodeEditorInteractive mqlCode={{ url: 'https://threejs.org/examples/webgl_animation_skinning_blending', screenshot: { animated: { duration: '8s', fps: 30 } } }} />
