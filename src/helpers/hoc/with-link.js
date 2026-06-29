@@ -98,8 +98,12 @@ const withBaseLink = Component => {
     rel: relProp,
     ...props
   }) => {
-    const rel = isInternal ? relProp : mergeRel(relProp, 'noopener noreferrer')
-    const target = isInternal ? undefined : '_blank'
+    // In-page hash anchors (#section) are same-page navigation: never open in a
+    // new tab or add a noopener rel.
+    const isHash = typeof href === 'string' && href.startsWith('#')
+    const isSamePage = isInternal || isHash
+    const rel = isSamePage ? relProp : mergeRel(relProp, 'noopener noreferrer')
+    const target = isSamePage ? undefined : '_blank'
 
     return (
       <Component {...props}>

@@ -55,6 +55,16 @@ const mergeMeta = (props, location, metadata) => {
 
   const url = location ? `${siteUrl}${location.pathname}` : siteUrl
 
+  // twitter:domain expects the bare host (e.g. microlink.io), not a full URL.
+  // hostname (not host) so a dev port like localhost:8000 is never emitted.
+  const domain = (() => {
+    try {
+      return new URL(siteUrl).hostname
+    } catch (_) {
+      return siteUrl
+    }
+  })()
+
   // Prefer an explicit `image` prop, else the per-page card generated at build
   // time (served at `/images/og/<slug>.png`), falling back to the default
   // banner. The card lives on the deploy host (`ogImageBase`) — empty in dev,
@@ -84,6 +94,7 @@ const mergeMeta = (props, location, metadata) => {
     title,
     twitter,
     url,
+    domain,
     video,
     robots,
     noSuffix,
@@ -110,6 +121,7 @@ function Meta ({ structured, ...props }) {
     title,
     twitter,
     url,
+    domain,
     video,
     robots,
     noSuffix,
@@ -178,7 +190,7 @@ function Meta ({ structured, ...props }) {
       <meta name='twitter:title' content={fullTitle} />
       <meta name='twitter:description' content={description} />
       <meta name='twitter:site' content={twitter} />
-      <meta name='twitter:domain' content={url} />
+      <meta name='twitter:domain' content={domain} />
       <meta name='twitter:player:stream' content={video} />
       <meta name='twitter:image' content={image} />
       <meta name='twitter:creator' content={twitter} />
