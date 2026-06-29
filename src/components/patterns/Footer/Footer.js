@@ -19,6 +19,8 @@ import Dot from 'components/elements/Dot/Dot'
 import { ChevronDown, Mail } from 'react-feather'
 import styled from 'styled-components'
 
+import { LANG_LANDINGS } from 'components/pages/screenshot/lang/registry'
+
 const FOOTER_COLUMNS = [
   {
     title: 'Products',
@@ -41,6 +43,12 @@ const FOOTER_COLUMNS = [
           { label: 'Configurable TTL', href: '/feature/ttl' },
           { label: 'Proxy resolution', href: '/feature/proxy' }
         ]
+      },
+      {
+        // Per-language screenshot landings, generated from the shared registry
+        // so a new /screenshot/<lang> spoke is linked site-wide automatically.
+        title: 'Screenshot API',
+        links: LANG_LANDINGS.map(({ label, href }) => ({ label, href }))
       }
     ]
   },
