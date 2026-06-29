@@ -439,7 +439,8 @@ const HistoryItem = styled('button')`
   }
 
   &:hover,
-  &:focus-visible {
+  &:focus-visible,
+  &[aria-selected='true'] {
     background: ${colors.blue0};
     color: ${colors.black};
     outline: none;
@@ -557,11 +558,14 @@ const ScreenshotDemo = ({ onRequestTiming, alt = 'Website screenshot' }) => {
   const [hasInteracted, setHasInteracted] = useState(false)
   const [navStack, setNavStack] = useState(['https://apple.com'])
   const [navIndex, setNavIndex] = useState(0)
+  // Highlighted recent-URL for keyboard listbox navigation (-1 = none).
+  const [activeIndex, setActiveIndex] = useState(-1)
   const abortRef = useRef(null)
   const copyTimerRef = useRef(null)
   const hasImageRef = useRef(false)
   const skipBlurRef = useRef(false)
   const imageLoadResolverRef = useRef(null)
+  const errorModalRef = useRef(null)
 
   const DEMO_URLS = ['unavatar.io', 'microlink.io']
 
@@ -751,6 +755,7 @@ const ScreenshotDemo = ({ onRequestTiming, alt = 'Website screenshot' }) => {
 
   const handleChange = e => {
     setInputUrl(ensureProtocol(stripProtocol(e.target.value)))
+    setActiveIndex(-1)
     stopAttract()
   }
 
@@ -786,6 +791,7 @@ const ScreenshotDemo = ({ onRequestTiming, alt = 'Website screenshot' }) => {
 
   const handleFocus = () => {
     setIsFocused(true)
+    setActiveIndex(-1)
     stopAttract()
   }
 
@@ -830,21 +836,51 @@ const ScreenshotDemo = ({ onRequestTiming, alt = 'Website screenshot' }) => {
         return
       }
       const normalized = ensureProtocol(e.target.value)
-      setInputUrl(normalized)
-      setIsFocused(false)
-      if (normalized && normalized !== inputUrl) {
-        setHistory(h => addToHistory(h, normalized))
-        fetchScreenshot(normalized)
+      // Compare against the currently loaded URL (last submitted/navigated),
+      // not the live inputUrl that handleChange syncs on every keystroke —
+      // otherwise clicking away never submits newly typed text.
+      if (normalized && normalized !== navStack[navIndex]) {
+        submitUrl(normalized)
+      } else {
+        setInputUrl(normalized)
+        setIsFocused(false)
       }
     }, 150)
   }
 
   const handleKeyDown = e => {
+    const isHistoryOpen = isFocused && history.length > 0
+
+    // WAI-ARIA listbox navigation: move the highlighted recent URL.
+    if (isHistoryOpen && e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveIndex(i => (i + 1) % history.length)
+      return
+    }
+    if (isHistoryOpen && e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIndex(i => (i <= 0 ? history.length - 1 : i - 1))
+      return
+    }
+
     if (e.key === 'Enter') {
+      // A highlighted recent URL takes precedence over the typed text.
+      if (isHistoryOpen && activeIndex >= 0) {
+        e.preventDefault()
+        handleHistoryClick(history[activeIndex])
+        return
+      }
+      // submitUrl already handles the submission; skip the resulting blur so it
+      // does not submit a second time.
+      skipBlurRef.current = true
       e.target.blur()
       submitUrl(e.target.value)
     }
     if (e.key === 'Escape') {
+      // Cancel: close the popup and unfocus without submitting, so the blur
+      // handler must no-op.
+      skipBlurRef.current = true
+      setActiveIndex(-1)
       e.target.blur()
       setIsFocused(false)
     }
@@ -856,6 +892,58 @@ const ScreenshotDemo = ({ onRequestTiming, alt = 'Website screenshot' }) => {
     inputRef.current?.blur()
     submitUrl(url)
   }
+
+  // WAI-ARIA dialog focus management for the error modal: move focus in on
+  // open, trap Tab within ErrorModalWindow, close on Escape, and restore focus
+  // to the previously focused element on dismiss.
+  const isErrorOpen = Boolean(error)
+  useEffect(() => {
+    if (!isErrorOpen) return undefined
+
+    const previouslyFocused = document.activeElement
+    const modal = errorModalRef.current
+    const getFocusable = () =>
+      modal
+        ? Array.from(
+          modal.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          )
+        ).filter(el => !el.disabled)
+        : []
+
+    ;(getFocusable()[0] || modal)?.focus()
+
+    const onKeyDown = event => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        setError(null)
+        return
+      }
+      if (event.key !== 'Tab' || !modal) return
+      const items = getFocusable()
+      if (items.length === 0) return event.preventDefault()
+      const first = items[0]
+      const last = items[items.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      } else if (!modal.contains(document.activeElement)) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown, true)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown, true)
+      if (previouslyFocused && typeof previouslyFocused.focus === 'function') {
+        previouslyFocused.focus()
+      }
+    }
+  }, [isErrorOpen])
 
   return (
     <Box
@@ -966,6 +1054,13 @@ const ScreenshotDemo = ({ onRequestTiming, alt = 'Website screenshot' }) => {
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}
               aria-label='Browser address bar'
+              role='combobox'
+              aria-autocomplete='list'
+              aria-controls='recent-urls-listbox'
+              aria-expanded={isFocused && history.length > 0}
+              aria-activedescendant={
+                activeIndex >= 0 ? `recent-url-${activeIndex}` : undefined
+              }
               spellCheck={false}
               autoComplete='off'
               autoCorrect='off'
@@ -980,11 +1075,17 @@ const ScreenshotDemo = ({ onRequestTiming, alt = 'Website screenshot' }) => {
             </AddressPrompt>
 
             {isFocused && history.length > 0 && (
-              <HistoryDropdown role='listbox' aria-label='Recent URLs'>
-                {history.map(url => (
+              <HistoryDropdown
+                id='recent-urls-listbox'
+                role='listbox'
+                aria-label='Recent URLs'
+              >
+                {history.map((url, index) => (
                   <HistoryItem
                     key={url}
+                    id={`recent-url-${index}`}
                     role='option'
+                    aria-selected={index === activeIndex}
                     type='button'
                     onMouseDown={e => {
                       e.preventDefault()
@@ -1121,7 +1222,7 @@ const ScreenshotDemo = ({ onRequestTiming, alt = 'Website screenshot' }) => {
                 if (e.target === e.currentTarget) setError(null)
               }}
             >
-              <ErrorModalWindow>
+              <ErrorModalWindow ref={errorModalRef} tabIndex={-1}>
                 <ErrorModalHeader>
                   <Flex css={theme({ alignItems: 'center', gap: 2 })}>
                     <svg

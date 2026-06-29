@@ -56,9 +56,10 @@ const mergeMeta = (props, location, metadata) => {
   const url = location ? `${siteUrl}${location.pathname}` : siteUrl
 
   // twitter:domain expects the bare host (e.g. microlink.io), not a full URL.
+  // hostname (not host) so a dev port like localhost:8000 is never emitted.
   const domain = (() => {
     try {
-      return new URL(siteUrl).host
+      return new URL(siteUrl).hostname
     } catch (_) {
       return siteUrl
     }

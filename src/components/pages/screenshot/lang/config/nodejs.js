@@ -39,7 +39,7 @@ const nodejs = {
         image: OG_IMAGE,
         inLanguage: 'en',
         proficiencyLevel: 'Beginner',
-        dependencies: 'Node.js 14+, @microlink/mql',
+        dependencies: 'Node.js 18+, @microlink/mql',
         keywords:
           'nodejs screenshot api, take screenshot node.js, website screenshot node, puppeteer alternative node, capture url node.js, @microlink/mql',
         author: {
@@ -177,8 +177,8 @@ const nodejs = {
         code: {
           language: 'js',
           title: 'capture.js',
-          source: `const mql = require('@microlink/mql')
-// or: import mql from '@microlink/mql'
+          source: `import mql from '@microlink/mql'
+// CommonJS: const mql = require('@microlink/mql')
 
 const { status, data } = await mql('https://example.com', {
   screenshot: true,
@@ -216,14 +216,14 @@ if (status === 'success') {
         code: {
           language: 'js',
           title: 'save.js',
-          source: `const fs = require('node:fs/promises')
-const mql = require('@microlink/mql')
+          source: `import { writeFile } from 'node:fs/promises'
+import mql from '@microlink/mql'
 
 const { data } = await mql('https://example.com', { screenshot: true })
 
-const res = await fetch(data.screenshot.url)
-const buffer = Buffer.from(await res.arrayBuffer())
-await fs.writeFile('screenshot.png', buffer)`
+const response = await fetch(data.screenshot.url)
+const buffer = Buffer.from(await response.arrayBuffer())
+await writeFile('screenshot.png', buffer)`
         }
       }
     ]
