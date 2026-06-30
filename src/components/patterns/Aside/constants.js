@@ -674,6 +674,36 @@ const ROUTES_GUIDES = [
         ]
       },
       {
+        name: 'Content conversion',
+        href: '/docs/guides/content-conversion',
+        posts: [
+          {
+            name: 'Web page to Text',
+            href: '/docs/guides/content-conversion/url-to-text'
+          },
+          {
+            name: 'Web page to Markdown',
+            href: '/docs/guides/content-conversion/url-to-markdown'
+          },
+          {
+            name: 'Web page to HTML',
+            href: '/docs/guides/content-conversion/url-to-html'
+          },
+          {
+            name: 'PDF file to Markdown',
+            href: '/docs/guides/content-conversion/pdf-url-to-markdown'
+          },
+          {
+            name: 'PDF file to HTML',
+            href: '/docs/guides/content-conversion/pdf-url-to-html'
+          },
+          {
+            name: 'JSON endpoint to JSON',
+            href: '/docs/guides/content-conversion/json-endpoint-to-json'
+          }
+        ]
+      },
+      {
         name: 'Markdown',
         href: '/docs/guides/markdown',
         posts: [
