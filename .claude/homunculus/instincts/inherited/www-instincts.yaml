@@ -1,0 +1,325 @@
+# Instincts generated from https://github.com/lllyyysss77/www
+# Generated: 2026-07-01T20:01:11.682Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: www-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/lllyyysss77/www
+---
+
+# Www Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: chore
+
+## Evidence
+
+- 4 commits analyzed
+- Detected conventional commit pattern
+- Examples: chore: remove links from screenshot to lang, chore: reorder links to screenshot landing
+
+---
+id: www-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/lllyyysss77/www
+---
+
+# Www Commit Length
+
+## Action
+
+Keep commit messages concise (~44 characters)
+
+## Evidence
+
+- Average commit message length: 44 chars
+- Based on 4 commits
+
+---
+id: www-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/lllyyysss77/www
+---
+
+# Www Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: www-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/lllyyysss77/www
+---
+
+# Www Export Style
+
+## Action
+
+Prefer mixed exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: mixed
+
+---
+id: www-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/lllyyysss77/www
+---
+
+# Www Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: www-workflow-update-internal-links-to-screenshot-tool
+trigger: "when doing update internal links to screenshot tool"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/lllyyysss77/www
+---
+
+# Www Workflow Update Internal Links To Screenshot Tool
+
+## Action
+
+Follow the update-internal-links-to-screenshot-tool workflow:
+1. Edit one or more files under src/pages/tools/website-screenshot/ (such as bulk.js, animated.js, full-page.js, index.js, mobile.js) to add or update links.
+2. Optionally update src/pages/screenshot.js if the main screenshot landing page is affected.
+3. Update data/git-timestamps-modified.json to reflect changes.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/pages/tools/website-screenshot/animated.js, src/pages/tools/website-screenshot/bulk.js, src/pages/tools/website-screenshot/full-page.js
+
+---
+id: www-instinct-file-naming-camelCase
+trigger: "When creating or renaming a file in the codebase"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: lllyyysss77/www
+---
+
+# Www Instinct File Naming CamelCase
+
+## Action
+
+Name the file using camelCase convention
+
+## Evidence
+
+- Pattern in namingConventions.files: camelCase
+- Observed in src/pages/tools/website-screenshot/animated.js
+
+---
+id: www-instinct-function-naming-camelCase
+trigger: "When declaring a new function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: lllyyysss77/www
+---
+
+# Www Instinct Function Naming CamelCase
+
+## Action
+
+Name the function using camelCase convention
+
+## Evidence
+
+- Pattern in namingConventions.functions: camelCase
+
+---
+id: www-instinct-class-naming-PascalCase
+trigger: "When defining a new class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: lllyyysss77/www
+---
+
+# Www Instinct Class Naming PascalCase
+
+## Action
+
+Name the class using PascalCase convention
+
+## Evidence
+
+- Pattern in namingConventions.classes: PascalCase
+
+---
+id: www-instinct-constant-naming-SCREAMING_SNAKE_CASE
+trigger: "When declaring a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: lllyyysss77/www
+---
+
+# Www Instinct Constant Naming SCREAMING_SNAKE_CASE
+
+## Action
+
+Name the constant using SCREAMING_SNAKE_CASE convention
+
+## Evidence
+
+- Pattern in namingConventions.constants: SCREAMING_SNAKE_CASE
+
+---
+id: www-instinct-import-absolute
+trigger: "When importing modules in JavaScript files"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: lllyyysss77/www
+---
+
+# Www Instinct Import Absolute
+
+## Action
+
+Use absolute import paths
+
+## Evidence
+
+- Pattern in importStyle: absolute
+
+---
+id: www-instinct-export-mixed
+trigger: "When exporting modules or functions"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: lllyyysss77/www
+---
+
+# Www Instinct Export Mixed
+
+## Action
+
+Use either default or named exports as appropriate (mixed style)
+
+## Evidence
+
+- Pattern in exportStyle: mixed
+
+---
+id: www-instinct-testing-separate-location
+trigger: "When adding or updating tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: lllyyysss77/www
+---
+
+# Www Instinct Testing Separate Location
+
+## Action
+
+Place test files in a separate location from source files
+
+## Evidence
+
+- Pattern in architecture.testLocation: separate
+
+---
+id: www-instinct-commit-conventional-chore
+trigger: "When making a commit for maintenance, refactoring, or non-feature changes"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: lllyyysss77/www
+---
+
+# Www Instinct Commit Conventional Chore
+
+## Action
+
+Prefix the commit message with 'chore:' following the conventional commit format
+
+## Evidence
+
+- Seen in commit: 'chore: remove links from screenshot to lang'
+- Pattern in commits.prefixes: chore
+
+---
+id: www-instinct-commit-average-length
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: lllyyysss77/www
+---
+
+# Www Instinct Commit Average Length
+
+## Action
+
+Keep the commit message concise, around 44 characters on average
+
+## Evidence
+
+- Pattern in commits.averageLength: 44
+
+---
+id: www-instinct-workflow-update-screenshot-links
+trigger: "When someone wants to improve, add, or reorder internal navigation to the website screenshot tool"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: lllyyysss77/www
+---
+
+# Www Instinct Workflow Update Screenshot Links
+
+## Action
+
+Edit one or more files under src/pages/tools/website-screenshot/ to add or update links; optionally update src/pages/screenshot.js; update data/git-timestamps-modified.json to reflect changes
+
+## Evidence
+
+- Workflow: update-internal-links-to-screenshot-tool
+- Seen in commit: 'chore: reorder links to screenshot landing'
+- Files: src/pages/tools/website-screenshot/*.js, src/pages/screenshot.js, data/git-timestamps-modified.json
+
