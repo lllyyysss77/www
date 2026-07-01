@@ -1246,6 +1246,27 @@ const HowItWorks = () => (
         </StepCard>
       ))}
     </Flex>
+    <Caption
+      css={theme({
+        pt: [3, 3, 4, 4],
+        px: [1, 1, 3, 3],
+        pb: [3, 3, 4, 4],
+        fontSize: '24px',
+        maxWidth: layout.large
+      })}
+    >
+      <Text css={theme({ fontSize: 3, color: 'black' })}>
+        Wondering how we deliver this quality for free?
+      </Text>
+      <Text
+        css={theme({ fontSize: 2, color: 'black80', lineHeight: 2, mt: 2 })}
+      >
+        This tool runs on <b>Microlink's</b>{' '}
+        <Link href='/screenshot'>screenshot API</Link>—the same infrastructure
+        processing millions of screenshots per week for paying customers. You
+        get enterprise performance at no cost.
+      </Text>
+    </Caption>
   </Container>
 )
 
@@ -1289,26 +1310,6 @@ const Explanation = () => (
         </UseCaseCard>
       ))}
     </Box>
-    <Caption
-      css={theme({
-        pt: [4, 4, 5, 5],
-        px: [1, 1, 3, 3],
-        fontSize: '24px',
-        maxWidth: layout.large
-      })}
-    >
-      <Text css={theme({ fontSize: 3, color: 'black' })}>
-        Wondering how we deliver this quality for free?
-      </Text>
-      <Text
-        css={theme({ fontSize: 2, color: 'black80', lineHeight: 2, mt: 2 })}
-      >
-        This tool runs on <b>Microlink's</b>{' '}
-        <Link href='/screenshot'>screenshot API</Link>—the same infrastructure
-        processing millions of screenshots per week for paying customers. You
-        get enterprise performance at no cost.
-      </Text>
-    </Caption>
   </Container>
 )
 

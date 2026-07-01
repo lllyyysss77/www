@@ -1292,13 +1292,15 @@ const Banner = () => (
         })}
         style={{ fontVariantNumeric: 'tabular-nums' }}
       >
-        <img
-          css={theme({
-            width: ['300px', '500px', '700px', '900px']
-          })}
-          src='/images/screenshot-tool-landing.png'
-          alt='Microlink animated screenshot API'
-        />
+        <Link href='/screenshot' aria-label='Microlink Screenshot API'>
+          <img
+            css={theme({
+              width: ['300px', '500px', '700px', '900px']
+            })}
+            src='/images/screenshot-tool-landing.png'
+            alt='Microlink animated screenshot API'
+          />
+        </Link>
       </Flex>
     }
   />
@@ -1724,7 +1726,8 @@ const AnimatedWebsiteScreenshotPage = () => (
         <>
           No servers to maintain, no headless browsers to manage, no paying for
           capacity you don't use. Add animated screen capture to any app in
-          minutes — easy integration via <Link href='/screenshot'>API</Link>.
+          minutes — easy integration via{' '}
+          <Link href='/screenshot'>Screenshot API</Link>.
         </>
       }
       features={FEATURES_LIST}

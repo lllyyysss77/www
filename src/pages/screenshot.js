@@ -53,7 +53,6 @@ import Plans from 'components/patterns/Plans/Plans'
 import MultiCodeEditorInteractive from 'components/patterns/MultiCodeEditor/MultiCodeEditorInteractive'
 import { FeaturedToolCard } from 'components/patterns/Tools/ToolCards'
 import { TOOLS as TOOL_CATALOG } from 'components/patterns/Tools/toolCatalog'
-import { LANG_LANDINGS } from 'components/pages/screenshot/lang/registry'
 
 import { useHealthcheck } from 'components/hook/use-healthcheck'
 import { useSiteMetadata } from 'components/hook/use-site-meta'
@@ -3595,77 +3594,6 @@ export const Head = () => (
 )
 const INITIAL_TIMING_MS = Math.floor(Math.random() * (25 - 14 + 1)) + 14
 
-// Language-specific screenshot guides. Generated from the shared registry so a
-// new /screenshot/<lang> spoke is linked from here automatically (and never
-// orphaned). Anchor text is the language name for topical relevance.
-const LanguageLandings = () => (
-  <Container
-    as='section'
-    id='language-guides'
-    css={theme({
-      alignItems: 'center',
-      width: '100%',
-      py: SECTION_VERTICAL_SPACING,
-      px: [3, 3, 4, 4]
-    })}
-  >
-    <Subhead
-      css={theme({
-        fontSize: ['28px', '36px', '46px', '46px'],
-        textAlign: 'center'
-      })}
-    >
-      Use it in your <span css={theme({ color: 'red6' })}>language</span>
-    </Subhead>
-    <Caption
-      css={theme({
-        pt: [3, 3, 4, 4],
-        px: [4, 4, 4, 0],
-        fontSize: ['20px', '20px', '24px', '24px'],
-        maxWidth: layout.large,
-        textAlign: 'center'
-      })}
-    >
-      Step-by-step guides to capture screenshots in your stack, with copy-paste
-      code.
-    </Caption>
-    <Flex
-      css={theme({
-        pt: [4, 4, 5, 5],
-        gap: [3, 3, 4, 4],
-        flexWrap: 'wrap',
-        justifyContent: 'center'
-      })}
-    >
-      {LANG_LANDINGS.map(({ href, label }) => (
-        <Link
-          key={href}
-          href={href}
-          css={`
-            > a {
-              display: inline-flex;
-              align-items: center;
-              padding: 12px 24px;
-              border: ${borders[1]} ${colors.black10};
-              border-radius: ${radii[2]};
-              font-weight: 700;
-              color: ${colors.black};
-              transition: border-color ${transition.medium},
-                color ${transition.medium};
-            }
-            > a:hover {
-              border-color: ${colors.red6};
-              color: ${colors.red6};
-            }
-          `}
-        >
-          {label}
-        </Link>
-      ))}
-    </Flex>
-  </Container>
-)
-
 const ScreenshotPage = () => {
   const [timingMs, setTimingMs] = useState(INITIAL_TIMING_MS)
   const [timingUrl, setTimingUrl] = useState('https://apple.com')
@@ -3692,7 +3620,6 @@ const ScreenshotPage = () => {
       />
       <Capabilities />
       <CodeExample />
-      <LanguageLandings />
       <Clients />
       <Pricing />
       <OpenSource />
