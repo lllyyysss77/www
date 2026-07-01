@@ -2421,13 +2421,15 @@ const Banner = () => (
         })}
         style={{ fontVariantNumeric: 'tabular-nums' }}
       >
-        <img
-          css={theme({
-            width: ['300px', '500px', '700px', '900px']
-          })}
-          src='/images/screenshot-tool-landing.png'
-          alt='Microlink bulk website screenshot API'
-        />
+        <Link href='/screenshot' aria-label='Microlink Screenshot API'>
+          <img
+            css={theme({
+              width: ['300px', '500px', '700px', '900px']
+            })}
+            src='/images/screenshot-tool-landing.png'
+            alt='Microlink bulk website screenshot API'
+          />
+        </Link>
       </Flex>
     }
   />
@@ -2867,7 +2869,7 @@ const WebsiteScreenshotPage = () => (
           Need to automate bulk website screenshots? No servers to maintain, no
           headless browsers to manage. Microlink's screenshot API handles the
           infrastructure so you can focus on building — easy integration via{' '}
-          <Link href='/screenshot'>API</Link>.
+          <Link href='/screenshot'>Screenshot API</Link>.
         </>
       }
       features={FEATURES_LIST}
