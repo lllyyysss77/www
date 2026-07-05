@@ -5,6 +5,7 @@ import { Vue } from 'components/icons/Vue'
 import { Hugo } from 'components/icons/Hugo'
 import { Eleventy } from 'components/icons/Eleventy'
 import { _React as ReactIcon } from 'components/icons/React'
+import { Sparkles } from 'components/icons/Sparkles'
 
 const Icons = {
   HourGlass,
@@ -47,7 +48,8 @@ export const DOC_TABS = [
   {
     name: 'CARDS',
     path: '/docs/cards/getting-started/overview'
-  }
+  },
+  { name: 'Skills', path: '/skills', icon: Sparkles }
 ]
 
 const ROUTES_SDK = [
