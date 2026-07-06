@@ -75,12 +75,14 @@ const Snippet = styled(Text)`
 
 const HeroGrid = styled(Box)`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   ${theme({ gap: [4, 4, 5, 5] })}
   align-items: start;
 
+  /* minmax(0, 1fr) so the nowrap snippet can't blow out its track — columns
+     stay a true 50/50 split and the grid never overflows the container. */
   @media (min-width: ${breakpoints[2]}) {
-    grid-template-columns: 2fr 3fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: center;
   }
 `
@@ -413,11 +415,11 @@ const ParamBar = () => (
 
 const Grid = styled(Box)`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   ${theme({ gap: [3, 3, 4, 4] })}
 
   @media (min-width: ${breakpoints[1]}) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 `
 
@@ -428,6 +430,7 @@ const Card = styled(Box)`
     borderColor: 'black10',
     borderRadius: 3,
     p: [3, 3, 4, 4],
+    minWidth: 0,
     display: 'flex',
     flexDirection: 'column',
     gap: 3
