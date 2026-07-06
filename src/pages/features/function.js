@@ -73,9 +73,9 @@ const BodyText = props => (
 )
 
 const PlanTag = styled(Box)`
-  display: inline-flex;
-  align-items: center;
   ${theme({
+    display: 'inline-flex',
+    alignItems: 'center',
     bg: 'pinkest',
     color: 'secondary',
     fontFamily: 'mono',
@@ -415,9 +415,9 @@ const WhatItDoes = () => (
 /* ─── Three execution shapes ─────────────────────────────────────────────── */
 
 const RuleChip = styled(Text).attrs({ as: 'span' })`
-  display: inline-flex;
-  align-items: center;
   ${theme({
+    display: 'inline-flex',
+    alignItems: 'center',
     bg: 'white',
     color: 'black',
     border: 1,
