@@ -643,21 +643,21 @@ const CAPABILITIES = [
     title: 'Configurable cache (TTL)',
     description:
       'Tune cache lifetime per request. Cached hits are served from the edge and billed at a fraction of the price.',
-    href: '/feature/ttl'
+    href: '/features/ttl'
   },
   {
     icon: HeaderIcon,
     title: 'Custom HTTP headers',
     description:
       'Forward auth tokens, cookies, or any custom headers. Reach private dashboards, gated content, and authenticated APIs.',
-    href: '/feature/headers'
+    href: '/features/headers'
   },
   {
     icon: ProxyIcon,
     title: 'Automatic proxy resolution',
     description:
       'Bypass geo-restrictions and avoid IP blocks with rotating residential proxies. Pick the country, we handle the rest.',
-    href: '/feature/proxy'
+    href: '/features/proxy'
   },
   {
     icon: ShieldXIcon,

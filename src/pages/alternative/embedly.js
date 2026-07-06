@@ -461,7 +461,7 @@ const WHY_SWITCH_ITEMS = [
         <b>CAPTCHA handling</b> — into the same $49 plan.
         <br />
         <br />
-        <Link href='/feature/proxy'>See how the proxy works</Link>.
+        <Link href='/features/proxy'>See how the proxy works</Link>.
       </>
     )
   },
@@ -699,7 +699,7 @@ const FAQ_ITEMS = [
           . Supported antibot providers: Cloudflare, DataDome, Akamai,
           PerimeterX, Kasada, Imperva, AWS WAF, Vercel Attack Mode, Shape
           Security. The full breakdown lives on the{' '}
-          <Link href='/feature/proxy'>proxy feature page</Link>. Embedly does
+          <Link href='/features/proxy'>proxy feature page</Link>. Embedly does
           not advertise any equivalent capability.
         </div>
       </>

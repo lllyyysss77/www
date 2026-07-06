@@ -58,7 +58,7 @@ Then, **depending on the category**:
 4. `src/pages/alternative/iframely.js` — canonical structural reference (the only embed alternative page so far)
 5. `src/pages/embed.js` — source of the `InteractiveExample` and `PreviewVariantsShowcase` exports you'll import
 6. All other `src/pages/alternative/*.js` files — required for anti-cannibalization (even though they're screenshot pages, FAQ wording and SEO titles can still clash)
-7. `src/pages/feature/proxy.js` — source of truth for proxy / antibot / CAPTCHA claims
+7. `src/pages/features/proxy.js` — source of truth for proxy / antibot / CAPTCHA claims
 8. `.cursor/skills/alternative-landing/references/embed-template.md`
 
 ## Core Rules
@@ -349,9 +349,9 @@ Do not run automatic formatting after editing. If verification is needed, prefer
 - The `Head` export must use a unique title, unique description, correct canonical URL, and FAQ schema.
 - Use the `FAQ_ITEMS` array pattern (with `{ question, answer, text }`) for every new page — this is now the standard, shared by `urlbox.js`, `screenshotmachine.js`, `apiflash.js`, and `iframely.js`. The `text` field holds the plain-text version for schema; `answer` holds the JSX for rendering.
 - Never use `<code css={theme({...})}>` — this repo's `css` prop transform fails on `<code>` and throws "Element type is invalid". Use `<b>` or a styled component instead.
-- For embed pages, the WhySwitch list must include one item dedicated to the Pro proxy / antibot / CAPTCHA bundle with a `<Link href='/feature/proxy'>` reference. See `embed-template.md` for canonical wording.
+- For embed pages, the WhySwitch list must include one item dedicated to the Pro proxy / antibot / CAPTCHA bundle with a `<Link href='/features/proxy'>` reference. See `embed-template.md` for canonical wording.
 - For embed pages, the Microlink pricing card bullets must include the proxy/antibot/CAPTCHA line.
-- For embed pages, the FAQ list must include one proxy-focused question linking to `/feature/proxy` and mentioning `is-antibot` (the open-source detection library).
+- For embed pages, the FAQ list must include one proxy-focused question linking to `/features/proxy` and mentioning `is-antibot` (the open-source detection library).
 - Add the new page to `src/components/patterns/Footer/Footer.js` Comparisons list in alphabetical order (`{ label: 'vs [Competitor]', href: '/alternative/[slug]' }`).
 
 ### Custom sections or custom angles
@@ -384,7 +384,7 @@ When updating an existing page:
 2. Re-research the competitor's homepage, docs, features, pricing, and relevant workflow pages.
 3. Re-read the category source-of-truth:
    - Screenshot pages → `src/pages/benchmarks/screenshot-api.js`.
-   - Embed pages → `src/pages/feature/proxy.js` (for current Pro proxy claims) and `src/pages/embed.js` (for the imported components).
+   - Embed pages → `src/pages/features/proxy.js` (for current Pro proxy claims) and `src/pages/embed.js` (for the imported components).
 4. Check for stale benchmark numbers (screenshot only), stale pricing, stale feature claims, stale FAQ answers, and stale honest-strength cards.
 5. Re-run the anti-cannibalization pass against all other alternative pages.
 6. Compare the file against the category's primary reference:

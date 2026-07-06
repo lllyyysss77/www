@@ -782,7 +782,7 @@ const FAQ_ITEMS = [
     answer: (
       <>
         <div>
-          Use <Link href='/feature/proxy'>proxy</Link> alongside headers. When
+          Use <Link href='/features/proxy'>proxy</Link> alongside headers. When
           the page needs both authentication and a residential exit IP — for
           example a logged-in dashboard hosted behind Cloudflare — pass cookies
           via <CodeInline>x-api-header-cookie</CodeInline> and combine with the{' '}

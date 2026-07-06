@@ -19,6 +19,7 @@ import {
   Image,
   Map,
   Search as SearchIcon,
+  Sliders,
   Users,
   Activity,
   Maximize,
@@ -374,6 +375,12 @@ export const NAVIGATION_SECTIONS = [
         href: '/recipes',
         description: 'Use ready-made recipes for common workflows',
         icon: WandSparklesIcon
+      }),
+      createNavigationItem({
+        label: 'Features',
+        href: '/features',
+        description: 'Explore API capabilities — scraping, functions, proxy',
+        icon: Sliders
       }),
       createNavigationItem({
         label: 'Use cases',

@@ -221,13 +221,13 @@ Always include one item dedicated to the Pro proxy bundle. Use a structure equiv
       offer. Microlink Pro folds three normally-separate stacks — a{' '}
       <b>rotating residential proxy</b>, <b>antibot detection</b>, and{' '}
       <b>CAPTCHA handling</b> — into the same $45 plan.<br /><br />
-      <Link href='/feature/proxy'>See how the proxy works</Link>.
+      <Link href='/features/proxy'>See how the proxy works</Link>.
     </>
   )
 }
 ```
 
-The `/feature/proxy` internal link is mandatory.
+The `/features/proxy` internal link is mandatory.
 
 The remaining 5 items should cover the competitor-specific angles you discovered in research (pricing model, rate limits, free tier, open-source core, etc.). Do not reuse Iframely's exact wording — every alternative page must read distinct.
 
@@ -271,7 +271,7 @@ Notes:
 
 ## FAQ items
 
-Include one question dedicated to the proxy bundle, with a link to `/feature/proxy` and a mention of `is-antibot` (the open-source detection library on GitHub). Iframely's "Does Microlink really replace a separate proxy and CAPTCHA solver?" is the canonical example — paraphrase, do not copy.
+Include one question dedicated to the proxy bundle, with a link to `/features/proxy` and a mention of `is-antibot` (the open-source detection library on GitHub). Iframely's "Does Microlink really replace a separate proxy and CAPTCHA solver?" is the canonical example — paraphrase, do not copy.
 
 Total FAQ count: 7–9, same as the screenshot template.
 

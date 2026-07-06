@@ -213,13 +213,13 @@ const Plans = ({ canonicalUrl, stripeKey, footer = 'none' }) => {
           <Box css={theme({ pt: [3, 3, 4, 4] })}>
             <PlanCheck>Everything in Free</PlanCheck>
             <PlanCheck>
-              <Link href='/feature/proxy'>Automatic proxy resolution</Link>
+              <Link href='/features/proxy'>Automatic proxy resolution</Link>
             </PlanCheck>
             <PlanCheck>
-              <Link href='/feature/ttl'>Configurable TTL</Link>
+              <Link href='/features/ttl'>Configurable TTL</Link>
             </PlanCheck>
             <PlanCheck>
-              <Link href='/feature/headers'>Custom HTTP headers</Link>
+              <Link href='/features/headers'>Custom HTTP headers</Link>
             </PlanCheck>
             <PlanCheck>
               <Link href='/docs/api/parameters/cacheKey'>Custom cache key</Link>
