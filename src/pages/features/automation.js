@@ -155,8 +155,8 @@ const Hero = () => (
           m: 0
         })}
       >
-        <span css={theme({ color: 'secondary' })}>Data extraction:</span> turn
-        any page into structured JSON
+        <span css={theme({ color: 'secondary' })}>Browser automation:</span>{' '}
+        shape the page before you capture it
       </Text>
       <Caption
         forwardedAs='p'
@@ -169,28 +169,27 @@ const Hero = () => (
           mx: 0
         })}
       >
-        Describe the fields you want with CSS selectors and the{' '}
-        <CodeInline>data</CodeInline> parameter does the rest — no headless
-        browser to run, no HTML to parse. Works on the free tier; Pro adds
-        automatic proxy resolution when targets fight back.
+        Click, scroll, wait, emulate devices, and inject CSS or JavaScript — 30+
+        query parameters that control the headless browser on every request. The
+        page state you shape is the page every output sees.
       </Caption>
       <Box css={theme({ pt: [3, 3, 4, 4] })}>
         <ArrowLink
-          href='/docs/guides/data-extraction'
+          href='/blog/browser-automation'
           css={theme({
             color: 'link',
             fontWeight: 'bold',
             fontSize: [2, 2, 3, 3]
           })}
         >
-          Read the data extraction guide
+          Explore all the browser parameters
         </ArrowLink>
       </Box>
     </SectionInner>
   </Section>
 )
 
-/* ─── Visual: extraction pipeline diagram ────────────────────────────────── */
+/* ─── Visual: render pipeline diagram ────────────────────────────────────── */
 
 const Node = styled(Box)`
   ${theme({
@@ -332,30 +331,30 @@ const Diagram = () => (
       >
         <Box>
           <ScenarioHeader
-            title='Selectors in, JSON out'
-            status='data · every plan'
+            title='One render pipeline'
+            status='every plan · every output'
           />
           <ScenarioRow>
             <Node>
-              <NodeLabel>Your code</NodeLabel>
-              <NodeSub>data extraction rules</NodeSub>
+              <NodeLabel>Request</NodeLabel>
+              <NodeSub>url + browser parameters</NodeSub>
             </Node>
             <Arrow />
             <Node>
-              <NodeLabel>Microlink API</NodeLabel>
-              <NodeSub>headless Chrome, prerender</NodeSub>
+              <NodeLabel>Emulate</NodeLabel>
+              <NodeSub>device · viewport · colorScheme</NodeSub>
             </Node>
             <Arrow />
             <NodeActive>
               <NodeLabel css={theme({ color: 'secondary' })}>
-                Rules applied
+                Interact
               </NodeLabel>
-              <NodeSub>selector · attr · type · evaluate</NodeSub>
+              <NodeSub>click · scroll · waitForSelector</NodeSub>
             </NodeActive>
             <Arrow />
             <Node>
-              <NodeLabel>Structured JSON</NodeLabel>
-              <NodeSub>data payload in the response</NodeSub>
+              <NodeLabel>Capture</NodeLabel>
+              <NodeSub>screenshot · pdf · data · meta</NodeSub>
             </Node>
           </ScenarioRow>
         </Box>
@@ -370,8 +369,8 @@ const Diagram = () => (
             textAlign: 'left'
           })}
         >
-          Each key inside <CodeInline>data</CodeInline> becomes a field in the
-          response — validated by <CodeInline>type</CodeInline> on the way out.
+          The same parameters apply to every workflow — automate once, capture
+          in any format.
         </Text>
       </Box>
     </SectionInner>
@@ -384,33 +383,39 @@ const WhatItDoes = () => (
   <Section css={theme({ pt: [3, 3, 4, 4], pb: [4, 4, 5, 5] })}>
     <SectionInner>
       <Eyebrow css={theme({ pb: 3, display: 'block' })}>
-        Your output schema
+        Shape the page state
       </Eyebrow>
       <BodyText>
-        The <CodeInline>data</CodeInline> object you send is the shape of the
-        JSON you get back. Point a <CodeInline>selector</CodeInline> at an
-        element, pick what to read with <CodeInline>attr</CodeInline> — text, an
-        attribute, HTML, even markdown — and validate the result with{' '}
-        <CodeInline>type</CodeInline>: <CodeInline>url</CodeInline>,{' '}
-        <CodeInline>number</CodeInline>, <CodeInline>date</CodeInline>,{' '}
-        <CodeInline>image</CodeInline>, and more.
+        Every request can run through headless Chrome —{' '}
+        <CodeInline>prerender</CodeInline> decides automatically when a target
+        needs it. Before anything is captured, you control what the browser
+        does: <CodeInline>click</CodeInline> DOM elements,{' '}
+        <CodeInline>scroll</CodeInline> to a section, and wait for dynamic
+        content with <CodeInline>waitForSelector</CodeInline>,{' '}
+        <CodeInline>waitUntil</CodeInline>, or{' '}
+        <CodeInline>waitForTimeout</CodeInline>.
       </BodyText>
       <BodyText css={theme({ pt: [3, 3, 4, 4] })}>
-        Pages change and selectors break — so a rule can also be an array of
-        fallbacks, tried in priority order until one succeeds. When CSS alone is
-        not enough, <CodeInline>evaluate</CodeInline> runs a JavaScript function
-        against the page to compute the value.
+        You also control what the browser <em>is</em>:{' '}
+        <CodeInline>device</CodeInline> presets set the right viewport, user
+        agent, and resolution in one word; <CodeInline>colorScheme</CodeInline>{' '}
+        forces light or dark mode; <CodeInline>mediaType</CodeInline> switches
+        to print CSS. Inject your own <CodeInline>styles</CodeInline>,{' '}
+        <CodeInline>scripts</CodeInline>, or ES <CodeInline>modules</CodeInline>{' '}
+        before the page renders.
       </BodyText>
       <BodyText css={theme({ pt: [3, 3, 4, 4] })}>
-        Microlink runs the headless browser, waits for the content, applies your
-        rules, and returns clean JSON — the same request can also capture the
-        screenshot, render the PDF, or read the metadata of the page.
+        And some things are handled before you ask: the built-in{' '}
+        <CodeInline>adblock</CodeInline> engine strips advertisements, trackers,
+        and cookie-consent banners by default, and CSS{' '}
+        <CodeInline>animations</CodeInline> are frozen so captures come out
+        consistent every time.
       </BodyText>
     </SectionInner>
   </Section>
 )
 
-/* ─── Three rule shapes ──────────────────────────────────────────────────── */
+/* ─── Three control planes ───────────────────────────────────────────────── */
 
 const RuleChip = styled(Text).attrs({ as: 'span' })`
   display: inline-flex;
@@ -501,23 +506,18 @@ const ChipRow = ({ items }) => (
   </Flex>
 )
 
-const ATTR_EXAMPLES = [
-  "attr: 'text'",
-  "attr: 'href'",
-  "type: 'url'",
-  "type: 'number'"
-]
+const INTERACT_EXAMPLES = ['click', 'scroll', 'waitForSelector', 'waitUntil']
 
-const COLLECTION_EXAMPLES = ['headlines', 'prices', 'reviews', 'job listings']
+const EMULATE_EXAMPLES = ['device', 'viewport', 'colorScheme', 'mediaType']
 
-const COMPUTED_EXAMPLES = ['evaluate', "type: 'date'", 'fallback arrays']
+const REWRITE_EXAMPLES = ['styles', 'scripts', 'modules', 'adblock']
 
-const RuleShapes = () => (
+const ControlPlanes = () => (
   <Section>
     <SectionInner>
       <Box css={theme({ pb: [4, 4, 5, 5], maxWidth: layout.large })}>
         <Eyebrow css={theme({ pb: 2, display: 'block' })}>
-          Three rule shapes → one parameter
+          Three control planes → one request
         </Eyebrow>
         <SubheadBase
           css={theme({
@@ -527,14 +527,14 @@ const RuleShapes = () => (
             lineHeight: 0
           })}
         >
-          From a single field to a full collection
+          Interact, emulate, rewrite
         </SubheadBase>
         <BodyText css={theme({ pt: [3, 3, 4, 4] })}>
-          Every extraction rule is built from the same five properties —{' '}
-          <CodeInline>selector</CodeInline>,{' '}
-          <CodeInline>selectorAll</CodeInline>, <CodeInline>attr</CodeInline>,{' '}
-          <CodeInline>type</CodeInline>, and <CodeInline>evaluate</CodeInline>.
-          Combine them to match the shape of the data you are after.
+          Each parameter is one query-string key — compose as many as you need
+          on a single request, no scripting required. When declarative
+          parameters stop being enough,{' '}
+          <Link href='/features/function'>browser functions</Link> give you full
+          Puppeteer access.
         </BodyText>
       </Box>
 
@@ -547,28 +547,27 @@ const RuleShapes = () => (
       >
         <Card>
           <CardSide>
-            <CardKicker>01 · selector</CardKicker>
-            <CardTitle>Single values</CardTitle>
+            <CardKicker>01 · interact &amp; wait</CardKicker>
+            <CardTitle>Get the page into the right state</CardTitle>
           </CardSide>
           <CardMain>
             <CardBody>
-              Point a CSS selector at one element and read what you need:
-              visible text, an attribute like <CodeInline>href</CodeInline> or{' '}
-              <CodeInline>src</CodeInline>, inner HTML, or a markdown rendition.
-              Add <CodeInline>type</CodeInline> to validate and normalize the
-              value before it reaches your code.
+              Click DOM elements by CSS selector to open tabs, dismiss overlays,
+              or trigger navigation; scroll to the section you care about; and
+              hold the capture until the content actually exists — wait for a
+              selector, a browser lifecycle event, or a fixed amount of time.
             </CardBody>
-            <ChipRow items={ATTR_EXAMPLES} />
+            <ChipRow items={INTERACT_EXAMPLES} />
             <Box css={theme({ mt: 'auto' })}>
               <ArrowLink
-                href='/docs/api/parameters/data'
+                href='/docs/api/parameters/click'
                 css={theme({
                   color: 'link',
                   fontWeight: 'bold',
                   fontSize: [0, 1, 1, 1]
                 })}
               >
-                Read the data reference
+                Read the click reference
               </ArrowLink>
             </Box>
           </CardMain>
@@ -576,27 +575,29 @@ const RuleShapes = () => (
 
         <Card>
           <CardSide>
-            <CardKicker>02 · selectorAll</CardKicker>
-            <CardTitle>Collections</CardTitle>
+            <CardKicker>02 · emulate</CardKicker>
+            <CardTitle>Render as any device, any preference</CardTitle>
           </CardSide>
           <CardMain>
             <CardBody>
-              Match every element on the page and get an array back. Nest{' '}
-              <CodeInline>attr</CodeInline> rules inside and each match becomes
-              a structured object — title, link, price — instead of a flat
-              string. One request, the whole listing.
+              One <CodeInline>device</CodeInline> keyword sets the matching
+              viewport, user agent, and resolution — or tune{' '}
+              <CodeInline>viewport</CodeInline> by hand. Force{' '}
+              <CodeInline>colorScheme: 'dark'</CodeInline> to capture the dark
+              theme, or <CodeInline>mediaType: 'print'</CodeInline> to render
+              print stylesheets.
             </CardBody>
-            <ChipRow items={COLLECTION_EXAMPLES} />
+            <ChipRow items={EMULATE_EXAMPLES} />
             <Box css={theme({ mt: 'auto' })}>
               <ArrowLink
-                href='/docs/guides/data-extraction/defining-rules'
+                href='/docs/api/parameters/device'
                 css={theme({
                   color: 'link',
                   fontWeight: 'bold',
                   fontSize: [0, 1, 1, 1]
                 })}
               >
-                Read the rule-modeling guide
+                Read the device reference
               </ArrowLink>
             </Box>
           </CardMain>
@@ -604,27 +605,29 @@ const RuleShapes = () => (
 
         <Card>
           <CardSide>
-            <CardKicker>03 · evaluate</CardKicker>
-            <CardTitle>Computed values</CardTitle>
+            <CardKicker>03 · rewrite</CardKicker>
+            <CardTitle>Change the page before it renders</CardTitle>
           </CardSide>
           <CardMain>
             <CardBody>
-              When CSS alone cannot express it, run a JavaScript function
-              against the page and return the result as the field value. Combine
-              with <CodeInline>type</CodeInline> validation and fallback arrays
-              so extraction keeps working when pages change.
+              Inject inline CSS or external stylesheets with{' '}
+              <CodeInline>styles</CodeInline>, run your own JavaScript with{' '}
+              <CodeInline>scripts</CodeInline> or ES{' '}
+              <CodeInline>modules</CodeInline> — hide elements, override themes,
+              stub APIs. Meanwhile <CodeInline>adblock</CodeInline> keeps ads,
+              trackers, and cookie banners out by default.
             </CardBody>
-            <ChipRow items={COMPUTED_EXAMPLES} />
+            <ChipRow items={REWRITE_EXAMPLES} />
             <Box css={theme({ mt: 'auto' })}>
               <ArrowLink
-                href='/docs/mql/data/evaluate'
+                href='/docs/api/parameters/styles'
                 css={theme({
                   color: 'link',
                   fontWeight: 'bold',
                   fontSize: [0, 1, 1, 1]
                 })}
               >
-                Read the evaluate reference
+                Read the styles reference
               </ArrowLink>
             </Box>
           </CardMain>
@@ -636,7 +639,7 @@ const RuleShapes = () => (
 
 /* ─── Code examples ──────────────────────────────────────────────────────── */
 
-const CodeExampleSingle = () => (
+const CodeExampleEmulate = () => (
   <Section>
     <SectionInner>
       <Eyebrow css={theme({ pb: 2, display: 'block' })}>Code</Eyebrow>
@@ -648,13 +651,11 @@ const CodeExampleSingle = () => (
           lineHeight: 0
         })}
       >
-        Your first extraction, two rules
+        Dark mode, on an iPhone, without owning one
       </SubheadBase>
       <BodyText css={theme({ pt: 3, pb: [3, 3, 4, 4] })}>
-        Each key inside <CodeInline>data</CodeInline> is a field in the
-        response. Here <CodeInline>headline</CodeInline> reads the text and{' '}
-        <CodeInline>link</CodeInline> reads the <CodeInline>href</CodeInline>,
-        validated as a URL — no parsing on your side.
+        Device emulation and color-scheme forcing are single parameters — the
+        screenshot below renders exactly what a dark-mode iPhone user would see.
       </BodyText>
 
       <CodeEditor
@@ -664,36 +665,36 @@ const CodeExampleSingle = () => (
       >
         {`import mql from '@microlink/mql'
 
-const { data } = await mql('https://news.ycombinator.com', {
-  data: {
-    headline: { selector: '.titleline > a', attr: 'text' },
-    link: { selector: '.titleline > a', attr: 'href', type: 'url' }
-  }
+const { data } = await mql('https://example.com', {
+  screenshot: true,
+  device: 'iPhone 15 Pro',
+  colorScheme: 'dark',
+  meta: false
 })
 
-console.log(data.headline, data.link)`}
+console.log(data.screenshot.url)`}
       </CodeEditor>
 
       <Box css={theme({ pt: [3, 3, 4, 4] })}>
         <ArrowLink
-          href='/docs/guides/data-extraction'
+          href='/docs/guides/screenshot/browser-settings'
           css={theme({
             color: 'link',
             fontWeight: 'bold',
             fontSize: [1, 1, 2, 2]
           })}
         >
-          Full data extraction guide
+          Browser settings for screenshots
         </ArrowLink>
       </Box>
     </SectionInner>
   </Section>
 )
 
-const CodeExampleCollection = () => (
+const CodeExampleInteract = () => (
   <Section>
     <SectionInner>
-      <Eyebrow css={theme({ pb: 2, display: 'block' })}>Collections</Eyebrow>
+      <Eyebrow css={theme({ pb: 2, display: 'block' })}>Interaction</Eyebrow>
       <SubheadBase
         css={theme({
           fontSize: ['24px', '28px', '34px', '38px'],
@@ -702,13 +703,12 @@ const CodeExampleCollection = () => (
           lineHeight: 0
         })}
       >
-        Every match, as structured objects
+        Click first, wait, then extract
       </SubheadBase>
       <BodyText css={theme({ pt: 3, pb: [3, 3, 4, 4] })}>
-        <CodeInline>selectorAll</CodeInline> turns the rule into an array;
-        nested <CodeInline>attr</CodeInline> rules run against each match. Add{' '}
-        <CodeInline>meta: false</CodeInline> to skip metadata and get just your
-        fields back.
+        Interaction parameters compose with every output — here the browser
+        clicks a tab, waits for the price to exist in the DOM, and only then
+        runs the <Link href='/features/scraping'>data extraction</Link> rules.
       </BodyText>
 
       <CodeEditor
@@ -716,48 +716,45 @@ const CodeExampleCollection = () => (
         language='javascript'
         css={theme({ width: '100%' })}
       >
-        {`const { data } = await mql('https://news.ycombinator.com', {
+        {`const { data } = await mql('https://example.com/pricing', {
+  click: '.tab-annual',
+  waitForSelector: '.price',
   data: {
-    stories: {
-      selectorAll: '.athing',
-      attr: {
-        title: { selector: '.titleline > a', attr: 'text' },
-        href: { selector: '.titleline > a', attr: 'href', type: 'url' }
-      }
-    }
-  },
-  meta: false
-})`}
+    price: { selector: '.price', attr: 'text', type: 'number' }
+  }
+})
+
+console.log(data.price)`}
       </CodeEditor>
 
       <Box css={theme({ pt: [3, 3, 4, 4] })}>
         <ArrowLink
-          href='/docs/guides/data-extraction/defining-rules'
+          href='/docs/guides/data-extraction/page-preparation'
           css={theme({
             color: 'link',
             fontWeight: 'bold',
             fontSize: [1, 1, 2, 2]
           })}
         >
-          Model rules for any page shape
+          Page preparation for extraction
         </ArrowLink>
       </Box>
     </SectionInner>
   </Section>
 )
 
-/* ─── Pro: when targets fight back ───────────────────────────────────────── */
+/* ─── Clean captures + Pro pairing ───────────────────────────────────────── */
 
-const ANTIBOT_EXAMPLES = ['Cloudflare', 'DataDome', 'Akamai', 'PerimeterX']
+const ADBLOCK_EXAMPLES = ['ads', 'trackers', 'cookie banners']
 
-const PRIVATE_HEADER_EXAMPLES = ['cookie', 'authorization', 'x-csrf-token']
+const PRO_PAIR_EXAMPLES = ['proxy', 'x-api-header-*', 'ttl']
 
-const ProSection = () => (
+const CleanCaptures = () => (
   <Section>
     <SectionInner>
       <Box css={theme({ pb: [4, 4, 5, 5], maxWidth: layout.large })}>
         <Eyebrow css={theme({ pb: 2, display: 'block' })}>
-          When targets fight back
+          Included on every plan
         </Eyebrow>
         <SubheadBase
           css={theme({
@@ -767,15 +764,12 @@ const ProSection = () => (
             lineHeight: 0
           })}
         >
-          Pro adds the unblocking layer
+          Clean by default, unblockable on Pro
         </SubheadBase>
         <BodyText css={theme({ pt: [3, 3, 4, 4] })}>
-          Extraction rules are half the job — the other half is getting the page
-          to render at all. Every Pro plan bundles the pieces that keep scraping
-          working in production: automatic proxy resolution against antibots,
-          custom headers for login walls, and configurable{' '}
-          <Link href='/features/ttl'>cache TTL</Link> so repeated extractions
-          cost nothing.
+          Every automation parameter on this page works on the free tier — they
+          are part of the core rendering engine, not an add-on. Pro plans matter
+          when the target itself pushes back.
         </BodyText>
       </Box>
 
@@ -788,35 +782,28 @@ const ProSection = () => (
       >
         <Card>
           <CardSide>
-            <CardKicker>01 · proxy</CardKicker>
-            <CardTitle>Antibot resolution, zero configuration</CardTitle>
+            <CardKicker>01 · adblock</CardKicker>
+            <CardTitle>No cookie banners in your screenshots</CardTitle>
           </CardSide>
           <CardMain>
             <CardBody>
-              When a target blocks the request, Microlink identifies the antibot
-              provider and routes through a dedicated resolution path — no proxy
-              pool to manage, no CAPTCHA solver to integrate. The resolution
-              layer is well-tested across the Top 500 most popular sites
-              worldwide.
+              Third-party requests for advertisements, trackers, and
+              cookie-consent services are blocked by default — they bloat
+              response times and clutter the interface. The engine is powered by
+              Cliqz, and one boolean turns it off when you want the page
+              untouched.
             </CardBody>
-            <ChipRow items={ANTIBOT_EXAMPLES} />
-            <CardBody>
-              <CodeInline>EPROXYNEEDED</CodeInline> is the signal a target
-              requires it; a response served through the proxy layer carries{' '}
-              <CodeInline>x-fetch-mode: fetch-proxy</CodeInline>. You can also
-              bring your own exit IP with the <CodeInline>proxy</CodeInline>{' '}
-              parameter.
-            </CardBody>
+            <ChipRow items={ADBLOCK_EXAMPLES} />
             <Box css={theme({ mt: 'auto' })}>
               <ArrowLink
-                href='/features/proxy'
+                href='/docs/api/parameters/adblock'
                 css={theme({
                   color: 'link',
                   fontWeight: 'bold',
                   fontSize: [0, 1, 1, 1]
                 })}
               >
-                See how the proxy works
+                Read the adblock reference
               </ArrowLink>
             </Box>
           </CardMain>
@@ -824,28 +811,30 @@ const ProSection = () => (
 
         <Card>
           <CardSide>
-            <CardKicker>02 · x-api-header-*</CardKicker>
-            <CardTitle>Extraction behind login walls</CardTitle>
+            <CardKicker>02 · pro pairing</CardKicker>
+            <CardTitle>When the page fights back</CardTitle>
           </CardSide>
           <CardMain>
             <CardBody>
-              Scrape the logged-in version of a page by forwarding the session:
-              send <CodeInline>x-api-header-cookie</CodeInline> as a request
-              header and Microlink forwards the original{' '}
-              <CodeInline>cookie</CodeInline> to the target — the credential
-              rides inside HTTPS and never touches the URL.
+              Automation shapes the page — Pro gets you to it.{' '}
+              <Link href='/features/proxy'>Automatic proxy resolution</Link>{' '}
+              handles antibots like Cloudflare and DataDome,{' '}
+              <Link href='/features/headers'>custom headers</Link> carry your
+              session past login walls, and{' '}
+              <Link href='/features/ttl'>configurable TTL</Link> caches the
+              shaped result so repeats cost nothing.
             </CardBody>
-            <ChipRow items={PRIVATE_HEADER_EXAMPLES} />
+            <ChipRow items={PRO_PAIR_EXAMPLES} />
             <Box css={theme({ mt: 'auto' })}>
               <ArrowLink
-                href='/features/headers'
+                href='/pricing'
                 css={theme({
                   color: 'link',
                   fontWeight: 'bold',
                   fontSize: [0, 1, 1, 1]
                 })}
               >
-                See how custom headers work
+                Compare the plans
               </ArrowLink>
             </Box>
           </CardMain>
@@ -859,159 +848,121 @@ const ProSection = () => (
 
 const FAQ_ITEMS = [
   {
-    question: 'Do I need to run a headless browser?',
-    text: 'No. Microlink runs headless Chrome on its infrastructure and applies your CSS selectors server-side — you send a data object and receive JSON back. For client-rendered content, control the rendering with prerender and wait for dynamic elements with waitForSelector before the rules are applied.',
+    question: 'Can I click or scroll before the capture happens?',
+    text: 'Yes. The click parameter clicks DOM elements matching CSS selectors — accept a modal, switch a tab, trigger navigation — and scroll brings a specific element into view. Both mutate the browser page state before any output is produced, and they compose with screenshots, PDFs, metadata, and data extraction alike.',
     answer: (
       <>
         <div>
-          No. Microlink runs headless Chrome on its infrastructure and applies
-          your CSS selectors server-side — you send a{' '}
-          <CodeInline>data</CodeInline> object and receive JSON back.
+          Yes. The <CodeInline>click</CodeInline> parameter clicks DOM elements
+          matching CSS selectors — accept a modal, switch a tab, trigger
+          navigation — and <CodeInline>scroll</CodeInline> brings a specific
+          element into view.
         </div>
         <div>
-          For client-rendered content, control the rendering with{' '}
-          <CodeInline>prerender</CodeInline> and wait for dynamic elements with{' '}
-          <CodeInline>waitForSelector</CodeInline> before the rules are applied
-          — see the{' '}
-          <Link href='/docs/guides/data-extraction/page-preparation'>
-            page preparation guide
-          </Link>
+          Both mutate the browser page state before any output is produced, and
+          they compose with screenshots, PDFs, metadata, and data extraction
+          alike.
+        </div>
+      </>
+    )
+  },
+  {
+    question: 'How do I wait for dynamic content to render?',
+    text: 'Three tools, from precise to blunt: waitForSelector pauses until a specific element exists in the DOM; waitUntil waits for browser lifecycle events; waitForTimeout waits a fixed number of milliseconds. For SPAs, prerender (enabled automatically when needed) makes sure client-rendered content is executed before capture.',
+    answer: (
+      <>
+        <div>
+          Three tools, from precise to blunt:{' '}
+          <CodeInline>waitForSelector</CodeInline> pauses until a specific
+          element exists in the DOM; <CodeInline>waitUntil</CodeInline> waits
+          for browser lifecycle events; <CodeInline>waitForTimeout</CodeInline>{' '}
+          waits a fixed number of milliseconds.
+        </div>
+        <div>
+          For SPAs, <CodeInline>prerender</CodeInline> (enabled automatically
+          when needed) makes sure client-rendered content is executed before
+          capture — see the{' '}
+          <Link href='/docs/api/parameters/prerender'>prerender reference</Link>
           .
         </div>
       </>
     )
   },
   {
-    question: 'Is data extraction available on the free plan?',
-    text: 'Yes. Every rule type — selector, selectorAll, attr, type, evaluate, fallbacks — works on the free tier, which includes 25 requests per day without an API key. Pro plans start at 14,000 requests per month and add automatic proxy resolution, custom headers, and configurable TTL on top.',
+    question: 'Can I emulate a mobile device or dark mode?',
+    text: "Yes. A single device value — like 'iPhone 15 Pro' or 'iPad' — sets the matching viewport, user agent, and screen resolution; viewport lets you fine-tune by hand. colorScheme forces the prefers-color-scheme media feature to light or dark, and mediaType switches the page to its print stylesheets.",
     answer: (
       <>
         <div>
-          Yes. Every rule type — <CodeInline>selector</CodeInline>,{' '}
-          <CodeInline>selectorAll</CodeInline>, <CodeInline>attr</CodeInline>,{' '}
-          <CodeInline>type</CodeInline>, <CodeInline>evaluate</CodeInline>,
-          fallbacks — works on the free tier, which includes 25 requests per day
-          without an API key.
+          Yes. A single <CodeInline>device</CodeInline> value — like{' '}
+          <CodeInline>'iPhone 15 Pro'</CodeInline> or{' '}
+          <CodeInline>'iPad'</CodeInline> — sets the matching viewport, user
+          agent, and screen resolution; <CodeInline>viewport</CodeInline> lets
+          you fine-tune by hand.
         </div>
         <div>
-          <Link href='/pricing'>Pro plans</Link> start at 14,000 requests per
-          month and add automatic proxy resolution, custom headers, and
-          configurable TTL on top.
+          <CodeInline>colorScheme</CodeInline> forces the{' '}
+          <CodeInline>prefers-color-scheme</CodeInline> media feature to light
+          or dark, and <CodeInline>mediaType</CodeInline> switches the page to
+          its print stylesheets.
         </div>
       </>
     )
   },
   {
-    question: "What happens when a selector doesn't match?",
-    text: 'Define a rule as an array of fallbacks and Microlink tries each one in priority order until a value passes the type validation — for example og:title, then <title>, then the first <h1>. If nothing matches, the field comes back empty rather than failing the request, and the troubleshooting guide covers how to diagnose selector, timing, and prerender issues.',
+    question: 'How do I get rid of cookie banners and ads?',
+    text: 'You usually do not have to do anything: adblock is enabled by default and blocks third-party requests for advertisements, trackers, and cookie-consent services before they load. For anything site-specific that survives, inject a styles rule to hide it, or use click to dismiss it explicitly.',
     answer: (
       <>
         <div>
-          Define a rule as an array of fallbacks and Microlink tries each one in
-          priority order until a value passes the <CodeInline>type</CodeInline>{' '}
-          validation — for example <CodeInline>og:title</CodeInline>, then{' '}
-          <CodeInline>title</CodeInline>, then the first{' '}
-          <CodeInline>h1</CodeInline>.
+          You usually do not have to do anything:{' '}
+          <CodeInline>adblock</CodeInline> is enabled by default and blocks
+          third-party requests for advertisements, trackers, and cookie-consent
+          services before they load.
         </div>
         <div>
-          If nothing matches, the field comes back empty rather than failing the
-          request — the{' '}
-          <Link href='/docs/guides/data-extraction/troubleshooting'>
-            troubleshooting guide
-          </Link>{' '}
-          covers how to diagnose selector, timing, and prerender issues.
+          For anything site-specific that survives, inject a{' '}
+          <CodeInline>styles</CodeInline> rule to hide it, or use{' '}
+          <CodeInline>click</CodeInline> to dismiss it explicitly.
         </div>
       </>
     )
   },
   {
-    question: 'Can I scrape sites behind Cloudflare or DataDome?',
-    text: 'Yes, on Pro plans. Microlink detects the antibot provider protecting the target — Cloudflare, DataDome, Akamai, PerimeterX, and more — and automatically routes the request through a dedicated resolution path, tested across the Top 500 most popular sites worldwide. If a target requires it, the API returns EPROXYNEEDED; proxied responses carry x-fetch-mode ending in -proxy.',
+    question: 'Can I inject my own CSS or JavaScript?',
+    text: 'Yes. styles accepts inline CSS or URLs to external stylesheets; scripts injects plain JavaScript and modules injects ES modules — all applied before the capture. When injection is not expressive enough, the function parameter runs your code with full Puppeteer access inside the same browser.',
     answer: (
       <>
         <div>
-          Yes, on Pro plans. Microlink detects the antibot provider protecting
-          the target — Cloudflare, DataDome, Akamai, PerimeterX, and more — and
-          automatically routes the request through a dedicated resolution path,
-          tested across the Top 500 most popular sites worldwide.
+          Yes. <CodeInline>styles</CodeInline> accepts inline CSS or URLs to
+          external stylesheets; <CodeInline>scripts</CodeInline> injects plain
+          JavaScript and <CodeInline>modules</CodeInline> injects ES modules —
+          all applied before the capture.
         </div>
         <div>
-          If a target requires it, the API returns{' '}
-          <CodeInline>EPROXYNEEDED</CodeInline>; proxied responses carry{' '}
-          <CodeInline>x-fetch-mode</CodeInline> ending in{' '}
-          <CodeInline>-proxy</CodeInline>. See{' '}
-          <Link href='/features/proxy'>how the proxy works</Link>.
+          When injection is not expressive enough, the{' '}
+          <Link href='/features/function'>function parameter</Link> runs your
+          code with full Puppeteer access inside the same browser.
         </div>
       </>
     )
   },
   {
-    question: 'Can I extract data behind a login?',
-    text: 'Yes — forward the session as a request header on your Microlink call using x-api-header-cookie (a Pro feature). The credential travels inside HTTPS request headers, never in the URL, so it does not end up in logs or embeds. The private pages guide walks through cookies, basic auth, and bearer tokens.',
+    question: 'Do these parameters work on the free plan?',
+    text: 'Yes — every parameter on this page is part of the core rendering engine and works on the free tier, across every output. Pro plans add the layers around it: automatic proxy resolution against antibots, custom headers for authenticated pages, and configurable TTL so repeated captures serve from cache.',
     answer: (
       <>
         <div>
-          Yes — forward the session as a request header on your Microlink call
-          using <CodeInline>x-api-header-cookie</CodeInline> (a{' '}
-          <Link href='/features/headers'>Pro feature</Link>). The credential
-          travels inside HTTPS request headers, never in the URL, so it does not
-          end up in logs or embeds.
+          Yes — every parameter on this page is part of the core rendering
+          engine and works on the free tier, across every output.
         </div>
         <div>
-          The{' '}
-          <Link href='/docs/guides/data-extraction/private-pages'>
-            private pages guide
-          </Link>{' '}
-          walks through cookies, basic auth, and bearer tokens.
-        </div>
-      </>
-    )
-  },
-  {
-    question: 'How does caching affect what I pay?',
-    text: 'Responses are cached at the edge and any response served from cache does not count against your plan quota — only the request that warms the cache is billed. Tune the lifetime per request with ttl (from 1 minute to 31 days) and keep serving stale content while revalidating with staleTtl, which makes recurring extraction jobs dramatically cheaper.',
-    answer: (
-      <>
-        <div>
-          Responses are cached at the edge and any response served from cache
-          does not count against your plan quota — only the request that warms
-          the cache is billed.
-        </div>
-        <div>
-          Tune the lifetime per request with{' '}
-          <Link href='/features/ttl'>
-            <CodeInline>ttl</CodeInline>
-          </Link>{' '}
-          (from 1 minute to 31 days) and serve stale content while revalidating
-          with <CodeInline>staleTtl</CodeInline> — the{' '}
-          <Link href='/docs/guides/data-extraction/caching-and-performance'>
-            caching guide
-          </Link>{' '}
-          shows the patterns for recurring extraction jobs.
-        </div>
-      </>
-    )
-  },
-  {
-    question: 'Can I transform values during extraction?',
-    text: 'Yes. The evaluate property runs a JavaScript function against the page and uses its return value as the field — useful for computed values, JSON embedded in scripts, or anything CSS selectors cannot reach. Combine it with type so the output is validated before it reaches your code. When a single rule is not enough, the function parameter runs your code with full Puppeteer access.',
-    answer: (
-      <>
-        <div>
-          Yes. The <CodeInline>evaluate</CodeInline> property runs a JavaScript
-          function against the page and uses its return value as the field —
-          useful for computed values, JSON embedded in scripts, or anything CSS
-          selectors cannot reach.
-        </div>
-        <div>
-          Combine it with <CodeInline>type</CodeInline> so the output is
-          validated before it reaches your code — see the{' '}
-          <Link href='/docs/api/parameters/data'>
-            <CodeInline>data</CodeInline> reference
-          </Link>
-          . When a single rule is not enough,{' '}
-          <Link href='/features/function'>browser functions</Link> run your code
-          with full Puppeteer access.
+          <Link href='/pricing'>Pro plans</Link> add the layers around it:{' '}
+          <Link href='/features/proxy'>automatic proxy resolution</Link> against
+          antibots, <Link href='/features/headers'>custom headers</Link> for
+          authenticated pages, and{' '}
+          <Link href='/features/ttl'>configurable TTL</Link> so repeated
+          captures serve from cache.
         </div>
       </>
     )
@@ -1052,7 +1003,8 @@ const CtaSection = () => (
           lineHeight: 0
         })}
       >
-        Selectors in, <span css={theme({ color: 'secondary' })}>JSON out.</span>
+        Set the stage,{' '}
+        <span css={theme({ color: 'secondary' })}>then capture it.</span>
       </SubheadBase>
       <Caption
         forwardedAs='p'
@@ -1065,9 +1017,9 @@ const CtaSection = () => (
           mx: 'auto'
         })}
       >
-        Prototype on the free tier — 25 requests a day, no API key. When you go
-        to production, Pro plans start at 14,000 requests per month and bundle
-        proxy resolution, custom headers, and configurable TTL.
+        Every browser parameter works on the free tier, across every output.
+        When targets push back, Pro plans add proxy resolution, custom headers,
+        and configurable TTL around the same requests.
       </Caption>
       <Flex
         css={theme({
@@ -1084,7 +1036,7 @@ const CtaSection = () => (
             fontSize: [2, 2, 3, 3]
           })}
         >
-          Start extracting structured data
+          Start automating the browser
         </ArrowLink>
       </Flex>
     </SectionInner>
@@ -1093,17 +1045,17 @@ const CtaSection = () => (
 
 /* ─── Page ───────────────────────────────────────────────────────────────── */
 
-const ScrapingFeaturePage = () => (
+const AutomationFeaturePage = () => (
   <Layout css={theme({ position: 'relative' })}>
     <DashedGridOverlay aria-hidden='true' />
     <Box css={theme({ position: 'relative', zIndex: 1 })}>
       <Hero />
       <Diagram />
       <WhatItDoes />
-      <RuleShapes />
-      <CodeExampleSingle />
-      <CodeExampleCollection />
-      <ProSection />
+      <ControlPlanes />
+      <CodeExampleEmulate />
+      <CodeExampleInteract />
+      <CleanCaptures />
       <CtaSection />
       <FAQSection />
     </Box>
@@ -1114,8 +1066,8 @@ const ScrapingFeaturePage = () => (
 
 export const Head = () => (
   <Meta
-    title='Web Scraping API: Structured Data Extraction'
-    description='Extract structured data from any URL with CSS selectors using the data parameter — single values, collections, and computed fields returned as clean JSON. Works on the free tier; Pro plans add automatic proxy resolution against Cloudflare, DataDome, and Akamai antibots, custom headers for login walls, and configurable cache TTL.'
+    title='Browser Automation API: Control the Page Before Capture'
+    description='Control a headless browser via query parameters — click elements, scroll, wait for dynamic content, emulate devices and dark mode, inject CSS or JavaScript, and block ads and cookie banners by default. The same parameters apply to screenshots, PDFs, metadata, and data extraction, and they all work on the free tier.'
     schemaType='WebPage'
     structured={[
       {
@@ -1134,4 +1086,4 @@ export const Head = () => (
   />
 )
 
-export default ScrapingFeaturePage
+export default AutomationFeaturePage

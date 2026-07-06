@@ -23,6 +23,28 @@ export const FEATURES = [
     snippet: "data: { headline: { selector: '.titleline > a', attr: 'text' } }"
   },
   {
+    slug: 'function',
+    name: 'Browser Functions',
+    footerLabel: 'Browser functions',
+    tag: 'Free + Pro',
+    category: 'Code execution',
+    param: 'function',
+    oneLiner:
+      'Run any JavaScript with full Puppeteer access and npm packages — no Lambda, no browser fleet.',
+    snippet: "function: '({ page }) => page.title()'"
+  },
+  {
+    slug: 'automation',
+    name: 'Browser Automation',
+    footerLabel: 'Browser automation',
+    tag: 'Free + Pro',
+    category: 'Page control',
+    param: 'prerender',
+    oneLiner:
+      'Click, scroll, wait, emulate devices, and inject CSS or JS — shape the page before every capture.',
+    snippet: "click: '.tab-annual', waitForSelector: '.price'"
+  },
+  {
     slug: 'proxy',
     name: 'Automatic Proxy Resolution',
     footerLabel: 'Proxy resolution',

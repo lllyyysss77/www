@@ -155,8 +155,8 @@ const Hero = () => (
           m: 0
         })}
       >
-        <span css={theme({ color: 'secondary' })}>Data extraction:</span> turn
-        any page into structured JSON
+        <span css={theme({ color: 'secondary' })}>Browser functions:</span> your
+        code, our headless browser
       </Text>
       <Caption
         forwardedAs='p'
@@ -169,28 +169,28 @@ const Hero = () => (
           mx: 0
         })}
       >
-        Describe the fields you want with CSS selectors and the{' '}
-        <CodeInline>data</CodeInline> parameter does the rest — no headless
-        browser to run, no HTML to parse. Works on the free tier; Pro adds
-        automatic proxy resolution when targets fight back.
+        Run any JavaScript remotely with the <CodeInline>function</CodeInline>{' '}
+        parameter — full Puppeteer access, npm packages installed on the fly,
+        and zero infrastructure. No Lambda bundle, no browser fleet, no server
+        to manage.
       </Caption>
       <Box css={theme({ pt: [3, 3, 4, 4] })}>
         <ArrowLink
-          href='/docs/guides/data-extraction'
+          href='/docs/guides/function'
           css={theme({
             color: 'link',
             fontWeight: 'bold',
             fontSize: [2, 2, 3, 3]
           })}
         >
-          Read the data extraction guide
+          Read the functions guide
         </ArrowLink>
       </Box>
     </SectionInner>
   </Section>
 )
 
-/* ─── Visual: extraction pipeline diagram ────────────────────────────────── */
+/* ─── Visual: execution pipeline diagram ─────────────────────────────────── */
 
 const Node = styled(Box)`
   ${theme({
@@ -332,30 +332,34 @@ const Diagram = () => (
       >
         <Box>
           <ScenarioHeader
-            title='Selectors in, JSON out'
-            status='data · every plan'
+            title='Your function, executed remotely'
+            status='function · every plan'
           />
           <ScenarioRow>
             <Node>
               <NodeLabel>Your code</NodeLabel>
-              <NodeSub>data extraction rules</NodeSub>
+              <NodeSub>plain JavaScript function</NodeSub>
             </Node>
             <Arrow />
             <Node>
-              <NodeLabel>Microlink API</NodeLabel>
-              <NodeSub>headless Chrome, prerender</NodeSub>
+              <NodeLabel>
+                @microlink
+                <br />
+                /function
+              </NodeLabel>
+              <NodeSub>serialize · compress · send</NodeSub>
             </Node>
             <Arrow />
             <NodeActive>
               <NodeLabel css={theme({ color: 'secondary' })}>
-                Rules applied
+                Microlink sandbox
               </NodeLabel>
-              <NodeSub>selector · attr · type · evaluate</NodeSub>
+              <NodeSub>npm install · headless Chrome</NodeSub>
             </NodeActive>
             <Arrow />
             <Node>
-              <NodeLabel>Structured JSON</NodeLabel>
-              <NodeSub>data payload in the response</NodeSub>
+              <NodeLabel>result.value</NodeLabel>
+              <NodeSub>plus execution profiling</NodeSub>
             </Node>
           </ScenarioRow>
         </Box>
@@ -370,8 +374,8 @@ const Diagram = () => (
             textAlign: 'left'
           })}
         >
-          Each key inside <CodeInline>data</CodeInline> becomes a field in the
-          response — validated by <CodeInline>type</CodeInline> on the way out.
+          Reference <CodeInline>page</CodeInline> and a browser starts with full
+          Puppeteer access — skip it and your function runs faster.
         </Text>
       </Box>
     </SectionInner>
@@ -384,33 +388,31 @@ const WhatItDoes = () => (
   <Section css={theme({ pt: [3, 3, 4, 4], pb: [4, 4, 5, 5] })}>
     <SectionInner>
       <Eyebrow css={theme({ pb: 3, display: 'block' })}>
-        Your output schema
+        Send a function, get the result
       </Eyebrow>
       <BodyText>
-        The <CodeInline>data</CodeInline> object you send is the shape of the
-        JSON you get back. Point a <CodeInline>selector</CodeInline> at an
-        element, pick what to read with <CodeInline>attr</CodeInline> — text, an
-        attribute, HTML, even markdown — and validate the result with{' '}
-        <CodeInline>type</CodeInline>: <CodeInline>url</CodeInline>,{' '}
-        <CodeInline>number</CodeInline>, <CodeInline>date</CodeInline>,{' '}
-        <CodeInline>image</CodeInline>, and more.
+        Write a normal JavaScript function and run it remotely in a sandboxed
+        Node.js runtime. The return value comes back at{' '}
+        <CodeInline>result.value</CodeInline>; if the function throws,{' '}
+        <CodeInline>result.isFulfilled</CodeInline> is{' '}
+        <CodeInline>false</CodeInline> and the error details take its place.
       </BodyText>
       <BodyText css={theme({ pt: [3, 3, 4, 4] })}>
-        Pages change and selectors break — so a rule can also be an array of
-        fallbacks, tried in priority order until one succeeds. When CSS alone is
-        not enough, <CodeInline>evaluate</CodeInline> runs a JavaScript function
-        against the page to compute the value.
+        When the function references <CodeInline>page</CodeInline>, Microlink
+        spawns headless Chrome, navigates to the target URL, and hands you the
+        full Puppeteer API — click, type, evaluate, capture. When it does not,
+        no browser is started and execution is faster and cheaper.
       </BodyText>
       <BodyText css={theme({ pt: [3, 3, 4, 4] })}>
-        Microlink runs the headless browser, waits for the content, applies your
-        rules, and returns clean JSON — the same request can also capture the
-        screenshot, render the PDF, or read the metadata of the page.
+        Need a library? <CodeInline>require()</CodeInline> any npm package —
+        dependencies are detected from your code, installed into the sandbox on
+        the fly, and cached so subsequent runs skip the install entirely.
       </BodyText>
     </SectionInner>
   </Section>
 )
 
-/* ─── Three rule shapes ──────────────────────────────────────────────────── */
+/* ─── Three execution shapes ─────────────────────────────────────────────── */
 
 const RuleChip = styled(Text).attrs({ as: 'span' })`
   display: inline-flex;
@@ -501,23 +503,18 @@ const ChipRow = ({ items }) => (
   </Flex>
 )
 
-const ATTR_EXAMPLES = [
-  "attr: 'text'",
-  "attr: 'href'",
-  "type: 'url'",
-  "type: 'number'"
-]
+const PLAIN_EXAMPLES = ['result.value', 'custom parameters', 'no browser']
 
-const COLLECTION_EXAMPLES = ['headlines', 'prices', 'reviews', 'job listings']
+const PAGE_EXAMPLES = ['page.title()', 'page.click()', 'page.evaluate()']
 
-const COMPUTED_EXAMPLES = ['evaluate', "type: 'date'", 'fallback arrays']
+const NPM_EXAMPLES = ["require('cheerio@1.0.0')", 'lodash', 'install cache']
 
-const RuleShapes = () => (
+const ExecutionShapes = () => (
   <Section>
     <SectionInner>
       <Box css={theme({ pb: [4, 4, 5, 5], maxWidth: layout.large })}>
         <Eyebrow css={theme({ pb: 2, display: 'block' })}>
-          Three rule shapes → one parameter
+          Three execution shapes → one parameter
         </Eyebrow>
         <SubheadBase
           css={theme({
@@ -527,14 +524,12 @@ const RuleShapes = () => (
             lineHeight: 0
           })}
         >
-          From a single field to a full collection
+          From a one-liner to full browser automation
         </SubheadBase>
         <BodyText css={theme({ pt: [3, 3, 4, 4] })}>
-          Every extraction rule is built from the same five properties —{' '}
-          <CodeInline>selector</CodeInline>,{' '}
-          <CodeInline>selectorAll</CodeInline>, <CodeInline>attr</CodeInline>,{' '}
-          <CodeInline>type</CodeInline>, and <CodeInline>evaluate</CodeInline>.
-          Combine them to match the shape of the data you are after.
+          Every function runs in the same sandboxed runtime — what you reference
+          inside it decides how much machinery spins up. Pay the browser cost
+          only when you actually need a browser.
         </BodyText>
       </Box>
 
@@ -547,28 +542,27 @@ const RuleShapes = () => (
       >
         <Card>
           <CardSide>
-            <CardKicker>01 · selector</CardKicker>
-            <CardTitle>Single values</CardTitle>
+            <CardKicker>01 · plain functions</CardKicker>
+            <CardTitle>Compute and orchestrate</CardTitle>
           </CardSide>
           <CardMain>
             <CardBody>
-              Point a CSS selector at one element and read what you need:
-              visible text, an attribute like <CodeInline>href</CodeInline> or{' '}
-              <CodeInline>src</CodeInline>, inner HTML, or a markdown rendition.
-              Add <CodeInline>type</CodeInline> to validate and normalize the
-              value before it reaches your code.
+              Return strings, numbers, arrays, or objects from plain JavaScript
+              — no browser started. Any extra parameter on the request is
+              forwarded to the function, so one function is reusable across
+              different requests without changing its code.
             </CardBody>
-            <ChipRow items={ATTR_EXAMPLES} />
+            <ChipRow items={PLAIN_EXAMPLES} />
             <Box css={theme({ mt: 'auto' })}>
               <ArrowLink
-                href='/docs/api/parameters/data'
+                href='/docs/guides/function/writing-functions'
                 css={theme({
                   color: 'link',
                   fontWeight: 'bold',
                   fontSize: [0, 1, 1, 1]
                 })}
               >
-                Read the data reference
+                Read the writing-functions guide
               </ArrowLink>
             </Box>
           </CardMain>
@@ -576,27 +570,27 @@ const RuleShapes = () => (
 
         <Card>
           <CardSide>
-            <CardKicker>02 · selectorAll</CardKicker>
-            <CardTitle>Collections</CardTitle>
+            <CardKicker>02 · page</CardKicker>
+            <CardTitle>Full Puppeteer access</CardTitle>
           </CardSide>
           <CardMain>
             <CardBody>
-              Match every element on the page and get an array back. Nest{' '}
-              <CodeInline>attr</CodeInline> rules inside and each match becomes
-              a structured object — title, link, price — instead of a flat
-              string. One request, the whole listing.
+              Reference <CodeInline>page</CodeInline> and Microlink boots
+              headless Chrome, navigates to the target URL, and passes you the
+              live Puppeteer page — click, type, wait, evaluate, or capture
+              anything the built-in parameters cannot express.
             </CardBody>
-            <ChipRow items={COLLECTION_EXAMPLES} />
+            <ChipRow items={PAGE_EXAMPLES} />
             <Box css={theme({ mt: 'auto' })}>
               <ArrowLink
-                href='/docs/guides/data-extraction/defining-rules'
+                href='/docs/guides/function/browser-interaction'
                 css={theme({
                   color: 'link',
                   fontWeight: 'bold',
                   fontSize: [0, 1, 1, 1]
                 })}
               >
-                Read the rule-modeling guide
+                Read the browser-interaction guide
               </ArrowLink>
             </Box>
           </CardMain>
@@ -604,27 +598,28 @@ const RuleShapes = () => (
 
         <Card>
           <CardSide>
-            <CardKicker>03 · evaluate</CardKicker>
-            <CardTitle>Computed values</CardTitle>
+            <CardKicker>03 · require()</CardKicker>
+            <CardTitle>Any npm package, on the fly</CardTitle>
           </CardSide>
           <CardMain>
             <CardBody>
-              When CSS alone cannot express it, run a JavaScript function
-              against the page and return the result as the field value. Combine
-              with <CodeInline>type</CodeInline> validation and fallback arrays
-              so extraction keeps working when pages change.
+              Call <CodeInline>require()</CodeInline> inside your function and
+              the runtime detects the dependencies, installs them into the
+              sandbox, bundles, and caches the result — pin a version with{' '}
+              <CodeInline>require('cheerio@1.0.0')</CodeInline> when you need
+              reproducibility.
             </CardBody>
-            <ChipRow items={COMPUTED_EXAMPLES} />
+            <ChipRow items={NPM_EXAMPLES} />
             <Box css={theme({ mt: 'auto' })}>
               <ArrowLink
-                href='/docs/mql/data/evaluate'
+                href='/docs/guides/function/profiling-and-performance'
                 css={theme({
                   color: 'link',
                   fontWeight: 'bold',
                   fontSize: [0, 1, 1, 1]
                 })}
               >
-                Read the evaluate reference
+                Read the profiling guide
               </ArrowLink>
             </Box>
           </CardMain>
@@ -636,7 +631,7 @@ const RuleShapes = () => (
 
 /* ─── Code examples ──────────────────────────────────────────────────────── */
 
-const CodeExampleSingle = () => (
+const CodeExampleBrowser = () => (
   <Section>
     <SectionInner>
       <Eyebrow css={theme({ pb: 2, display: 'block' })}>Code</Eyebrow>
@@ -648,13 +643,13 @@ const CodeExampleSingle = () => (
           lineHeight: 0
         })}
       >
-        Your first extraction, two rules
+        Puppeteer, without the infrastructure
       </SubheadBase>
       <BodyText css={theme({ pt: 3, pb: [3, 3, 4, 4] })}>
-        Each key inside <CodeInline>data</CodeInline> is a field in the
-        response. Here <CodeInline>headline</CodeInline> reads the text and{' '}
-        <CodeInline>link</CodeInline> reads the <CodeInline>href</CodeInline>,
-        validated as a URL — no parsing on your side.
+        The <CodeInline>@microlink/function</CodeInline> library handles
+        serialization, compression, and the API call. Your function receives{' '}
+        <CodeInline>page</CodeInline> — a live Puppeteer instance already
+        navigated to the target URL.
       </BodyText>
 
       <CodeEditor
@@ -662,38 +657,35 @@ const CodeExampleSingle = () => (
         language='javascript'
         css={theme({ width: '100%' })}
       >
-        {`import mql from '@microlink/mql'
+        {`const microlink = require('@microlink/function')
 
-const { data } = await mql('https://news.ycombinator.com', {
-  data: {
-    headline: { selector: '.titleline > a', attr: 'text' },
-    link: { selector: '.titleline > a', attr: 'href', type: 'url' }
-  }
-})
+const fn = microlink(({ page }) => page.title())
+const result = await fn('https://example.com')
 
-console.log(data.headline, data.link)`}
+console.log(result.isFulfilled) // true
+console.log(result.value) // 'Example Domain'`}
       </CodeEditor>
 
       <Box css={theme({ pt: [3, 3, 4, 4] })}>
         <ArrowLink
-          href='/docs/guides/data-extraction'
+          href='/docs/guides/function'
           css={theme({
             color: 'link',
             fontWeight: 'bold',
             fontSize: [1, 1, 2, 2]
           })}
         >
-          Full data extraction guide
+          Full functions guide
         </ArrowLink>
       </Box>
     </SectionInner>
   </Section>
 )
 
-const CodeExampleCollection = () => (
+const CodeExampleNpm = () => (
   <Section>
     <SectionInner>
-      <Eyebrow css={theme({ pb: 2, display: 'block' })}>Collections</Eyebrow>
+      <Eyebrow css={theme({ pb: 2, display: 'block' })}>npm</Eyebrow>
       <SubheadBase
         css={theme({
           fontSize: ['24px', '28px', '34px', '38px'],
@@ -702,13 +694,13 @@ const CodeExampleCollection = () => (
           lineHeight: 0
         })}
       >
-        Every match, as structured objects
+        Dependencies, resolved for you
       </SubheadBase>
       <BodyText css={theme({ pt: 3, pb: [3, 3, 4, 4] })}>
-        <CodeInline>selectorAll</CodeInline> turns the rule into an array;
-        nested <CodeInline>attr</CodeInline> rules run against each match. Add{' '}
-        <CodeInline>meta: false</CodeInline> to skip metadata and get just your
-        fields back.
+        Write <CodeInline>require()</CodeInline> as if you were on your own
+        machine. The first run installs and caches; subsequent runs skip the
+        install phase — check <CodeInline>result.profiling.phases</CodeInline>{' '}
+        to see exactly where the time goes.
       </BodyText>
 
       <CodeEditor
@@ -716,48 +708,50 @@ const CodeExampleCollection = () => (
         language='javascript'
         css={theme({ width: '100%' })}
       >
-        {`const { data } = await mql('https://news.ycombinator.com', {
-  data: {
-    stories: {
-      selectorAll: '.athing',
-      attr: {
-        title: { selector: '.titleline > a', attr: 'text' },
-        href: { selector: '.titleline > a', attr: 'href', type: 'url' }
-      }
-    }
-  },
-  meta: false
-})`}
+        {`const microlink = require('@microlink/function')
+
+const fn = microlink(() => {
+  const { kebabCase } = require('lodash')
+  return kebabCase('Hello World')
+})
+
+const result = await fn('https://example.com')
+console.log(result.value) // 'hello-world'`}
       </CodeEditor>
 
       <Box css={theme({ pt: [3, 3, 4, 4] })}>
         <ArrowLink
-          href='/docs/guides/data-extraction/defining-rules'
+          href='/docs/guides/function/writing-functions'
           css={theme({
             color: 'link',
             fontWeight: 'bold',
             fontSize: [1, 1, 2, 2]
           })}
         >
-          Model rules for any page shape
+          Write your first function
         </ArrowLink>
       </Box>
     </SectionInner>
   </Section>
 )
 
-/* ─── Pro: when targets fight back ───────────────────────────────────────── */
+/* ─── Plans: prototype free, scale on Pro ────────────────────────────────── */
 
-const ANTIBOT_EXAMPLES = ['Cloudflare', 'DataDome', 'Akamai', 'PerimeterX']
+const FREE_LIMIT_CHIPS = ['5s timeout', '16 MB memory', '1024-byte code']
 
-const PRIVATE_HEADER_EXAMPLES = ['cookie', 'authorization', 'x-csrf-token']
+const PRO_LIMIT_CHIPS = [
+  '28s timeout',
+  '32 MB memory',
+  'unlimited code size',
+  'unlimited concurrency'
+]
 
-const ProSection = () => (
+const PlansSection = () => (
   <Section>
     <SectionInner>
       <Box css={theme({ pb: [4, 4, 5, 5], maxWidth: layout.large })}>
         <Eyebrow css={theme({ pb: 2, display: 'block' })}>
-          When targets fight back
+          Prototype free, scale on Pro
         </Eyebrow>
         <SubheadBase
           css={theme({
@@ -767,15 +761,12 @@ const ProSection = () => (
             lineHeight: 0
           })}
         >
-          Pro adds the unblocking layer
+          The same runtime on every plan
         </SubheadBase>
         <BodyText css={theme({ pt: [3, 3, 4, 4] })}>
-          Extraction rules are half the job — the other half is getting the page
-          to render at all. Every Pro plan bundles the pieces that keep scraping
-          working in production: automatic proxy resolution against antibots,
-          custom headers for login walls, and configurable{' '}
-          <Link href='/features/ttl'>cache TTL</Link> so repeated extractions
-          cost nothing.
+          Functions run on the free tier — enough to prototype workflows and
+          every example on this page. Pro raises the execution limits and
+          unlocks the parameters production scraping needs alongside your code.
         </BodyText>
       </Box>
 
@@ -788,35 +779,28 @@ const ProSection = () => (
       >
         <Card>
           <CardSide>
-            <CardKicker>01 · proxy</CardKicker>
-            <CardTitle>Antibot resolution, zero configuration</CardTitle>
+            <CardKicker>01 · execution limits</CardKicker>
+            <CardTitle>More time, more memory, more at once</CardTitle>
           </CardSide>
           <CardMain>
             <CardBody>
-              When a target blocks the request, Microlink identifies the antibot
-              provider and routes through a dedicated resolution path — no proxy
-              pool to manage, no CAPTCHA solver to integrate. The resolution
-              layer is well-tested across the Top 500 most popular sites
-              worldwide.
+              Free runs cap at 5 seconds, 16 MB, 1024 bytes of code, and one
+              concurrent execution per IP. Pro extends the timeout up to 28
+              seconds, doubles the memory, and removes the code-size and
+              concurrency caps.
             </CardBody>
-            <ChipRow items={ANTIBOT_EXAMPLES} />
-            <CardBody>
-              <CodeInline>EPROXYNEEDED</CodeInline> is the signal a target
-              requires it; a response served through the proxy layer carries{' '}
-              <CodeInline>x-fetch-mode: fetch-proxy</CodeInline>. You can also
-              bring your own exit IP with the <CodeInline>proxy</CodeInline>{' '}
-              parameter.
-            </CardBody>
+            <ChipRow items={FREE_LIMIT_CHIPS} />
+            <ChipRow items={PRO_LIMIT_CHIPS} />
             <Box css={theme({ mt: 'auto' })}>
               <ArrowLink
-                href='/features/proxy'
+                href='/docs/guides/function/profiling-and-performance'
                 css={theme({
                   color: 'link',
                   fontWeight: 'bold',
                   fontSize: [0, 1, 1, 1]
                 })}
               >
-                See how the proxy works
+                See the plan limits
               </ArrowLink>
             </Box>
           </CardMain>
@@ -824,28 +808,29 @@ const ProSection = () => (
 
         <Card>
           <CardSide>
-            <CardKicker>02 · x-api-header-*</CardKicker>
-            <CardTitle>Extraction behind login walls</CardTitle>
+            <CardKicker>02 · pro parameters</CardKicker>
+            <CardTitle>Combine with the unblocking layer</CardTitle>
           </CardSide>
           <CardMain>
             <CardBody>
-              Scrape the logged-in version of a page by forwarding the session:
-              send <CodeInline>x-api-header-cookie</CodeInline> as a request
-              header and Microlink forwards the original{' '}
-              <CodeInline>cookie</CodeInline> to the target — the credential
-              rides inside HTTPS and never touches the URL.
+              On Pro, your function composes with{' '}
+              <Link href='/features/proxy'>automatic proxy resolution</Link>{' '}
+              when antibots block the target,{' '}
+              <Link href='/features/headers'>custom headers</Link> for pages
+              behind a login, and{' '}
+              <Link href='/features/ttl'>configurable TTL</Link> so repeated
+              executions serve from cache instead of your quota.
             </CardBody>
-            <ChipRow items={PRIVATE_HEADER_EXAMPLES} />
             <Box css={theme({ mt: 'auto' })}>
               <ArrowLink
-                href='/features/headers'
+                href='/pricing'
                 css={theme({
                   color: 'link',
                   fontWeight: 'bold',
                   fontSize: [0, 1, 1, 1]
                 })}
               >
-                See how custom headers work
+                Compare the plans
               </ArrowLink>
             </Box>
           </CardMain>
@@ -859,22 +844,80 @@ const ProSection = () => (
 
 const FAQ_ITEMS = [
   {
-    question: 'Do I need to run a headless browser?',
-    text: 'No. Microlink runs headless Chrome on its infrastructure and applies your CSS selectors server-side — you send a data object and receive JSON back. For client-rendered content, control the rendering with prerender and wait for dynamic elements with waitForSelector before the rules are applied.',
+    question: 'What can I run inside a function?',
+    text: 'Any JavaScript. Plain functions run in a sandboxed Node.js runtime and can return strings, numbers, arrays, or objects. Reference page and Microlink starts headless Chrome with full Puppeteer access, already navigated to the target URL. You can also require() any npm package — dependencies are installed on the fly and cached.',
     answer: (
       <>
         <div>
-          No. Microlink runs headless Chrome on its infrastructure and applies
-          your CSS selectors server-side — you send a{' '}
-          <CodeInline>data</CodeInline> object and receive JSON back.
+          Any JavaScript. Plain functions run in a sandboxed Node.js runtime and
+          can return strings, numbers, arrays, or objects. Reference{' '}
+          <CodeInline>page</CodeInline> and Microlink starts headless Chrome
+          with full Puppeteer access, already navigated to the target URL.
         </div>
         <div>
-          For client-rendered content, control the rendering with{' '}
-          <CodeInline>prerender</CodeInline> and wait for dynamic elements with{' '}
-          <CodeInline>waitForSelector</CodeInline> before the rules are applied
-          — see the{' '}
-          <Link href='/docs/guides/data-extraction/page-preparation'>
-            page preparation guide
+          You can also <CodeInline>require()</CodeInline> any npm package —
+          dependencies are installed on the fly and cached.
+        </div>
+      </>
+    )
+  },
+  {
+    question: 'Is the function parameter available on the free plan?',
+    text: 'Yes. Free runs get a 5-second timeout, 16 MB of memory, 1024 bytes of code, and one concurrent execution per IP — enough to prototype workflows. Pro plans extend the timeout up to 28 seconds, raise memory to 32 MB, and remove the code-size and concurrency limits.',
+    answer: (
+      <>
+        <div>
+          Yes. Free runs get a 5-second timeout, 16 MB of memory, 1024 bytes of
+          code, and one concurrent execution per IP — enough to prototype
+          workflows.
+        </div>
+        <div>
+          <Link href='/pricing'>Pro plans</Link> extend the timeout up to 28
+          seconds, raise memory to 32 MB, and remove the code-size and
+          concurrency limits.
+        </div>
+      </>
+    )
+  },
+  {
+    question: 'When should I use function instead of data?',
+    text: 'Start with data — declarative CSS-selector rules are shorter, easier to maintain, and easier to reuse. Escalate to function when you need to click, wait, compute, reshape, or orchestrate custom logic that rules cannot express. For injecting CSS or JavaScript before another workflow, the styles, scripts, and modules parameters are lighter than a full function.',
+    answer: (
+      <>
+        <div>
+          Start with <Link href='/features/scraping'>data</Link> — declarative
+          CSS-selector rules are shorter, easier to maintain, and easier to
+          reuse. Escalate to <CodeInline>function</CodeInline> when you need to
+          click, wait, compute, reshape, or orchestrate custom logic that rules
+          cannot express.
+        </div>
+        <div>
+          For injecting CSS or JavaScript before another workflow, the{' '}
+          <CodeInline>styles</CodeInline>, <CodeInline>scripts</CodeInline>, and{' '}
+          <CodeInline>modules</CodeInline> parameters are lighter than a full
+          function — see{' '}
+          <Link href='/features/automation'>browser automation</Link>.
+        </div>
+      </>
+    )
+  },
+  {
+    question: 'What happens if my function throws?',
+    text: 'The request still succeeds: result.isFulfilled comes back false and result.value contains the error details — name, code, and message — so you can handle failures in your own code. Security-restricted operations, such as spawning child processes, return an ERR_ACCESS_DENIED error.',
+    answer: (
+      <>
+        <div>
+          The request still succeeds:{' '}
+          <CodeInline>result.isFulfilled</CodeInline> comes back{' '}
+          <CodeInline>false</CodeInline> and{' '}
+          <CodeInline>result.value</CodeInline> contains the error details —
+          name, code, and message — so you can handle failures in your own code.
+        </div>
+        <div>
+          Security-restricted operations, such as spawning child processes,
+          return an <CodeInline>ERR_ACCESS_DENIED</CodeInline> error — see the{' '}
+          <Link href='/docs/guides/function/troubleshooting'>
+            troubleshooting guide
           </Link>
           .
         </div>
@@ -882,136 +925,43 @@ const FAQ_ITEMS = [
     )
   },
   {
-    question: 'Is data extraction available on the free plan?',
-    text: 'Yes. Every rule type — selector, selectorAll, attr, type, evaluate, fallbacks — works on the free tier, which includes 25 requests per day without an API key. Pro plans start at 14,000 requests per month and add automatic proxy resolution, custom headers, and configurable TTL on top.',
+    question: 'How do I make functions run faster?',
+    text: 'Skip page when you do not need a browser — plain functions execute without booting Chrome. Check result.profiling.phases to see where time goes: a high install value means dependencies were installed for the first time and will be cached for subsequent runs; a high run value means the function itself is doing heavy work.',
     answer: (
       <>
         <div>
-          Yes. Every rule type — <CodeInline>selector</CodeInline>,{' '}
-          <CodeInline>selectorAll</CodeInline>, <CodeInline>attr</CodeInline>,{' '}
-          <CodeInline>type</CodeInline>, <CodeInline>evaluate</CodeInline>,
-          fallbacks — works on the free tier, which includes 25 requests per day
-          without an API key.
+          Skip <CodeInline>page</CodeInline> when you do not need a browser —
+          plain functions execute without booting Chrome.
         </div>
         <div>
-          <Link href='/pricing'>Pro plans</Link> start at 14,000 requests per
-          month and add automatic proxy resolution, custom headers, and
-          configurable TTL on top.
-        </div>
-      </>
-    )
-  },
-  {
-    question: "What happens when a selector doesn't match?",
-    text: 'Define a rule as an array of fallbacks and Microlink tries each one in priority order until a value passes the type validation — for example og:title, then <title>, then the first <h1>. If nothing matches, the field comes back empty rather than failing the request, and the troubleshooting guide covers how to diagnose selector, timing, and prerender issues.',
-    answer: (
-      <>
-        <div>
-          Define a rule as an array of fallbacks and Microlink tries each one in
-          priority order until a value passes the <CodeInline>type</CodeInline>{' '}
-          validation — for example <CodeInline>og:title</CodeInline>, then{' '}
-          <CodeInline>title</CodeInline>, then the first{' '}
-          <CodeInline>h1</CodeInline>.
-        </div>
-        <div>
-          If nothing matches, the field comes back empty rather than failing the
-          request — the{' '}
-          <Link href='/docs/guides/data-extraction/troubleshooting'>
-            troubleshooting guide
-          </Link>{' '}
-          covers how to diagnose selector, timing, and prerender issues.
-        </div>
-      </>
-    )
-  },
-  {
-    question: 'Can I scrape sites behind Cloudflare or DataDome?',
-    text: 'Yes, on Pro plans. Microlink detects the antibot provider protecting the target — Cloudflare, DataDome, Akamai, PerimeterX, and more — and automatically routes the request through a dedicated resolution path, tested across the Top 500 most popular sites worldwide. If a target requires it, the API returns EPROXYNEEDED; proxied responses carry x-fetch-mode ending in -proxy.',
-    answer: (
-      <>
-        <div>
-          Yes, on Pro plans. Microlink detects the antibot provider protecting
-          the target — Cloudflare, DataDome, Akamai, PerimeterX, and more — and
-          automatically routes the request through a dedicated resolution path,
-          tested across the Top 500 most popular sites worldwide.
-        </div>
-        <div>
-          If a target requires it, the API returns{' '}
-          <CodeInline>EPROXYNEEDED</CodeInline>; proxied responses carry{' '}
-          <CodeInline>x-fetch-mode</CodeInline> ending in{' '}
-          <CodeInline>-proxy</CodeInline>. See{' '}
-          <Link href='/features/proxy'>how the proxy works</Link>.
-        </div>
-      </>
-    )
-  },
-  {
-    question: 'Can I extract data behind a login?',
-    text: 'Yes — forward the session as a request header on your Microlink call using x-api-header-cookie (a Pro feature). The credential travels inside HTTPS request headers, never in the URL, so it does not end up in logs or embeds. The private pages guide walks through cookies, basic auth, and bearer tokens.',
-    answer: (
-      <>
-        <div>
-          Yes — forward the session as a request header on your Microlink call
-          using <CodeInline>x-api-header-cookie</CodeInline> (a{' '}
-          <Link href='/features/headers'>Pro feature</Link>). The credential
-          travels inside HTTPS request headers, never in the URL, so it does not
-          end up in logs or embeds.
-        </div>
-        <div>
-          The{' '}
-          <Link href='/docs/guides/data-extraction/private-pages'>
-            private pages guide
-          </Link>{' '}
-          walks through cookies, basic auth, and bearer tokens.
-        </div>
-      </>
-    )
-  },
-  {
-    question: 'How does caching affect what I pay?',
-    text: 'Responses are cached at the edge and any response served from cache does not count against your plan quota — only the request that warms the cache is billed. Tune the lifetime per request with ttl (from 1 minute to 31 days) and keep serving stale content while revalidating with staleTtl, which makes recurring extraction jobs dramatically cheaper.',
-    answer: (
-      <>
-        <div>
-          Responses are cached at the edge and any response served from cache
-          does not count against your plan quota — only the request that warms
-          the cache is billed.
-        </div>
-        <div>
-          Tune the lifetime per request with{' '}
-          <Link href='/features/ttl'>
-            <CodeInline>ttl</CodeInline>
-          </Link>{' '}
-          (from 1 minute to 31 days) and serve stale content while revalidating
-          with <CodeInline>staleTtl</CodeInline> — the{' '}
-          <Link href='/docs/guides/data-extraction/caching-and-performance'>
-            caching guide
-          </Link>{' '}
-          shows the patterns for recurring extraction jobs.
-        </div>
-      </>
-    )
-  },
-  {
-    question: 'Can I transform values during extraction?',
-    text: 'Yes. The evaluate property runs a JavaScript function against the page and uses its return value as the field — useful for computed values, JSON embedded in scripts, or anything CSS selectors cannot reach. Combine it with type so the output is validated before it reaches your code. When a single rule is not enough, the function parameter runs your code with full Puppeteer access.',
-    answer: (
-      <>
-        <div>
-          Yes. The <CodeInline>evaluate</CodeInline> property runs a JavaScript
-          function against the page and uses its return value as the field —
-          useful for computed values, JSON embedded in scripts, or anything CSS
-          selectors cannot reach.
-        </div>
-        <div>
-          Combine it with <CodeInline>type</CodeInline> so the output is
-          validated before it reaches your code — see the{' '}
-          <Link href='/docs/api/parameters/data'>
-            <CodeInline>data</CodeInline> reference
+          Check <CodeInline>result.profiling.phases</CodeInline> to see where
+          time goes: a high <CodeInline>install</CodeInline> value means
+          dependencies were installed for the first time and will be cached for
+          subsequent runs; a high <CodeInline>run</CodeInline> value means the
+          function itself is doing heavy work — see the{' '}
+          <Link href='/docs/guides/function/profiling-and-performance'>
+            profiling guide
           </Link>
-          . When a single rule is not enough,{' '}
-          <Link href='/features/function'>browser functions</Link> run your code
-          with full Puppeteer access.
+          .
+        </div>
+      </>
+    )
+  },
+  {
+    question: 'Can functions reach pages behind antibots or logins?',
+    text: 'Yes, on Pro plans. Combine function with automatic proxy resolution to get past Cloudflare, DataDome, or Akamai, and forward session cookies with x-api-header-cookie for pages behind a login — the browser your function receives is already unblocked and authenticated.',
+    answer: (
+      <>
+        <div>
+          Yes, on Pro plans. Combine <CodeInline>function</CodeInline> with{' '}
+          <Link href='/features/proxy'>automatic proxy resolution</Link> to get
+          past Cloudflare, DataDome, or Akamai, and forward session cookies with{' '}
+          <CodeInline>x-api-header-cookie</CodeInline> for pages behind a login
+          — see <Link href='/features/headers'>custom headers</Link>.
+        </div>
+        <div>
+          The browser your function receives is already unblocked and
+          authenticated.
         </div>
       </>
     )
@@ -1052,7 +1002,7 @@ const CtaSection = () => (
           lineHeight: 0
         })}
       >
-        Selectors in, <span css={theme({ color: 'secondary' })}>JSON out.</span>
+        Your code, <span css={theme({ color: 'secondary' })}>our browser.</span>
       </SubheadBase>
       <Caption
         forwardedAs='p'
@@ -1065,9 +1015,9 @@ const CtaSection = () => (
           mx: 'auto'
         })}
       >
-        Prototype on the free tier — 25 requests a day, no API key. When you go
-        to production, Pro plans start at 14,000 requests per month and bundle
-        proxy resolution, custom headers, and configurable TTL.
+        Prototype on the free tier — no API key, no setup. When your workload
+        grows, Pro plans raise the execution limits and add proxy resolution,
+        custom headers, and configurable TTL around your code.
       </Caption>
       <Flex
         css={theme({
@@ -1084,7 +1034,7 @@ const CtaSection = () => (
             fontSize: [2, 2, 3, 3]
           })}
         >
-          Start extracting structured data
+          Run your first function
         </ArrowLink>
       </Flex>
     </SectionInner>
@@ -1093,17 +1043,17 @@ const CtaSection = () => (
 
 /* ─── Page ───────────────────────────────────────────────────────────────── */
 
-const ScrapingFeaturePage = () => (
+const FunctionFeaturePage = () => (
   <Layout css={theme({ position: 'relative' })}>
     <DashedGridOverlay aria-hidden='true' />
     <Box css={theme({ position: 'relative', zIndex: 1 })}>
       <Hero />
       <Diagram />
       <WhatItDoes />
-      <RuleShapes />
-      <CodeExampleSingle />
-      <CodeExampleCollection />
-      <ProSection />
+      <ExecutionShapes />
+      <CodeExampleBrowser />
+      <CodeExampleNpm />
+      <PlansSection />
       <CtaSection />
       <FAQSection />
     </Box>
@@ -1114,8 +1064,8 @@ const ScrapingFeaturePage = () => (
 
 export const Head = () => (
   <Meta
-    title='Web Scraping API: Structured Data Extraction'
-    description='Extract structured data from any URL with CSS selectors using the data parameter — single values, collections, and computed fields returned as clean JSON. Works on the free tier; Pro plans add automatic proxy resolution against Cloudflare, DataDome, and Akamai antibots, custom headers for login walls, and configurable cache TTL.'
+    title='Browser Functions API: Serverless Puppeteer'
+    description='Run any JavaScript remotely inside Microlink’s headless browser with the function parameter — full Puppeteer access, npm packages installed on the fly, and zero infrastructure to manage. Works on the free tier; Pro plans raise execution limits and add automatic proxy resolution, custom headers, and configurable cache TTL.'
     schemaType='WebPage'
     structured={[
       {
@@ -1134,4 +1084,4 @@ export const Head = () => (
   />
 )
 
-export default ScrapingFeaturePage
+export default FunctionFeaturePage

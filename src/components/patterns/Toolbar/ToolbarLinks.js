@@ -379,7 +379,7 @@ export const NAVIGATION_SECTIONS = [
       createNavigationItem({
         label: 'Features',
         href: '/features',
-        description: 'Explore API capabilities — scraping, proxy, TTL, headers',
+        description: 'Explore API capabilities — scraping, functions, proxy',
         icon: Sliders
       }),
       createNavigationItem({
