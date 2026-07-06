@@ -21,7 +21,7 @@
 - [Microlink](/): Added [embed](/embed) tool.
 - [Microlink](/): Added [customers](/customers) page.
 - [unavatar.io](https://unavatar.io): Added [npm](https://unavatar.io/npm), [Product Hunt](https://unavatar.io/producthunt), [Docker Hub](https://unavatar.io/dockerhub), [CodePen](https://unavatar.io/codepen), [Hugging Face](https://unavatar.io/huggingface), [Thingiverse](https://unavatar.io/thingiverse), and [Cults3D](https://unavatar.io/cults3d) support.
-- [Microlink](/): Added feature landings for [proxy](/feature/proxy), [ttl](/feature/ttl), and [headers](/feature/headers).
+- [Microlink](/): Added feature landings for [proxy](/features/proxy), [ttl](/features/ttl), and [headers](/features/headers).
 - [Microlink API](/docs/api/getting-started/overview): Improved Twitter/X URLs resolution.
 
 ### April 2026

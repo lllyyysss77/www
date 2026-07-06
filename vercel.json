@@ -356,6 +356,10 @@
     {
       "source": "/customers/:path*",
       "destination": "/use-cases/:path*"
+    },
+    {
+      "source": "/feature/:path*",
+      "destination": "/features/:path*"
     }
   ],
   "rewrites": [

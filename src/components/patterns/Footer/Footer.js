@@ -20,6 +20,7 @@ import { ChevronDown, Mail } from 'react-feather'
 import styled from 'styled-components'
 
 import { LANG_LANDINGS } from 'components/pages/screenshot/lang/registry'
+import { FEATURES } from 'components/patterns/FeatureStory'
 
 const FOOTER_COLUMNS = [
   {
@@ -36,14 +37,6 @@ const FOOTER_COLUMNS = [
       { label: 'Unavatar', href: 'https://unavatar.io' }
     ],
     sections: [
-      {
-        title: 'Features',
-        links: [
-          { label: 'Custom headers', href: '/feature/headers' },
-          { label: 'Configurable TTL', href: '/feature/ttl' },
-          { label: 'Proxy resolution', href: '/feature/proxy' }
-        ]
-      },
       {
         // Per-language screenshot landings, generated from the shared registry
         // so a new /screenshot/<lang> spoke is linked site-wide automatically.
@@ -66,6 +59,17 @@ const FOOTER_COLUMNS = [
       { label: 'Skills', href: '/skills' },
       { label: 'User Agents', href: '/user-agents' },
       { label: 'Geolocation', href: 'https://geolocation.microlink.io' }
+    ],
+    sections: [
+      {
+        // Feature landings, generated from the shared registry so a new
+        // /features/<slug> page is linked site-wide automatically.
+        title: 'Features',
+        links: FEATURES.map(({ footerLabel, slug }) => ({
+          label: footerLabel,
+          href: `/features/${slug}`
+        }))
+      }
     ]
   },
   {

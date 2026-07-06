@@ -452,7 +452,7 @@ const WHY_SWITCH_ITEMS = [
         <b>CAPTCHA handling</b> — into the same $49 plan.
         <br />
         <br />
-        <Link href='/feature/proxy'>See how the proxy works</Link>.
+        <Link href='/features/proxy'>See how the proxy works</Link>.
       </>
     )
   },
@@ -710,7 +710,7 @@ const FAQ_ITEMS = [
           and the supported list — Cloudflare, DataDome, Akamai, PerimeterX,
           Kasada, Imperva, AWS WAF, Vercel Attack Mode, Shape Security — plus
           the CAPTCHA coverage are documented on the{' '}
-          <Link href='/feature/proxy'>proxy feature page</Link>. Every proxied
+          <Link href='/features/proxy'>proxy feature page</Link>. Every proxied
           response carries <b>x-fetch-mode: fetch-proxy</b> so you can audit
           usage server-side.
         </div>
