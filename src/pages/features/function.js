@@ -1,6 +1,5 @@
-import { breakpoints, colors, layout, theme } from 'theme'
+import { layout, theme } from 'theme'
 import React from 'react'
-import styled from 'styled-components'
 
 import Box from 'components/elements/Box'
 import CodeEditor from 'components/elements/CodeEditor/CodeEditor'
@@ -13,129 +12,36 @@ import Text from 'components/elements/Text'
 import { CodeInline } from 'components/markdown/CodeInline'
 
 import ArrowLink from 'components/patterns/ArrowLink'
-import CaptionBase from 'components/patterns/Caption/Caption'
 import Faq from 'components/patterns/Faq/Faq'
+import {
+  Arrow,
+  BodyText,
+  Caption,
+  Card,
+  CardBody,
+  CardKicker,
+  CardMain,
+  CardSide,
+  CardTitle,
+  ChipRow,
+  DashedGridOverlay,
+  Eyebrow,
+  Node,
+  NodeActive,
+  NodeLabel,
+  NodeSub,
+  PlanTag,
+  ScenarioHeader,
+  ScenarioRow,
+  Section,
+  SectionInner,
+  SECTION_MAX_WIDTH,
+  SECTION_PX,
+  SECTION_PY
+} from 'components/patterns/FeatureStory'
 import Layout from 'components/patterns/Layout'
 
-import { withTitle } from 'helpers/hoc/with-title'
-
-const Caption = withTitle(CaptionBase)
-
-/* ─── Layout primitives ──────────────────────────────────────────────────── */
-
-const SECTION_PX = [3, 3, 4, 4]
-const SECTION_PY = [3, 3, 4, 5]
-const SECTION_MAX_WIDTH = layout.large
-
-const Section = styled(Box)`
-  ${theme({
-    py: SECTION_PY,
-    px: SECTION_PX,
-    width: '100%'
-  })}
-`
-
-const SectionInner = styled(Box)`
-  ${theme({
-    width: '100%',
-    maxWidth: SECTION_MAX_WIDTH,
-    mx: 'auto'
-  })}
-`
-
-const Eyebrow = styled(Text)`
-  ${theme({
-    color: 'secondary',
-    fontFamily: 'mono',
-    fontSize: 1,
-    fontWeight: 'bold',
-    letterSpacing: '0.12em',
-    textTransform: 'uppercase'
-  })}
-`
-
-const BodyText = props => (
-  <Caption
-    forwardedAs='p'
-    titleize={false}
-    {...props}
-    css={[
-      theme({
-        fontSize: [1, 2, 2, 2],
-        textAlign: 'left',
-        maxWidth: layout.large,
-        mx: 0,
-        color: 'black'
-      }),
-      props.css
-    ]}
-  />
-)
-
-const PlanTag = styled(Box)`
-  ${theme({
-    display: 'inline-flex',
-    alignItems: 'center',
-    bg: 'pinkest',
-    color: 'secondary',
-    fontFamily: 'mono',
-    fontSize: 1,
-    fontWeight: 'bold',
-    letterSpacing: '0.08em',
-    px: '10px',
-    py: '4px',
-    borderRadius: '20px',
-    textTransform: 'uppercase'
-  })}
-`
-
 /* ─── Hero ───────────────────────────────────────────────────────────────── */
-
-const DashedGridOverlay = styled(Box)`
-  ${theme({ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 0 })}
-  height: 1200px;
-  pointer-events: none;
-  background-image: linear-gradient(
-      to right,
-      ${colors.gray2} 1px,
-      transparent 1px
-    ),
-    linear-gradient(to bottom, ${colors.gray2} 1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: 0 0, 0 0;
-  mask-image: repeating-linear-gradient(
-      to right,
-      #000 0px,
-      #000 3px,
-      transparent 3px,
-      transparent 8px
-    ),
-    repeating-linear-gradient(
-      to bottom,
-      #000 0px,
-      #000 3px,
-      transparent 3px,
-      transparent 8px
-    ),
-    radial-gradient(ellipse 90% 80% at 50% 0%, #000 50%, transparent 100%);
-  -webkit-mask-image: repeating-linear-gradient(
-      to right,
-      #000 0px,
-      #000 3px,
-      transparent 3px,
-      transparent 8px
-    ),
-    repeating-linear-gradient(
-      to bottom,
-      #000 0px,
-      #000 3px,
-      transparent 3px,
-      transparent 8px
-    ),
-    radial-gradient(ellipse 90% 80% at 50% 0%, #000 50%, transparent 100%);
-  mask-composite: intersect;
-  -webkit-mask-composite: source-in;
-`
 
 const Hero = () => (
   <Section as='header' css={theme({ pt: [3, 3, 4, 4], pb: [3, 3, 4, 4] })}>
@@ -191,133 +97,6 @@ const Hero = () => (
 )
 
 /* ─── Visual: execution pipeline diagram ─────────────────────────────────── */
-
-const Node = styled(Box)`
-  ${theme({
-    bg: 'white',
-    border: 1,
-    borderColor: 'black10',
-    borderRadius: 3,
-    px: [3, 3, 3, 3],
-    py: [3, 3, 3, 3],
-    width: ['100%', '100%', 'auto', 'auto'],
-    minWidth: [0, 0, '0', '0'],
-    flex: ['0 0 auto', '0 0 auto', '1 1 0', '1 1 0']
-  })}
-  box-shadow: 0 1px 2px ${colors.black05};
-  text-align: center;
-`
-
-const NodeActive = styled(Node)`
-  ${theme({
-    bg: 'pinkest',
-    borderColor: 'secondary'
-  })}
-`
-
-const NodeLabel = styled(Text)`
-  ${theme({
-    fontSize: 0,
-    fontFamily: 'mono',
-    fontWeight: 'bold',
-    color: 'black',
-    letterSpacing: '0.04em',
-    textTransform: 'uppercase'
-  })}
-`
-
-const NodeSub = styled(Text)`
-  ${theme({
-    fontSize: 0,
-    color: 'black60',
-    pt: 1
-  })}
-`
-
-const Arrow = () => (
-  <Flex
-    aria-hidden='true'
-    css={`
-      ${theme({
-        color: 'black30',
-        flex: '0 0 auto',
-        alignItems: 'center',
-        justifyContent: 'center'
-      })}
-      @media (max-width: calc(${breakpoints[1]} - 1px)) {
-        transform: rotate(90deg);
-      }
-    `}
-  >
-    <svg
-      width='18'
-      height='18'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='2'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-    >
-      <polyline points='9 18 15 12 9 6' />
-    </svg>
-  </Flex>
-)
-
-const ScenarioHeader = ({ title, status }) => (
-  <Flex
-    css={theme({
-      alignItems: 'baseline',
-      justifyContent: 'space-between',
-      flexWrap: 'wrap',
-      gap: 2,
-      pb: [2, 2, 3, 3]
-    })}
-  >
-    <Text
-      as='span'
-      css={theme({
-        fontFamily: 'mono',
-        fontSize: 1,
-        fontWeight: 'bold',
-        color: 'black',
-        letterSpacing: '0.04em'
-      })}
-    >
-      {title}
-    </Text>
-    <Box
-      css={theme({
-        bg: 'white',
-        color: 'black70',
-        border: 1,
-        borderColor: 'black10',
-        borderRadius: 5,
-        fontFamily: 'mono',
-        fontSize: 0,
-        fontWeight: 'bold',
-        px: 2,
-        py: 1,
-        letterSpacing: '0.04em',
-        textTransform: 'uppercase'
-      })}
-    >
-      {status}
-    </Box>
-  </Flex>
-)
-
-const ScenarioRow = ({ children }) => (
-  <Flex
-    css={theme({
-      alignItems: 'stretch',
-      gap: [2, 2, 3, 3],
-      flexDirection: ['column', 'column', 'row', 'row']
-    })}
-  >
-    {children}
-  </Flex>
-)
 
 const Diagram = () => (
   <Section css={theme({ pt: 1 })}>
@@ -413,95 +192,6 @@ const WhatItDoes = () => (
 )
 
 /* ─── Three execution shapes ─────────────────────────────────────────────── */
-
-const RuleChip = styled(Text).attrs({ as: 'span' })`
-  ${theme({
-    display: 'inline-flex',
-    alignItems: 'center',
-    bg: 'white',
-    color: 'black',
-    border: 1,
-    borderColor: 'black10',
-    borderRadius: 2,
-    fontFamily: 'mono',
-    fontSize: 0,
-    fontWeight: 'bold',
-    px: 2,
-    py: 1
-  })}
-`
-
-const Card = styled(Box)`
-  ${theme({
-    bg: 'white',
-    border: 1,
-    borderColor: 'black10',
-    borderRadius: 3,
-    p: [3, 3, 4, 4],
-    width: '100%',
-    minWidth: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: [3, 3, 4, 4],
-    alignItems: 'stretch'
-  })}
-  box-shadow: 0 1px 2px ${colors.black05};
-`
-
-const CardSide = styled(Box)`
-  ${theme({
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 2
-  })}
-`
-
-const CardMain = styled(Box)`
-  ${theme({
-    width: '100%',
-    minWidth: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 3
-  })}
-`
-
-const CardTitle = styled(Text)`
-  ${theme({
-    fontSize: 2,
-    fontWeight: 'bold',
-    color: 'black',
-    lineHeight: 1
-  })}
-`
-
-const CardKicker = styled(Text)`
-  ${theme({
-    fontFamily: 'mono',
-    fontSize: 0,
-    fontWeight: 'bold',
-    color: 'secondary',
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase'
-  })}
-`
-
-const CardBody = styled(Text)`
-  ${theme({
-    fontSize: [1, 1, 1, 1],
-    lineHeight: 2,
-    color: 'black70'
-  })}
-`
-
-const ChipRow = ({ items }) => (
-  <Flex css={theme({ flexWrap: 'wrap', gap: 2, py: 3 })}>
-    {items.map(item => (
-      <RuleChip key={item}>{item}</RuleChip>
-    ))}
-  </Flex>
-)
 
 const PLAIN_EXAMPLES = ['result.value', 'custom parameters', 'no browser']
 
