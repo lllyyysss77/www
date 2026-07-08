@@ -16,7 +16,7 @@ import ArrowLink from 'components/patterns/ArrowLink'
 import Checkout from 'components/patterns/Checkout'
 import { colors, gradient, layout, theme } from 'theme'
 
-const FREE_PLAN_RATE_LIMIT = 50
+const FREE_PLAN_RATE_LIMIT = 25
 
 const COMPACT_NUMBER_FORMATTER = new Intl.NumberFormat('en-US', {
   notation: 'compact',
@@ -268,7 +268,7 @@ const Plans = ({ canonicalUrl, stripeKey, footer = 'none' }) => {
             </Text>
           </Box>
           <Box css={theme({ pt: [3, 3, 4, 4] })}>
-            <PlanCheck>50 requests / day</PlanCheck>
+            <PlanCheck>{FREE_PLAN_RATE_LIMIT} requests / day</PlanCheck>
             <PlanCheck>
               <Link href='/screenshot'>Screenshot</Link>,{' '}
               <Link href='/pdf'>PDF</Link>,{' '}
