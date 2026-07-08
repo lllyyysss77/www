@@ -992,7 +992,7 @@ export const Head = () => (
         '@type': 'Offer',
         price: '0',
         priceCurrency: 'USD',
-        description: 'Free tier with 50 conversions per day'
+        description: 'Free tier with 25 conversions per day'
       }
     }}
   />

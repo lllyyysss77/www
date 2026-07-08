@@ -3276,7 +3276,7 @@ const CallToAction = () => (
           fontSize: [2, 2, 3, 3]
         })}
       >
-        Get 50&nbsp;requests/day with zero commitment — screenshot API free to
+        Get 25&nbsp;requests/day with zero commitment — screenshot API free to
         use, no account, and no credit card. Just call the API and start
         capturing screenshots in seconds.
       </Caption>
@@ -3303,7 +3303,7 @@ const CallToAction = () => (
           justifyContent: 'center'
         })}
       >
-        {['No login needed', '50 reqs/day free', 'No credit card'].map(
+        {['No login needed', '25 reqs/day free', 'No credit card'].map(
           label => (
             <Flex
               key={label}
@@ -3375,7 +3375,7 @@ const ProductInformation = () => {
           answer: (
             <>
               <div>
-                Yes. Our free screenshot API tier provides 50 requests per day
+                Yes. Our free screenshot API tier provides 25 requests per day
                 with unrestricted access to all browser automation features,
                 including{' '}
                 <Link href='/docs/api/parameters/device'>device emulation</Link>
@@ -3561,7 +3561,7 @@ export const Head = () => (
         price: '0',
         priceCurrency: 'USD',
         description:
-          'Free tier available for experimentation, 50 requests per day. Pro plans scale for high concurrency.'
+          'Free tier available for experimentation, 25 requests per day. Pro plans scale for high concurrency.'
       },
       keywords:
         'screenshot API, website screenshot, URL to image, headless chrome, website capture, web screenshot, puppeteer API',

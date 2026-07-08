@@ -2458,7 +2458,7 @@ const CAPABILITIES = [
       <>
         Global CDN caching, automatic retries, and <b>99.9% uptime</b> handle
         the scraping complexity for you — with a{' '}
-        <b>free tier of 50 requests per day</b> to get started.
+        <b>free tier of 25 requests per day</b> to get started.
       </>
     )
   }
@@ -4441,7 +4441,7 @@ const CallToAction = () => (
           fontSize: [2, 2, 3, 3]
         })}
       >
-        Get 50&nbsp;requests/day with zero commitment — the website metadata API
+        Get 25&nbsp;requests/day with zero commitment — the website metadata API
         is free to use, no account, and no credit card. Just call the API and go
         from URL to metadata in seconds.
       </Caption>
@@ -4468,7 +4468,7 @@ const CallToAction = () => (
           justifyContent: 'center'
         })}
       >
-        {['No login needed', '50 reqs/day free', 'No credit card'].map(
+        {['No login needed', '25 reqs/day free', 'No credit card'].map(
           label => (
             <Flex
               key={label}
@@ -4617,11 +4617,11 @@ const TOP_FAQ_ITEMS = [
   },
   {
     question: 'Is there a free tier for the metadata API?',
-    text: 'Yes. The metadata API is free to use with 50 requests per day — no login, no credit card, and no setup required. Just call the endpoint and get normalized metadata back. For production workloads that need higher volume, automatic proxy rotation, custom headers, configurable TTL, and priority support, see our Pro plans starting at €39/month.',
+    text: 'Yes. The metadata API is free to use with 25 requests per day — no login, no credit card, and no setup required. Just call the endpoint and get normalized metadata back. For production workloads that need higher volume, automatic proxy rotation, custom headers, configurable TTL, and priority support, see our Pro plans starting at €39/month.',
     answer: (
       <>
         <div>
-          Yes. The metadata API is <b>free to use with 50 requests per day</b> —
+          Yes. The metadata API is <b>free to use with 25 requests per day</b> —
           no login, no credit card, and no setup required. Just call the
           endpoint and get normalized metadata back.
         </div>
@@ -4744,7 +4744,7 @@ export const Head = () => (
   <Meta
     title='Website Metadata API. URL to Metadata & Link Preview'
     noSuffix
-    description='Website metadata API - 50 req/day free - that turns any URL to metadata: Open Graph, JSON-LD, Twitter Cards, link preview & URL preview in one JSON call.'
+    description='Website metadata API - 25 req/day free - that turns any URL to metadata: Open Graph, JSON-LD, Twitter Cards, link preview & URL preview in one JSON call.'
     structured={{
       '@context': 'https://schema.org',
       '@graph': [
@@ -4779,7 +4779,7 @@ export const Head = () => (
             price: '0',
             priceCurrency: 'EUR',
             description:
-              'Free tier available (50 requests/day). Pro plans start at €39/month for production workloads.',
+              'Free tier available (25 requests/day). Pro plans start at €39/month for production workloads.',
             url: 'https://microlink.io/pricing'
           },
           keywords: [
