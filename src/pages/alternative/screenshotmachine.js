@@ -711,7 +711,7 @@ const FAQ_ITEMS = [
       <>
         <div>
           Yes. Microlink's <Link href='/pricing'>free tier</Link> gives you
-          50&nbsp;requests/day with no credit card and no time limit. Same API,
+          25&nbsp;requests/day with no credit card and no time limit. Same API,
           same quality, same 240+ edge network as paid plans.
         </div>
         <div>
@@ -722,7 +722,7 @@ const FAQ_ITEMS = [
         </div>
       </>
     ),
-    text: "Yes. Microlink's free tier gives you 50 requests/day with no credit card and no time limit. Same API, same quality, same 240+ edge network as paid plans. Screenshot Machine also offers a free tier with 100 fresh screenshots per month. Microlink's daily-reset model gives you up to 1,500 requests/month on free, which is 15\u00d7 more volume."
+    text: "Yes. Microlink's free tier gives you 25 requests/day with no credit card and no time limit. Same API, same quality, same 240+ edge network as paid plans. Screenshot Machine also offers a free tier with 100 fresh screenshots per month. Microlink's daily-reset model gives you up to 1,500 requests/month on free, which is 15\u00d7 more volume."
   },
   {
     question:
@@ -1751,7 +1751,7 @@ const PricingSection = () => (
             <Box as='ul' css={theme({ pl: 3, m: 0 })}>
               {[
                 'Screenshots, PDF, metadata, link previews, remote\u00a0JS',
-                'Free: 50\u00a0requests/day, no credit card, no expiry',
+                'Free: 25\u00a0requests/day, no credit card, no expiry',
                 'No per-minute cap on paid plans',
                 '240+ edge nodes, 99.9%\u00a0SLA',
                 'Open-source core (MIT licensed)',
@@ -1932,7 +1932,7 @@ const CTASection = () => (
         })}
       >
         Your first{' '}
-        <b css={theme({ color: 'white' })}>50&nbsp;requests/day are free</b> —
+        <b css={theme({ color: 'white' })}>25&nbsp;requests/day are free</b> —
         no credit card, no commitment.
       </Caption>
 
@@ -1986,7 +1986,7 @@ const TryItSection = () => {
             textAlign: 'center'
           })}
         >
-          50&nbsp;requests/day free — no account, no credit card. Start
+          25&nbsp;requests/day free — no account, no credit card. Start
           capturing screenshots at the speed your users&nbsp;deserve.
         </Caption>
         <Flex

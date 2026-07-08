@@ -253,7 +253,7 @@ const FAQ_ITEMS = [
     answer: (
       <>
         <div>
-          Yes. Microlink gives you <b>50&nbsp;requests/day</b> with no credit
+          Yes. Microlink gives you <b>25&nbsp;requests/day</b> with no credit
           card and no expiry, which works out to roughly{' '}
           <b>
             {MICROLINK_FREE_MONTHLY_EQUIVALENT.toLocaleString()} requests/month
@@ -267,7 +267,7 @@ const FAQ_ITEMS = [
         </div>
       </>
     ),
-    text: `Yes. Microlink gives you 50 requests per day with no credit card and no expiry, which works out to roughly ${MICROLINK_FREE_MONTHLY_EQUIVALENT.toLocaleString()} requests per month if you use it regularly. Screenshotlayer's free plan is 100 screenshots per month, so Microlink gives you much more room to test with real traffic patterns.`
+    text: `Yes. Microlink gives you 25 requests per day with no credit card and no expiry, which works out to roughly ${MICROLINK_FREE_MONTHLY_EQUIVALENT.toLocaleString()} requests per month if you use it regularly. Screenshotlayer's free plan is 100 screenshots per month, so Microlink gives you much more room to test with real traffic patterns.`
   },
   {
     question: 'Why does this benchmark exclude framer.com?',
@@ -1412,7 +1412,7 @@ const WHY_SWITCH_ITEMS = [
       <>
         Screenshotlayer's free plan is{' '}
         <b>{SCREENSHOTLAYER_FREE_REQUESTS} shots a month</b>. Microlink gives
-        you <b>50 requests a day</b>, so you can test incrementally, in
+        you <b>25 requests a day</b>, so you can test incrementally, in
         production-like bursts, instead of burning your entire evaluation budget
         in one session.
       </>
@@ -1772,7 +1772,7 @@ const PricingSection = () => (
             <Box as='ul' css={theme({ pl: 3, m: 0 })}>
               {[
                 'Screenshots + PDF + metadata + previews + remote JS',
-                'Free tier: 50 requests/day, no credit card',
+                'Free tier: 25 requests/day, no credit card',
                 'No per-minute cap on paid plans',
                 '240+ edge nodes, 99.9% SLA',
                 'Built-in proxy + antibot tooling',
@@ -1942,7 +1942,7 @@ const CTASection = () => (
         titleize={false}
       >
         Start with{' '}
-        <b css={theme({ color: 'white' })}>50&nbsp;requests/day free</b> and
+        <b css={theme({ color: 'white' })}>25&nbsp;requests/day free</b> and
         keep same API surface when traffic gets less predictable.
       </Caption>
 
@@ -1997,7 +1997,7 @@ const TryItSection = () => {
             textAlign: 'center'
           })}
         >
-          50&nbsp;requests/day free. Start with screenshots, then add metadata,
+          25&nbsp;requests/day free. Start with screenshots, then add metadata,
           PDF output, previews, or browser logic only when your workflow needs
           them.
         </Caption>

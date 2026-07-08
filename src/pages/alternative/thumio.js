@@ -1722,7 +1722,7 @@ const PricingSection = () => (
             <Box as='ul' css={theme({ pl: 3, m: 0 })}>
               {[
                 'Screenshots + PDF + metadata + previews + remote JS',
-                '50 requests/day free, no credit card required',
+                '25 requests/day free, no credit card required',
                 'No requests-per-minute cap on paid plans',
                 'Built-in proxy + antibot handling for harder targets',
                 '240+ edge nodes, 99.9% SLA',
@@ -1893,7 +1893,7 @@ const CTASection = () => (
         titleize={false}
       >
         Start with{' '}
-        <b css={theme({ color: 'white' })}>50&nbsp;requests/day free</b> and see
+        <b css={theme({ color: 'white' })}>25&nbsp;requests/day free</b> and see
         whether your workload needs simple snapshots or a broader browser API.
       </Caption>
 
@@ -1948,7 +1948,7 @@ const TryItSection = () => {
             textAlign: 'center'
           })}
         >
-          50&nbsp;requests/day free. Start with screenshots, then add metadata,
+          25&nbsp;requests/day free. Start with screenshots, then add metadata,
           PDF output, or browser automation only when your workflow needs it.
         </Caption>
         <Flex
