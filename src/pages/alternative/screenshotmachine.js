@@ -717,12 +717,12 @@ const FAQ_ITEMS = [
         <div>
           Screenshot Machine also offers a free tier with 100&nbsp;fresh
           screenshots per month. Microlink's daily-reset model gives you up to
-          1,500&nbsp;requests/month on free, which is 15&times; more volume and
+          750&nbsp;requests/month on free, which is 7.5&times; more volume and
           easier to test with real traffic patterns.
         </div>
       </>
     ),
-    text: "Yes. Microlink's free tier gives you 25 requests/day with no credit card and no time limit. Same API, same quality, same 240+ edge network as paid plans. Screenshot Machine also offers a free tier with 100 fresh screenshots per month. Microlink's daily-reset model gives you up to 1,500 requests/month on free, which is 15\u00d7 more volume."
+    text: "Yes. Microlink's free tier gives you 25 requests/day with no credit card and no time limit. Same API, same quality, same 240+ edge network as paid plans. Screenshot Machine also offers a free tier with 100 fresh screenshots per month. Microlink's daily-reset model gives you up to 750 requests/month on free, which is 7.5\u00d7 more volume."
   },
   {
     question:

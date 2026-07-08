@@ -2690,7 +2690,8 @@ const ProductInformation = () => (
               Every screenshot is rendered at the highest quality settings using
               a real Chromium browser. We then compress the images to the
               smallest file size possible without visible quality loss. You get
-              the same output whether you capture one URL or fifty. See the{' '}
+              the same output whether you capture one URL or twenty-five. See
+              the{' '}
               <Link href='/docs/guides/screenshot/customizing-output'>
                 customizing output guide
               </Link>{' '}
@@ -2828,7 +2829,7 @@ export const Head = () => (
             name: "What's the quality of the bulk screenshots?",
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Every screenshot is rendered at the highest quality settings using a real Chromium browser. We then compress the images to the smallest file size possible without visible quality loss. You get the same output whether you capture one URL or fifty.'
+              text: 'Every screenshot is rendered at the highest quality settings using a real Chromium browser. We then compress the images to the smallest file size possible without visible quality loss. You get the same output whether you capture one URL or twenty-five.'
             }
           }
         ]
