@@ -927,7 +927,7 @@ const ApiKey = () => (
       }
       caption={
         <>
-          The SDK works without authentication — 50 free requests a day. For
+          The SDK works without authentication — 25 free requests a day. For
           higher quotas, configurable TTL, custom headers and proxy, attach an
           API key from any <Link href='/pricing'>paid plan</Link>.
         </>

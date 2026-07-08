@@ -94,7 +94,7 @@ const REASON_TO_USE = [
   {
     title: 'Free, no signup',
     description:
-      'Generate up to 50 Instagram embeds per day for free. No login, no API key, no watermarks.'
+      'Generate up to 25 Instagram embeds per day for free. No login, no API key, no watermarks.'
   }
 ]
 
@@ -233,7 +233,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              Yes — 50 requests per day, no login, no credit card. Cached
+              Yes — 25 requests per day, no login, no credit card. Cached
               responses don't count against your limit.
             </div>
           </>
@@ -274,7 +274,7 @@ export const Head = () => (
           '@type': 'Offer',
           price: '0',
           priceCurrency: 'USD',
-          description: 'Free tier with 50 requests per day'
+          description: 'Free tier with 25 requests per day'
         }
       },
       {
@@ -310,7 +310,7 @@ export const Head = () => (
             name: 'Is the Instagram embed generator free?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: "Yes — 50 requests per day, no login, no credit card. Cached responses don't count against your limit."
+              text: "Yes — 25 requests per day, no login, no credit card. Cached responses don't count against your limit."
             }
           }
         ]

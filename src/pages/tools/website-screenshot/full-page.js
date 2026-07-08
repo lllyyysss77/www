@@ -1113,7 +1113,7 @@ const ProductInformation = () => (
           <>
             <div>
               Yes! You can take up to{' '}
-              <b>50&nbsp;full page screenshots per day</b> for free, with no
+              <b>25&nbsp;full page screenshots per day</b> for free, with no
               credit card required.
             </div>
             <div>
@@ -1236,7 +1236,7 @@ export const Head = () => (
           '@type': 'Offer',
           price: '0',
           priceCurrency: 'USD',
-          description: 'Free tier with 50 full page screenshots per day'
+          description: 'Free tier with 25 full page screenshots per day'
         }
       },
       {
@@ -1256,7 +1256,7 @@ export const Head = () => (
             name: 'Is this entire website screenshot tool really free?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Yes! You can take up to 50 full page screenshots per day for free, with no credit card required.'
+              text: 'Yes! You can take up to 25 full page screenshots per day for free, with no credit card required.'
             }
           },
           {

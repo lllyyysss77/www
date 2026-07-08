@@ -1732,7 +1732,7 @@ const FAQ_ITEMS = [
     answer: (
       <>
         <div>
-          Yes. Microlink offers 50 free screenshot requests per day with no
+          Yes. Microlink offers 25 free screenshot requests per day with no
           account, no login, and no credit card required. The free tier includes
           adblock, cookie banner removal, metadata extraction, and{' '}
           <Link href='/docs/guides/screenshot/browser-settings'>
@@ -1748,7 +1748,7 @@ const FAQ_ITEMS = [
         </div>
       </>
     ),
-    text: 'Yes. Microlink offers 50 free screenshot requests per day with no account, no login, and no credit card required. The free tier includes adblock, cookie banner removal, metadata extraction, and full browser control. For production workloads, the Pro plan starts at €39/month for 46,000 requests with automatic proxy resolution and antibot protection.'
+    text: 'Yes. Microlink offers 25 free screenshot requests per day with no account, no login, and no credit card required. The free tier includes adblock, cookie banner removal, metadata extraction, and full browser control. For production workloads, the Pro plan starts at €39/month for 46,000 requests with automatic proxy resolution and antibot protection.'
   },
   {
     question: 'What is a screenshot API?',
@@ -1915,7 +1915,7 @@ const BottomCta = () => {
             textAlign: 'center'
           })}
         >
-          50&nbsp;requests/day free — no account, no credit card. Start
+          25&nbsp;requests/day free — no account, no credit card. Start
           capturing screenshots at the speed your users&nbsp;deserve.
         </Caption>
         <Flex
@@ -1964,7 +1964,7 @@ const BottomCta = () => {
             justifyContent: 'center'
           })}
         >
-          {['50 requests/day free', 'No login required', 'No credit card'].map(
+          {['25 requests/day free', 'No login required', 'No credit card'].map(
             label => (
               <Flex
                 key={label}

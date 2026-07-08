@@ -196,7 +196,7 @@ const REASON_TO_USE = [
   {
     title: 'Free + No Login',
     description:
-      'Free website to markdown tool with 50 conversions per day. No account needed, no branding, no strings attached.'
+      'Free website to markdown tool with 25 conversions per day. No account needed, no branding, no strings attached.'
   },
   {
     title: 'API Integration Ready',
@@ -2518,7 +2518,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              Yes! You can convert up to <b>50&nbsp;URLs per day</b> for free,
+              Yes! You can convert up to <b>25&nbsp;URLs per day</b> for free,
               with no credit card required. Free conversions include all
               features — ad blocking, HTML selectors, prerendering, inline
               editing, and download.
@@ -2724,7 +2724,7 @@ export const Head = () => (
           '@type': 'Offer',
           price: '0',
           priceCurrency: 'USD',
-          description: 'Free tier with 50 conversions per day'
+          description: 'Free tier with 25 conversions per day'
         },
         featureList: [
           'Convert URL to markdown',
@@ -2747,7 +2747,7 @@ export const Head = () => (
             name: 'Is this website to markdown converter really free?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Yes! You can convert up to 50 URLs per day for free, with no credit card required. Free conversions include all features — ad blocking, HTML selectors, prerendering, inline editing, and download.'
+              text: 'Yes! You can convert up to 25 URLs per day for free, with no credit card required. Free conversions include all features — ad blocking, HTML selectors, prerendering, inline editing, and download.'
             }
           },
           {

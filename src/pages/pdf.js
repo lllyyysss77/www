@@ -3238,7 +3238,7 @@ const CallToAction = () => (
           fontSize: [2, 2, 3, 3]
         })}
       >
-        Get 50&nbsp;requests/day with zero commitment convert HTML to PDF API
+        Get 25&nbsp;requests/day with zero commitment convert HTML to PDF API
         free to use, no account, and no credit card. Just call the API and start
         generating PDFs in seconds.
       </Caption>
@@ -3265,7 +3265,7 @@ const CallToAction = () => (
           justifyContent: 'center'
         })}
       >
-        {['No login needed', '50 reqs/day free', 'No credit card'].map(
+        {['No login needed', '25 reqs/day free', 'No credit card'].map(
           label => (
             <Flex
               key={label}
@@ -3337,7 +3337,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              Yes. Our free HTML to PDF API tier provides 50 requests per day
+              Yes. Our free HTML to PDF API tier provides 25 requests per day
               with unrestricted access to all{' '}
               <Link href='/docs/api/parameters/pdf'>
                 document generation features
@@ -3501,7 +3501,7 @@ const ProductInformation = () => (
 export const Head = () => (
   <Meta
     title='HTML to PDF API - Convert URL to PDF Document'
-    description='Convert HTML or any URL to PDF with a single REST API call. Features custom margins, headless control, and edge caching. 50 free requests/day.'
+    description='Convert HTML or any URL to PDF with a single REST API call. Features custom margins, headless control, and edge caching. 25 free requests/day.'
     structured={{
       '@context': 'https://schema.org',
       '@type': 'SoftwareApplication',
@@ -3529,7 +3529,7 @@ export const Head = () => (
         price: '0',
         priceCurrency: 'EUR',
         description:
-          'Free tier available (50 requests/day). Pro plans start at €39/month for production workloads.',
+          'Free tier available (25 requests/day). Pro plans start at €39/month for production workloads.',
         url: 'https://microlink.io/pricing'
       },
       keywords: [

@@ -58,7 +58,7 @@ export const TOOLS = [
       {
         title: 'Bulk Screenshots',
         description:
-          'Paste up to 50 URLs and capture them all at once. Download every screenshot as a ZIP file. Great for competitive analysis and monitoring.',
+          'Paste up to 25 URLs and capture them all at once. Download every screenshot as a ZIP file. Great for competitive analysis and monitoring.',
         href: '/tools/website-screenshot/bulk',
         icon: BookImageIcon,
         image: '/images/screenshot-bulk.png',
@@ -155,7 +155,7 @@ export const TOOLS = [
       {
         title: 'Bulk PDF',
         description:
-          'Paste up to 50 URLs and convert them all to PDF at once. Download every document as a ZIP file. Great for archiving and batch exports.',
+          'Paste up to 25 URLs and convert them all to PDF at once. Download every document as a ZIP file. Great for archiving and batch exports.',
         href: '/tools/website-to-pdf/bulk',
         icon: Layers,
         image: '/images/bulk-pdf-tool.png',

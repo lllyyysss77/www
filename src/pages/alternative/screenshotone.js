@@ -1528,7 +1528,7 @@ const PricingSection = () => (
             <Box as='ul' css={theme({ pl: 3, m: 0 })}>
               {[
                 'Screenshots + PDF + metadata + previews + remote\u00a0JS',
-                'Free tier: 50\u00a0requests/day, no credit card',
+                'Free tier: 25\u00a0requests/day, no credit card',
                 'No requests-per-minute cap',
                 '240+ edge nodes, 99.9%\u00a0SLA',
                 'Open-source core (MIT)',
@@ -1698,7 +1698,7 @@ const CTASection = () => (
       >
         <br />
         Your first{' '}
-        <b css={theme({ color: 'white' })}>50&nbsp;requests/day are free</b> —
+        <b css={theme({ color: 'white' })}>25&nbsp;requests/day are free</b> —
         no credit card, no commitment.
       </Caption>
 
@@ -1752,7 +1752,7 @@ const TryItSection = () => {
             textAlign: 'center'
           })}
         >
-          50&nbsp;requests/day free — no account, no credit card. Start
+          25&nbsp;requests/day free — no account, no credit card. Start
           capturing screenshots at the speed your users&nbsp;deserve.
         </Caption>
         <Flex
@@ -1813,7 +1813,7 @@ const FAQSection = () => (
           <>
             <div>
               Yes. Microlink's <Link href='/pricing'>free tier</Link> includes
-              50&nbsp;requests/day with no credit card and no time limit. You
+              25&nbsp;requests/day with no credit card and no time limit. You
               get the same API, the same quality, and the same 240+ edge network
               as paid plans.
             </div>
@@ -2005,7 +2005,7 @@ export const Head = () => (
             name: 'Is there a free ScreenshotOne alternative?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: "Yes. Microlink's free tier includes 50 requests/day with no credit card and no time limit. You get the same API, the same quality, and the same 240+ edge network as paid plans. ScreenshotOne also offers a free tier, but it's limited to 100 screenshots with no daily renewal — once they're gone, you need a paid plan."
+              text: "Yes. Microlink's free tier includes 25 requests/day with no credit card and no time limit. You get the same API, the same quality, and the same 240+ edge network as paid plans. ScreenshotOne also offers a free tier, but it's limited to 100 screenshots with no daily renewal — once they're gone, you need a paid plan."
             }
           },
           {

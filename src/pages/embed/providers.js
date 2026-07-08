@@ -2143,7 +2143,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              Yes — 50 requests per day, no login, no credit card. For
+              Yes — 25 requests per day, no login, no credit card. For
               production volume, see <Link href='/pricing'>Pro plans</Link>.
             </div>
           </>
@@ -2180,7 +2180,7 @@ export const Head = () => (
           '@type': 'Offer',
           price: '0',
           priceCurrency: 'USD',
-          description: 'Free tier with 50 requests per day'
+          description: 'Free tier with 25 requests per day'
         }
       },
       {
@@ -2208,7 +2208,7 @@ export const Head = () => (
             name: 'Is the embed tool free?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Yes — 50 requests per day, no login, no credit card. For production volume, see Pro plans.'
+              text: 'Yes — 25 requests per day, no login, no credit card. For production volume, see Pro plans.'
             }
           }
         ]

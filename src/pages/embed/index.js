@@ -1902,7 +1902,7 @@ const EMBED_FEATURES = [
   {
     title: 'Free to Start',
     description:
-      'Embed any URL immediately. No setup fees, no credit card, and pay-as-you-grow pricing once you outgrow the 50 reqs/day free tier.'
+      'Embed any URL immediately. No setup fees, no credit card, and pay-as-you-grow pricing once you outgrow the 25 reqs/day free tier.'
   },
   {
     title: 'Optional Drop-in SDK',
@@ -2168,7 +2168,7 @@ const CallToAction = () => (
           justifyContent: 'center'
         })}
       >
-        {['No login needed', '50 reqs/day free', 'No credit card'].map(
+        {['No login needed', '25 reqs/day free', 'No credit card'].map(
           label => (
             <Flex
               key={label}
@@ -2215,11 +2215,11 @@ const TOP_FAQ_ITEMS = [
   },
   {
     question: 'Is there a free embed API?',
-    text: 'Yes. The Microlink Embed API is free with 50 requests per day — no login, no credit card, no setup. Cached responses served from 240+ Cloudflare edge locations do not count against your daily limit. For production workloads above the free tier, Pro plans start at €39 per month.',
+    text: 'Yes. The Microlink Embed API is free with 25 requests per day — no login, no credit card, no setup. Cached responses served from 240+ Cloudflare edge locations do not count against your daily limit. For production workloads above the free tier, Pro plans start at €39 per month.',
     answer: (
       <>
         <div>
-          Yes. The Microlink <b>Embed API is free with 50 requests per day</b> —
+          Yes. The Microlink <b>Embed API is free with 25 requests per day</b> —
           no login, no credit card, no setup. Cached responses served from 240+
           Cloudflare edge locations do not count against your daily limit.
         </div>
@@ -2463,11 +2463,11 @@ const TOP_FAQ_ITEMS = [
   },
   {
     question: 'Is there a free tier?',
-    text: 'Yes. The embed API is free with 50 requests per day — no login, no credit card, no setup. Just call the SDK and embed any URL. For production workloads that need higher volume, automatic proxy rotation, and priority support, see Pro plans starting at €39/month.',
+    text: 'Yes. The embed API is free with 25 requests per day — no login, no credit card, no setup. Just call the SDK and embed any URL. For production workloads that need higher volume, automatic proxy rotation, and priority support, see Pro plans starting at €39/month.',
     answer: (
       <>
         <div>
-          Yes. The embed API is <b>free to use with 50 requests per day</b> — no
+          Yes. The embed API is <b>free to use with 25 requests per day</b> — no
           login, no credit card, no setup. Just call the SDK and embed any URL.
         </div>
         <div>
@@ -2654,7 +2654,7 @@ export const Head = () => (
             'Optional drop-in SDK for React, Vue, and Vanilla JavaScript',
             'Edge-cached across 240+ Cloudflare locations',
             'Screenshot fallback for URLs without oEmbed',
-            'Free tier with 50 requests per day'
+            'Free tier with 25 requests per day'
           ],
           isPartOf: {
             '@type': 'WebSite',
@@ -2667,7 +2667,7 @@ export const Head = () => (
             price: '0',
             priceCurrency: 'EUR',
             description:
-              'Free tier available (50 requests/day). Pro plans start at €39/month for production workloads.',
+              'Free tier available (25 requests/day). Pro plans start at €39/month for production workloads.',
             url: 'https://microlink.io/pricing'
           },
           keywords: [

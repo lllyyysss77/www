@@ -795,7 +795,7 @@ const FAQ_ITEMS = [
       <>
         <div>
           Yes. ApiFlash offers 100 screenshots per month on its free plan.
-          Microlink gives you 50 requests per day with no credit card and no
+          Microlink gives you 25 requests per day with no credit card and no
           expiry, which adds up to far more room for testing over a month.
         </div>
         <div>
@@ -805,7 +805,7 @@ const FAQ_ITEMS = [
         </div>
       </>
     ),
-    text: "Yes. ApiFlash offers 100 screenshots per month on its free plan. Microlink gives you 50 requests per day with no credit card and no expiry, which adds up to far more room for testing over a month. If you are evaluating an ApiFlash replacement gradually, Microlink's daily-reset model is easier to test in real usage instead of burning a single monthly pool."
+    text: "Yes. ApiFlash offers 100 screenshots per month on its free plan. Microlink gives you 25 requests per day with no credit card and no expiry, which adds up to far more room for testing over a month. If you are evaluating an ApiFlash replacement gradually, Microlink's daily-reset model is easier to test in real usage instead of burning a single monthly pool."
   }
 ]
 
@@ -1344,7 +1344,7 @@ const WHY_SWITCH_ITEMS = [
     description: (
       <>
         ApiFlash offers 100 free screenshots per month. Microlink resets daily
-        with <b>50 free requests every day</b>, so you can test real traffic
+        with <b>25 free requests every day</b>, so you can test real traffic
         patterns instead of burning a single monthly pool in one afternoon.
       </>
     )
@@ -1684,7 +1684,7 @@ const PricingSection = () => (
             <Box as='ul' css={theme({ pl: 3, m: 0 })}>
               {[
                 'Screenshots, PDF, metadata, link previews, remote JS',
-                'Free: 50 requests/day, no credit card, no expiry',
+                'Free: 25 requests/day, no credit card, no expiry',
                 'No per-minute cap on paid plans',
                 '240+ edge nodes, 99.9% SLA',
                 'Open-source core (MIT licensed)',
@@ -1854,7 +1854,7 @@ const CTASection = () => (
         titleize={false}
       >
         Your first{' '}
-        <b css={theme({ color: 'white' })}>50&nbsp;requests/day are free</b> —
+        <b css={theme({ color: 'white' })}>25&nbsp;requests/day are free</b> —
         no credit card, no commitment.
       </Caption>
 
@@ -1908,7 +1908,7 @@ const TryItSection = () => {
             textAlign: 'center'
           })}
         >
-          50&nbsp;requests/day free — no account, no credit card. Start
+          25&nbsp;requests/day free — no account, no credit card. Start
           capturing screenshots at the speed your users&nbsp;deserve.
         </Caption>
         <Flex

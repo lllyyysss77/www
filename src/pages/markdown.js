@@ -3621,7 +3621,7 @@ const CallToAction = () => (
           fontSize: [2, 2, 3, 3]
         })}
       >
-        Get 50&nbsp;requests/day free — our URL to markdown API needs no account
+        Get 25&nbsp;requests/day free — our URL to markdown API needs no account
         and no credit card. Just call the API and start converting URLs to
         markdown in seconds.
       </Caption>
@@ -3648,7 +3648,7 @@ const CallToAction = () => (
           justifyContent: 'center'
         })}
       >
-        {['No login needed', '50 reqs/day free', 'No credit card'].map(
+        {['No login needed', '25 reqs/day free', 'No credit card'].map(
           label => (
             <Flex
               key={label}
@@ -3862,7 +3862,7 @@ const ProductInformation = () => {
             <>
               <div>
                 Yes. The URL to markdown API is free to use with
-                50&nbsp;requests per day — no login, no credit card, and no
+                25&nbsp;requests per day — no login, no credit card, and no
                 setup required. Just call the endpoint and get clean markdown
                 back.
               </div>
@@ -3956,7 +3956,7 @@ export const Head = () => (
             price: '0',
             priceCurrency: 'USD',
             description:
-              'Free tier available for experimentation, 50 requests per day. Pro plans scale for high concurrency.'
+              'Free tier available for experimentation, 25 requests per day. Pro plans scale for high concurrency.'
           },
           keywords:
             'url to markdown api, url to markdown free, web to markdown api, html to markdown api, url to markdown service, markdown for AI agents, RAG ingestion, LLM preprocessing, token-efficient content',
@@ -4058,7 +4058,7 @@ export const Head = () => (
               name: 'Is the URL to markdown API free?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Yes. The URL to markdown API is free to use with 50 requests per day — no login, no credit card, and no setup required. Just call the endpoint and get clean markdown back. For production workloads that need higher volume, automatic proxy rotation, and priority support, see our Pro plans.'
+                text: 'Yes. The URL to markdown API is free to use with 25 requests per day — no login, no credit card, and no setup required. Just call the endpoint and get clean markdown back. For production workloads that need higher volume, automatic proxy rotation, and priority support, see our Pro plans.'
               }
             },
             {

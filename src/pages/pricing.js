@@ -86,7 +86,7 @@ export const Head = () => {
       {
         '@type': 'Offer',
         sku: 'free',
-        name: 'Free · 50 requests / day',
+        name: 'Free · 25 requests / day',
         price: '0',
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
@@ -114,7 +114,7 @@ export const Head = () => {
         name: 'Is there really a free plan?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Yes — the free plan is forever free, no credit card required. You get 50 requests per day against the public endpoint, with the same screenshot, PDF, metadata, SDK, insights and recipes capabilities used on Pro. It runs with rate limits and shared concurrency, so it\u2019s ideal for prototypes, side-projects and evaluation. When you outgrow it, upgrade in a click.'
+          text: 'Yes — the free plan is forever free, no credit card required. You get 25 requests per day against the public endpoint, with the same screenshot, PDF, metadata, SDK, insights and recipes capabilities used on Pro. It runs with rate limits and shared concurrency, so it\u2019s ideal for prototypes, side-projects and evaluation. When you outgrow it, upgrade in a click.'
         }
       },
       {
@@ -301,7 +301,7 @@ const PLAN_NAMES = ['Free', 'Pro', 'Enterprise']
 const COMPARISON_ROWS = [
   {
     label: 'Daily quota',
-    values: ['50 req/day', 'Unlimited', 'Unlimited']
+    values: ['25 req/day', 'Unlimited', 'Unlimited']
   },
   {
     label: 'Monthly quota',
@@ -1321,7 +1321,7 @@ const Faqs = () => (
           <>
             <div>
               Yes — the free plan is forever free, no credit card required. You
-              get 50 requests per day against the public{' '}
+              get 25 requests per day against the public{' '}
               <Link href='/docs/api/basics/endpoint'>endpoint</Link>, with the
               same screenshot, PDF, metadata, SDK, insights and recipes
               capabilities used on Pro.

@@ -173,7 +173,7 @@ const SettingsCompareSlider = () => {
 
 const PDF_HISTORY_KEY = 'pdf-history/bulk'
 const MAX_HISTORY_ITEMS = 50
-const MAX_URLS = 50
+const MAX_URLS = 25
 const HISTORY_MAX_AGE_MS = 24 * 60 * 60 * 1000
 
 const FORMAT_OPTIONS = [
@@ -203,7 +203,7 @@ const FEATURES_LIST = [
   {
     title: 'Bulk URL to PDF Processing',
     description:
-      'Paste up to 50 URLs and bulk convert them all to PDF in sequence. Real-time progress tracking shows each document as it completes.'
+      'Paste up to 25 URLs and bulk convert them all to PDF in sequence. Real-time progress tracking shows each document as it completes.'
   },
   {
     title: 'One-Click ZIP Download',
@@ -223,7 +223,7 @@ const HOW_IT_WORKS = [
     title: 'Paste your URL list',
     description: (
       <>
-        Add up to <b>50 URLs</b> at once — one per line or comma-separated. Any
+        Add up to <b>25 URLs</b> at once — one per line or comma-separated. Any
         publicly accessible <b>web page</b>, <b>article</b>, or <b>dashboard</b>{' '}
         works.
       </>
@@ -288,7 +288,7 @@ const REASON_TO_USE = [
     title: 'Bulk convert multiple URLs to PDF',
     description: (
       <>
-        Paste up to 50 URLs and <b>bulk convert them to PDF</b> in one go. No
+        Paste up to 25 URLs and <b>bulk convert them to PDF</b> in one go. No
         need to process them one by one — save hours of repetitive manual work.
         Need a single URL instead? Use the{' '}
         <Link href='/tools/website-to-pdf'>webpage to PDF tool</Link>.
@@ -312,7 +312,7 @@ const REASON_TO_USE = [
     title: 'Free online — no login required',
     description: (
       <>
-        <b>Batch convert URLs to PDF</b> for free — up to 50 per day. No account
+        <b>Batch convert URLs to PDF</b> for free — up to 25 per day. No account
         needed, no credit card, no watermarks on your documents.
       </>
     )
@@ -2396,7 +2396,7 @@ const BulkPreview = ({
                     </Text>
                     {[
                       <React.Fragment key='limit'>
-                        Free users can generate up to 50 PDFs per day. Your limit
+                        Free users can generate up to 25 PDFs per day. Your limit
                         will reset tomorrow.
                       </React.Fragment>,
                       <React.Fragment key='upgrade'>
@@ -2929,7 +2929,7 @@ const Hero = () => (
         fontSize: [2, 2, '24px', '28px']
       })}
     >
-      Paste a URL list to batch convert up to 50 web pages into PDF documents.
+      Paste a URL list to batch convert up to 25 web pages into PDF documents.
       <br />
       Download your results instantly as a ZIP file.
     </Caption>
@@ -3336,7 +3336,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              Yes! You can <b>bulk convert up to 50&nbsp;URLs to PDF</b> per day
+              Yes! You can <b>bulk convert up to 25&nbsp;URLs to PDF</b> per day
               for free, with no credit card or account required. Free PDFs
               include every feature — paper format, margins, scaling, page
               ranges, and landscape mode.
@@ -3355,7 +3355,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              Paste your <b>URL list</b> (up to 50 links, one per line or
+              Paste your <b>URL list</b> (up to 25 links, one per line or
               comma-separated), choose your settings, and click{' '}
               <b>Generate PDFs</b>. The tool <b>batch converts</b> every page
               and packages all documents into a ZIP file that downloads
@@ -3453,7 +3453,7 @@ const ProductInformation = () => (
             <div>
               The <Link href='/tools/website-to-pdf'>single tool</Link> converts
               one webpage at a time and lets you preview the PDF inline. This{' '}
-              <b>bulk tool</b> accepts up to 50&nbsp;URLs, converts them all
+              <b>bulk tool</b> accepts up to 25&nbsp;URLs, converts them all
               sequentially, and packages everything into a ZIP download.
             </div>
             <div>
@@ -3531,7 +3531,7 @@ export const Head = () => (
   <Meta
     title='Bulk Download PDF from URL List — Batch Webpage Converter'
     noSuffix
-    description='Free online tool to bulk convert multiple URLs to PDF. Paste your URL list, batch process up to 50 web pages, and download them all as a single ZIP file.'
+    description='Free online tool to bulk convert multiple URLs to PDF. Paste your URL list, batch process up to 25 web pages, and download them all as a single ZIP file.'
     schemaType='SoftwareApplication'
     structured={[
       {
@@ -3540,7 +3540,7 @@ export const Head = () => (
         '@id': 'https://microlink.io/tools/website-to-pdf/bulk',
         name: 'Microlink Bulk URL to PDF Converter',
         description:
-          'Free bulk URL to PDF converter. Paste up to 50 URLs, batch convert every page to PDF, and download them all as a ZIP file. Built on Microlink PDF API.',
+          'Free bulk URL to PDF converter. Paste up to 25 URLs, batch convert every page to PDF, and download them all as a ZIP file. Built on Microlink PDF API.',
         url: 'https://microlink.io/tools/website-to-pdf/bulk',
         applicationCategory: ['DeveloperApplication', 'UtilitiesApplication'],
         operatingSystem: 'WebApplication',
@@ -3554,7 +3554,7 @@ export const Head = () => (
           '@type': 'Offer',
           price: '0',
           priceCurrency: 'EUR',
-          description: 'Free tier with 50 bulk PDF conversions per day'
+          description: 'Free tier with 25 bulk PDF conversions per day'
         }
       },
       {
@@ -3566,7 +3566,7 @@ export const Head = () => (
             name: 'Is this bulk URL to PDF tool really free?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Yes! You can bulk convert up to 50 URLs to PDF per day for free, with no credit card or account required. Free PDFs include every feature — paper format, margins, scaling, page ranges, and landscape mode.'
+              text: 'Yes! You can bulk convert up to 25 URLs to PDF per day for free, with no credit card or account required. Free PDFs include every feature — paper format, margins, scaling, page ranges, and landscape mode.'
             }
           },
           {
@@ -3574,7 +3574,7 @@ export const Head = () => (
             name: 'How do I bulk download PDFs from a URL list online?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Paste your URL list (up to 50 links, one per line or comma-separated), choose your settings, and click Generate PDFs. The tool batch converts every page and packages all documents into a ZIP file that downloads automatically.'
+              text: 'Paste your URL list (up to 25 links, one per line or comma-separated), choose your settings, and click Generate PDFs. The tool batch converts every page and packages all documents into a ZIP file that downloads automatically.'
             }
           },
           {
@@ -3598,7 +3598,7 @@ export const Head = () => (
             name: 'What is the difference between the single and bulk PDF tool?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'The single tool converts one webpage at a time with inline preview. This bulk tool accepts up to 50 URLs, converts them all sequentially, and packages everything into a ZIP download. Both share the same settings and are powered by the Microlink PDF API.'
+              text: 'The single tool converts one webpage at a time with inline preview. This bulk tool accepts up to 25 URLs, converts them all sequentially, and packages everything into a ZIP download. Both share the same settings and are powered by the Microlink PDF API.'
             }
           }
         ]
@@ -3611,7 +3611,7 @@ export const Head = () => (
           {
             '@type': 'HowToStep',
             name: 'Paste your URL list',
-            text: 'Add up to 50 URLs at once — one per line or comma-separated. Any publicly accessible web page works.',
+            text: 'Add up to 25 URLs at once — one per line or comma-separated. Any publicly accessible web page works.',
             url: 'https://microlink.io/tools/website-to-pdf/bulk'
           },
           {

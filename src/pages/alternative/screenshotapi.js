@@ -1563,7 +1563,7 @@ const PricingSection = () => (
             <Box as='ul' css={theme({ pl: 3, m: 0 })}>
               {[
                 'Screenshots, PDF, metadata, link previews, remote\u00a0JS',
-                'Free: 50\u00a0requests/day, no credit card, no expiry',
+                'Free: 25\u00a0requests/day, no credit card, no expiry',
                 'No rate limit on any paid plan',
                 '240+ edge nodes, 99.9%\u00a0SLA',
                 'Open-source core (MIT licensed)',
@@ -1733,7 +1733,7 @@ const CTASection = () => (
         titleize={false}
       >
         Your first{' '}
-        <b css={theme({ color: 'white' })}>50&nbsp;requests/day are free</b> —
+        <b css={theme({ color: 'white' })}>25&nbsp;requests/day are free</b> —
         no credit card, no commitment.
       </Caption>
 
@@ -1787,7 +1787,7 @@ const TryItSection = () => {
             textAlign: 'center'
           })}
         >
-          50&nbsp;requests/day free — no account, no credit card. Start
+          25&nbsp;requests/day free — no account, no credit card. Start
           capturing screenshots at the speed your users&nbsp;deserve.
         </Caption>
         <Flex
@@ -1848,7 +1848,7 @@ const FAQSection = () => (
           <>
             <div>
               Yes. Microlink's <Link href='/pricing'>free tier</Link> gives you
-              50&nbsp;requests/day with no credit card and no expiry date. Same
+              25&nbsp;requests/day with no credit card and no expiry date. Same
               API, same quality, same 240+ edge network as paid plans.
             </div>
             <div>
@@ -2067,7 +2067,7 @@ export const Head = () => (
             name: 'Is there a free ScreenshotAPI.net alternative?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: "Yes. Microlink's free tier gives you 50 requests/day with no credit card and no expiry. ScreenshotAPI's free trial is 100 screenshots that expire after 7 days. After 2 days on Microlink's free tier you've already exceeded that total."
+              text: "Yes. Microlink's free tier gives you 25 requests/day with no credit card and no expiry. ScreenshotAPI's free trial is 100 screenshots that expire after 7 days. After 2 days on Microlink's free tier you've already exceeded that total."
             }
           },
           {

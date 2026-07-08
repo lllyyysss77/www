@@ -461,7 +461,7 @@ http
       {
         title: 'Generous Free Tier',
         description:
-          'Start with 50 requests per day — no account, no credit card. Add an API key when you are ready to scale.'
+          'Start with 25 requests per day — no account, no credit card. Add an API key when you are ready to scale.'
       }
     ]
   },
@@ -559,7 +559,7 @@ http
         answer: (
           <>
             <div>
-              The free tier gives you 50 requests per day with no account, no
+              The free tier gives you 25 requests per day with no account, no
               credit card, and no API key. Just call the endpoint and start
               capturing.
             </div>
@@ -602,13 +602,13 @@ http
       </>
     ),
     caption:
-      'Get 50 requests/day with zero commitment — no account and no credit card. Install the SDK and ship your first screenshot in minutes.',
+      'Get 25 requests/day with zero commitment — no account and no credit card. Install the SDK and ship your first screenshot in minutes.',
     primary: {
       label: 'Read the Node.js docs',
       href: '/docs/mql/getting-started/installation'
     },
     secondary: { label: 'See pricing', href: '/pricing' },
-    badges: ['No login needed', '50 reqs/day free', 'No credit card']
+    badges: ['No login needed', '25 reqs/day free', 'No credit card']
   },
 
   // ── Sibling language pages (rendered when present) ────────────────────────

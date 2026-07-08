@@ -90,7 +90,7 @@ const DEVICES = {
 
 const SCREENSHOT_HISTORY_KEY = 'screenshot-history/bulk'
 const MAX_HISTORY_ITEMS = 50
-const MAX_URLS = 50
+const MAX_URLS = 25
 const HISTORY_MAX_AGE_MS = 24 * 60 * 60 * 1000
 const DEVICE_OPTIONS = [
   { value: 'desktop', label: 'Desktop' },
@@ -102,7 +102,7 @@ const FEATURES_LIST = [
   {
     title: 'Batch Processing',
     description:
-      'Paste up to 50 URLs and capture them all in sequence. Real-time progress tracking shows each screenshot as it completes.'
+      'Paste up to 25 URLs and capture them all in sequence. Real-time progress tracking shows each screenshot as it completes.'
   },
   {
     title: 'One-Click ZIP Download',
@@ -120,7 +120,7 @@ const HOW_IT_WORKS = [
   {
     icon: Globe,
     title: 'Paste your URLs',
-    description: 'Add up to 50 URLs at once, one per line or comma-separated.'
+    description: 'Add up to 25 URLs at once, one per line or comma-separated.'
   },
   {
     icon: Settings,
@@ -146,7 +146,7 @@ const REASON_TO_USE = [
     title: 'Capture multiple URLs at once',
     description: (
       <>
-        Paste up to 50 URLs and generate all screenshots in one batch. No need
+        Paste up to 25 URLs and generate all screenshots in one batch. No need
         to capture them one by one — save hours of repetitive manual work. Need
         a single URL instead? Use the{' '}
         <Link href='/tools/website-screenshot'>website screenshot tool</Link>.
@@ -169,7 +169,7 @@ const REASON_TO_USE = [
   {
     title: 'Free + No login required',
     description:
-      'Take up to 50 bulk website screenshots per day for free. No account needed, no credit card, no watermarks on your images.'
+      'Take up to 25 bulk website screenshots per day for free. No account needed, no credit card, no watermarks on your images.'
   },
   {
     title: 'Desktop, tablet, and mobile',
@@ -1749,7 +1749,7 @@ const BulkPreview = ({
                       })}
                       style={{ color: '#78350f' }}
                     >
-                      Free users can take up to 50 screenshots per day. Your limit
+                      Free users can take up to 25 screenshots per day. Your limit
                       will reset tomorrow. For unlimited access, check out our{' '}
                       <Link href='/pricing'>API plans</Link> or write to{' '}
                       <Link href='mailto:hello@microlink.io'>
@@ -2245,7 +2245,7 @@ const Hero = () => (
         fontSize: [2, 2, '24px', '28px']
       })}
     >
-      Paste up to 50 URLs, capture every page at once, and download all
+      Paste up to 25 URLs, capture every page at once, and download all
       screenshots as a ZIP
     </Caption>
   </Flex>
@@ -2596,7 +2596,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              Yes! You can take up to <b>50&nbsp;bulk screenshots per day</b>{' '}
+              Yes! You can take up to <b>25&nbsp;bulk screenshots per day</b>{' '}
               for free, with no credit card or account required. Free
               screenshots include every feature —{' '}
               <Link href='/tools/website-screenshot/full-page'>
@@ -2622,7 +2622,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              You can capture up to <b>50&nbsp;URLs</b> in a single batch. Paste
+              You can capture up to <b>25&nbsp;URLs</b> in a single batch. Paste
               them one per line or comma-separated. Screenshots are processed
               sequentially and you can track progress in real time.
             </div>
@@ -2676,7 +2676,7 @@ const ProductInformation = () => (
               for common failure causes.
             </div>
             <div>
-              If you hit the daily rate limit (50 requests), the remaining URLs
+              If you hit the daily rate limit (25 requests), the remaining URLs
               will be skipped. Your limit resets the next day.
             </div>
           </>
@@ -2690,7 +2690,8 @@ const ProductInformation = () => (
               Every screenshot is rendered at the highest quality settings using
               a real Chromium browser. We then compress the images to the
               smallest file size possible without visible quality loss. You get
-              the same output whether you capture one URL or fifty. See the{' '}
+              the same output whether you capture one URL or twenty-five. See
+              the{' '}
               <Link href='/docs/guides/screenshot/customizing-output'>
                 customizing output guide
               </Link>{' '}
@@ -2765,9 +2766,9 @@ const ProductInformation = () => (
 
 export const Head = () => (
   <Meta
-    title='Bulk website screenshot tool — capture up to 50 URLs at once'
+    title='Bulk website screenshot tool — capture up to 25 URLs at once'
     noSuffix
-    description='Free bulk website screenshot tool. Paste up to 50 URLs, capture every page at once, and download all screenshots as a ZIP. No login required. Powered by Microlink screenshot API.'
+    description='Free bulk website screenshot tool. Paste up to 25 URLs, capture every page at once, and download all screenshots as a ZIP. No login required. Powered by Microlink screenshot API.'
     schemaType='SoftwareApplication'
     structured={[
       {
@@ -2776,7 +2777,7 @@ export const Head = () => (
         '@id': 'https://microlink.io/tools/website-screenshot/bulk',
         name: 'Microlink Bulk Website Screenshot Tool',
         description:
-          'Free bulk website screenshot tool. Paste up to 50 URLs, generate screenshots for every page at once, and download them all as a ZIP file. Built on Microlink screenshot API.',
+          'Free bulk website screenshot tool. Paste up to 25 URLs, generate screenshots for every page at once, and download them all as a ZIP file. Built on Microlink screenshot API.',
         url: 'https://microlink.io/tools/website-screenshot/bulk',
         applicationCategory: ['DeveloperApplication', 'DesignApplication'],
         keywords: [
@@ -2792,7 +2793,7 @@ export const Head = () => (
           '@type': 'Offer',
           price: '0',
           priceCurrency: 'USD',
-          description: 'Free tier with 50 screenshots per day'
+          description: 'Free tier with 25 screenshots per day'
         }
       },
       {
@@ -2804,7 +2805,7 @@ export const Head = () => (
             name: 'Is this bulk website screenshot tool really free?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Yes! You can take up to 50 bulk screenshots per day for free, with no credit card or account required. Free screenshots include every feature — full-page capture, device emulation, ad blocking, and PNG/JPG formats. Need higher limits? Check our pricing plans for unlimited screenshots and priority processing.'
+              text: 'Yes! You can take up to 25 bulk screenshots per day for free, with no credit card or account required. Free screenshots include every feature — full-page capture, device emulation, ad blocking, and PNG/JPG formats. Need higher limits? Check our pricing plans for unlimited screenshots and priority processing.'
             }
           },
           {
@@ -2812,7 +2813,7 @@ export const Head = () => (
             name: 'How many URLs can I screenshot at once?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: "You can capture up to 50 URLs in a single batch. Paste them one per line or comma-separated. Screenshots are processed sequentially and you can track progress in real time. All successful screenshots are packaged into a ZIP file that downloads automatically. They're also saved to your browser's local storage for 24 hours so you can re-download anytime."
+              text: "You can capture up to 25 URLs in a single batch. Paste them one per line or comma-separated. Screenshots are processed sequentially and you can track progress in real time. All successful screenshots are packaged into a ZIP file that downloads automatically. They're also saved to your browser's local storage for 24 hours so you can re-download anytime."
             }
           },
           {
@@ -2828,7 +2829,7 @@ export const Head = () => (
             name: "What's the quality of the bulk screenshots?",
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Every screenshot is rendered at the highest quality settings using a real Chromium browser. We then compress the images to the smallest file size possible without visible quality loss. You get the same output whether you capture one URL or fifty.'
+              text: 'Every screenshot is rendered at the highest quality settings using a real Chromium browser. We then compress the images to the smallest file size possible without visible quality loss. You get the same output whether you capture one URL or twenty-five.'
             }
           }
         ]
