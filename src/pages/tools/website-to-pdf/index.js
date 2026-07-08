@@ -315,7 +315,7 @@ const REASON_TO_USE = [
   {
     title: 'Free + No Login Required',
     description:
-      'Convert up to 50 web pages to PDF per day for free. Every PDF is clean and professional — no watermarks, no branding, no overlays on your documents.'
+      'Convert up to 25 web pages to PDF per day for free. Every PDF is clean and professional — no watermarks, no branding, no overlays on your documents.'
   },
   {
     title: 'History & Local Storage',
@@ -1664,7 +1664,7 @@ const HowItWorks = () => (
           Need to convert multiple pages?
         </Text>
         <Text css={theme({ fontSize: '16px', color: 'black80', pt: 1 })}>
-          Paste up to 50&nbsp;URLs and download all PDFs as a ZIP file.
+          Paste up to 25&nbsp;URLs and download all PDFs as a ZIP file.
         </Text>
       </Box>
       <ArrowLink href='/tools/website-to-pdf/bulk' css={theme({ fontSize: 1 })}>
@@ -2035,7 +2035,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              Yes! You can convert up to <b>50&nbsp;web pages to PDF per day</b>{' '}
+              Yes! You can convert up to <b>25&nbsp;web pages to PDF per day</b>{' '}
               for free, with no credit card required. Every conversion includes
               all features — paper format, margins, scaling, and landscape mode.
             </div>
@@ -2209,7 +2209,7 @@ export const Head = () => (
           price: '0',
           priceCurrency: 'EUR',
           description:
-            'Free tier — save up to 50 web pages as PDF per day, no credit card required'
+            'Free tier — save up to 25 web pages as PDF per day, no credit card required'
         }
       },
       {
@@ -2237,7 +2237,7 @@ export const Head = () => (
             name: 'Is this online HTML to PDF converter free?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Yes. You can convert up to 50 web pages to PDF per day for free, with no credit card required. Every PDF includes all features — paper format, margins, scaling, and landscape mode.'
+              text: 'Yes. You can convert up to 25 web pages to PDF per day for free, with no credit card required. Every PDF includes all features — paper format, margins, scaling, and landscape mode.'
             }
           },
           {

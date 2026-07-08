@@ -61,7 +61,7 @@ const data = {
     {
       title: 'Free, no signup',
       description:
-        'Generate up to 50 Buttondown embeds per day. No login, no API key, no watermarks.'
+        'Generate up to 25 Buttondown embeds per day. No login, no API key, no watermarks.'
     }
   ],
   features: [
@@ -109,7 +109,7 @@ const data = {
     },
     {
       question: 'Is the Buttondown embed generator free?',
-      answer: 'Yes — 50 requests per day, no login, no credit card.'
+      answer: 'Yes — 25 requests per day, no login, no credit card.'
     }
   ]
 }

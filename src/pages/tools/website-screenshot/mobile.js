@@ -243,7 +243,7 @@ const REASON_TO_USE = [
   {
     title: 'Free + No login',
     description:
-      'Free mobile screenshot tool with 50 screen captures per day. Every screenshot is clean and professional. No branding, overlays, or watermarks.'
+      'Free mobile screenshot tool with 25 screen captures per day. Every screenshot is clean and professional. No branding, overlays, or watermarks.'
   },
   {
     title: 'Local Storage Support',
@@ -1155,7 +1155,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              Yes! You can take up to <b>50&nbsp;mobile screenshots per day</b>{' '}
+              Yes! You can take up to <b>25&nbsp;mobile screenshots per day</b>{' '}
               for free, with no credit card required. Free screenshots include
               all features — phone emulation, full-page capture, portrait and
               landscape modes, and multiple formats.
@@ -1313,7 +1313,7 @@ export const Head = () => (
           '@type': 'Offer',
           price: '0',
           priceCurrency: 'USD',
-          description: 'Free tier with 50 mobile screenshots per day'
+          description: 'Free tier with 25 mobile screenshots per day'
         }
       },
       {
@@ -1325,7 +1325,7 @@ export const Head = () => (
             name: 'Is this mobile screenshot tool really free?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Yes! You can take up to 50 mobile screenshots per day for free, with no credit card required. Free screenshots include all features — phone emulation, full-page capture, portrait and landscape modes, and multiple formats.'
+              text: 'Yes! You can take up to 25 mobile screenshots per day for free, with no credit card required. Free screenshots include all features — phone emulation, full-page capture, portrait and landscape modes, and multiple formats.'
             }
           },
           {

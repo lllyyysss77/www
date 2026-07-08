@@ -74,7 +74,7 @@ const MCP_CONFIG_WITH_KEY = `{
       "command": "npx",
       "args": ["-y", "@microlink/mcp"],
       "env": {
-        "MICROLINK_API_KEY": "your-api-key" // Optional - Free tier 50 reqs/day
+        "MICROLINK_API_KEY": "your-api-key" // Optional - Free tier 25 reqs/day
       }
     }
   }
@@ -283,7 +283,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              No API key required to get started. The free tier covers 50
+              No API key required to get started. The free tier covers 25
               requests per day — enough to explore all ten tools.
             </div>
             <div>
@@ -332,7 +332,7 @@ const ProductInformation = () => (
         answer: (
           <>
             <div>
-              Yes. Start immediately with 50 free requests per day — no credit
+              Yes. Start immediately with 25 free requests per day — no credit
               card, no signup required. All ten tools are available on the free
               tier.
             </div>
