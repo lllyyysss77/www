@@ -239,7 +239,7 @@ The Microlink pricing card must surface the proxy bundle in its feature list. If
 [
   'Embeds, screenshots, PDF, metadata, remote JS',
   'Rotating residential proxy + antibot bypass + CAPTCHA handling',
-  'Free: 50 requests/day, no credit card, no expiry',
+  'Free: 25 requests/day, no credit card, no expiry',
   'No per-minute cap on paid plans',
   '240+ edge nodes, 99.9% SLA',
   'Open-source core (MIT licensed)',

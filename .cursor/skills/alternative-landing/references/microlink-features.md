@@ -90,7 +90,7 @@ Microlink pricing varies by which competitor is being compared. Use the tier tha
 - **Per-request cost**: ~$0.00098
 - **Key points**:
   - Screenshots + PDF + metadata + previews + remote JS (all included)
-  - Free tier: 50 requests/day, no credit card
+  - Free tier: 25 requests/day, no credit card
   - No requests-per-minute cap
   - 240+ edge nodes, 99.9% SLA
   - Open-source core (MIT)
@@ -102,7 +102,7 @@ Microlink pricing varies by which competitor is being compared. Use the tier tha
 - **Per-request cost**: ~$0.00098
 - **Key points**:
   - Screenshots, PDF, metadata, link previews, remote JS
-  - Free: 50 requests/day, no credit card, no expiry
+  - Free: 25 requests/day, no credit card, no expiry
   - No rate limit on any paid plan
   - 240+ edge nodes, 99.9% SLA
   - Open-source core (MIT licensed)
@@ -115,7 +115,7 @@ Microlink pricing varies by which competitor is being compared. Use the tier tha
 - **Per-request cost**: $0.98 per 1,000 requests
 - **Key points**:
   - Screenshots + PDF + metadata + previews + remote JS
-  - Free tier: 50 requests/day, no credit card
+  - Free tier: 25 requests/day, no credit card
   - No requests-per-minute cap
   - 240+ edge nodes, 99.9% SLA
   - Open-source core (MIT)
@@ -127,7 +127,7 @@ Microlink pricing varies by which competitor is being compared. Use the tier tha
 - **Per-request cost**: ~€0.00085
 - **Key points**:
   - Screenshots, PDF, metadata, link previews, remote JS
-  - Free: 50 requests/day, no credit card, no expiry
+  - Free: 25 requests/day, no credit card, no expiry
   - No per-minute cap on paid plans
   - 240+ edge nodes, 99.9% SLA
   - Open-source core (MIT licensed)
@@ -139,14 +139,14 @@ Microlink pricing varies by which competitor is being compared. Use the tier tha
 - **Per-request cost**: ~$0.00098
 - **Key points**:
   - Screenshots, PDF, metadata, link previews, remote JS
-  - Free: 50 requests/day, no credit card, no expiry
+  - Free: 25 requests/day, no credit card, no expiry
   - No per-minute cap on paid plans
   - 240+ edge nodes, 99.9% SLA
   - Open-source core (MIT licensed)
 
 ### Free tier (always the same)
 
-- 50 requests/day
+- 25 requests/day
 - No credit card required
 - No expiry / no time limit
 - Same API, same quality, same edge network as paid plans
