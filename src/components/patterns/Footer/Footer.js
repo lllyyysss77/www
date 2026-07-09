@@ -112,6 +112,10 @@ const FOOTER_COLUMNS = [
         href: '/tools/website-screenshot/full-page'
       },
       {
+        label: 'Mobile Screenshot',
+        href: '/tools/website-screenshot/mobile'
+      },
+      {
         label: 'Animated Screenshot',
         href: '/tools/website-screenshot/animated'
       },
