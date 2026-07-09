@@ -31,7 +31,11 @@ import {
   ReactCompareSlider,
   ReactCompareSliderImage
 } from 'react-compare-slider'
-import { Check as CheckIcon, Star as StarIcon } from 'react-feather'
+import {
+  Check as CheckIcon,
+  Chrome as ChromeIcon,
+  Star as StarIcon
+} from 'react-feather'
 import { rotate, dash, fadeInDown, highlight } from 'components/keyframes'
 import ArrowLink from 'components/patterns/ArrowLink'
 import Block from 'components/patterns/Block/Block'
@@ -45,6 +49,7 @@ import Plans from 'components/patterns/Plans/Plans'
 import MultiCodeEditorInteractive from 'components/patterns/MultiCodeEditor/MultiCodeEditorInteractive'
 import { FeaturedToolCard } from 'components/patterns/Tools/ToolCards'
 import { TOOLS as TOOL_CATALOG } from 'components/patterns/Tools/toolCatalog'
+import { PDF_EXTENSION_URL } from 'components/patterns/ChromeExtensionBanner/ChromeExtensionBanner'
 
 import { useHealthcheck } from 'components/hook/use-healthcheck'
 import { useSiteMetadata } from 'components/hook/use-site-meta'
@@ -2937,6 +2942,56 @@ const Playground = () => (
             />
           </Box>
         ))}
+      </Flex>
+
+      <Flex
+        css={theme({
+          mt: 3,
+          py: 3,
+          px: [3, 3, 4, 4],
+          width: '100%',
+          maxWidth: ['550px', '550px', layout.normal, layout.normal],
+          borderRadius: 3,
+          border: 1,
+          borderColor: 'black10',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 3
+        })}
+      >
+        <Flex
+          css={theme({
+            alignItems: 'center',
+            gap: 3,
+            flex: 1,
+            minWidth: '260px'
+          })}
+        >
+          <ChromeIcon size={24} color={colors.black80} />
+          <Box>
+            <Text
+              css={theme({
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: 'black'
+              })}
+            >
+              Also available as a Chrome extension
+            </Text>
+            <Text css={theme({ fontSize: '16px', color: 'black80', pt: 1 })}>
+              Bulk convert up to 100&nbsp;URLs into PDFs from Chrome&apos;s side
+              panel — every file bundled in one ZIP.
+            </Text>
+          </Box>
+        </Flex>
+        <ArrowLink
+          href={PDF_EXTENSION_URL}
+          css={theme({ fontSize: 1 })}
+          onClick={() => trackEvent('pdf extension install')}
+        >
+          Add to Chrome
+        </ArrowLink>
       </Flex>
     </Flex>
   </Container>

@@ -43,6 +43,9 @@ import PdfViewer from 'components/elements/PdfViewer/PdfViewer'
 
 import Block from 'components/patterns/Block/Block'
 import CaptionBase from 'components/patterns/Caption/Caption'
+import ChromeExtensionBanner, {
+  PDF_EXTENSION_URL
+} from 'components/patterns/ChromeExtensionBanner/ChromeExtensionBanner'
 import Faq from 'components/patterns/Faq/Faq'
 import Features from 'components/patterns/Features/Features'
 import Layout from 'components/patterns/Layout'
@@ -1640,6 +1643,17 @@ const HowItWorks = () => (
       ))}
     </Box>
 
+    <ChromeExtensionBanner
+      description={
+        <>
+          Skip the tab switching — the <b>Microlink Website to PDF</b> extension
+          turns any page into a PDF from Chrome&apos;s side panel, powered by
+          the same <Link href='/pdf'>PDF API</Link> as this tool. Paste up to
+          100&nbsp;links and every PDF lands in a single ZIP.
+        </>
+      }
+    />
+
     <Flex
       css={theme({
         mt: 2,
@@ -2049,6 +2063,28 @@ const ProductInformation = () => (
       },
       {
         question:
+          'Is there a Chrome extension for this website to PDF converter?',
+        answer: (
+          <>
+            <div>
+              Yes — the{' '}
+              <Link rel='nofollow' href={PDF_EXTENSION_URL}>
+                Microlink Website to PDF
+              </Link>{' '}
+              Chrome extension brings this converter into your browser&apos;s
+              side panel. Paste up to <b>100 links</b>, pick your PDF options,
+              and download every document bundled in a single ZIP archive.
+            </div>
+            <div>
+              It&apos;s free to install and includes 25 conversions per day. A{' '}
+              <Link href='/pdf'>Microlink PDF API</Link> subscription unlocks up
+              to <b>46,000 conversions per month</b>.
+            </div>
+          </>
+        )
+      },
+      {
+        question:
           'Can I convert any URL to PDF, including private or authenticated pages?',
         answer: (
           <>
@@ -2238,6 +2274,14 @@ export const Head = () => (
             acceptedAnswer: {
               '@type': 'Answer',
               text: 'Yes. You can convert up to 25 web pages to PDF per day for free, with no credit card required. Every PDF includes all features — paper format, margins, scaling, and landscape mode.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'Is there a Chrome extension for this website to PDF converter?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes. The Microlink Website to PDF Chrome extension converts web pages to PDF from Chrome’s side panel — paste up to 100 links and download every PDF bundled in a single ZIP. It is free to install with 25 conversions per day, and a Microlink PDF API subscription unlocks up to 46,000 conversions per month.'
             }
           },
           {

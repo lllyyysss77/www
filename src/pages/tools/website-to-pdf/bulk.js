@@ -55,6 +55,9 @@ import PdfViewer from 'components/elements/PdfViewer/PdfViewer'
 
 import Block from 'components/patterns/Block/Block'
 import CaptionBase from 'components/patterns/Caption/Caption'
+import ChromeExtensionBanner, {
+  PDF_EXTENSION_URL
+} from 'components/patterns/ChromeExtensionBanner/ChromeExtensionBanner'
 import Faq from 'components/patterns/Faq/Faq'
 import Features from 'components/patterns/Features/Features'
 import Layout from 'components/patterns/Layout'
@@ -3045,6 +3048,25 @@ const HowItWorks = () => (
         </Flex>
       ))}
     </Box>
+
+    <ChromeExtensionBanner
+      title='Need bigger batches? The Chrome extension handles 100 URLs'
+      description={
+        <>
+          The <b>Microlink Website to PDF</b> extension brings this bulk
+          converter into Chrome&apos;s side panel — same paper formats,
+          orientation, and margins, powered by the same{' '}
+          <Link href='/pdf'>PDF API</Link> — with a 4× bigger batch size and
+          every PDF bundled in a single ZIP.
+        </>
+      }
+      highlights={[
+        'Up to 100 URLs per batch',
+        'Automatic ZIP download',
+        '24-hour PDF history',
+        'No account needed'
+      ]}
+    />
   </Container>
 )
 
@@ -3351,6 +3373,27 @@ const ProductInformation = () => (
         )
       },
       {
+        question: 'Can I bulk convert URLs to PDF from a Chrome extension?',
+        answer: (
+          <>
+            <div>
+              Yes — the{' '}
+              <Link rel='nofollow' href={PDF_EXTENSION_URL}>
+                Microlink Website to PDF
+              </Link>{' '}
+              Chrome extension runs this bulk converter from your browser&apos;s
+              side panel and raises the batch size to <b>100 URLs</b>, with the
+              same PDF options and automatic ZIP download.
+            </div>
+            <div>
+              It&apos;s free to install and includes 25 conversions per day. A{' '}
+              <Link href='/pdf'>Microlink PDF API</Link> subscription unlocks up
+              to <b>46,000 conversions per month</b>.
+            </div>
+          </>
+        )
+      },
+      {
         question: 'How do I bulk download PDFs from a URL list online?',
         answer: (
           <>
@@ -3599,6 +3642,14 @@ export const Head = () => (
             acceptedAnswer: {
               '@type': 'Answer',
               text: 'The single tool converts one webpage at a time with inline preview. This bulk tool accepts up to 25 URLs, converts them all sequentially, and packages everything into a ZIP download. Both share the same settings and are powered by the Microlink PDF API.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'Can I bulk convert URLs to PDF from a Chrome extension?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes. The Microlink Website to PDF Chrome extension runs this bulk converter from Chrome’s side panel and raises the batch size to 100 URLs, with the same PDF options and automatic ZIP download. It is free to install with 25 conversions per day, and a Microlink PDF API subscription unlocks up to 46,000 conversions per month.'
             }
           }
         ]
