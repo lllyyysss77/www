@@ -1,6 +1,6 @@
 import { colors, layout, theme, transition } from 'theme'
 import { Archive, Check, Chrome } from 'react-feather'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import React from 'react'
 
 import Box from 'components/elements/Box'
@@ -15,15 +15,13 @@ import { trackEvent } from 'helpers/plausible'
 export const PDF_EXTENSION_URL =
   'https://chromewebstore.google.com/detail/microlink-website-to-pdf/ljffiabcijcclcicihhjmoibjjnlkdon'
 
-const PromoCard = styled(Flex)`
+const cardBase = css`
   ${theme({
     width: '100%',
-    flexDirection: 'column',
     border: 1,
     borderColor: 'black10',
     borderRadius: 3,
-    overflow: 'hidden',
-    p: [3, 3, 4, 4]
+    overflow: 'hidden'
   })}
   background: linear-gradient(120deg, #ffffff 0%, #fdfaff 60%, #fff5fa 100%);
   transition: box-shadow ${transition.medium}, transform ${transition.medium};
@@ -36,6 +34,23 @@ const PromoCard = styled(Flex)`
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transform: translateY(-2px);
   }
+`
+
+const PromoCard = styled(Flex)`
+  ${cardBase}
+  ${theme({ flexDirection: 'column', p: [3, 3, 4, 4] })}
+`
+
+const CompactCard = styled(Flex)`
+  ${cardBase}
+  ${theme({
+    flexDirection: ['column', 'column', 'row', 'row'],
+    alignItems: ['flex-start', 'flex-start', 'center', 'center'],
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: 3,
+    p: [3, 3, 4, 4]
+  })}
 `
 
 const ChromeChip = styled(Flex)`
@@ -52,7 +67,7 @@ const ChromeChip = styled(Flex)`
   })}
 `
 
-const InstallButton = styled('a')`
+const installButtonBase = css`
   ${theme({
     display: 'flex',
     alignItems: 'center',
@@ -65,7 +80,6 @@ const InstallButton = styled('a')`
     fontFamily: 'sans',
     fontWeight: 'bold'
   })}
-  width: 100%;
   box-sizing: border-box;
   color: white;
   background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
@@ -96,6 +110,16 @@ const InstallButton = styled('a')`
     outline: 2px solid ${colors.link};
     outline-offset: 2px;
   }
+`
+
+const InstallButton = styled('a')`
+  ${installButtonBase}
+  width: 100%;
+`
+
+const InstallButtonInline = styled('a')`
+  ${installButtonBase}
+  flex-shrink: 0;
 `
 
 /* ─── Side panel mockup ──────────────────────────────────
@@ -323,6 +347,63 @@ const ChromeExtensionBanner = ({
       </Box>
     </PromoCard>
   </Container>
+)
+
+/* ─── Compact variant ────────────────────────────────────
+   Slim, single-row version of the banner for spots that
+   already sit inside a busy section (e.g. the /pdf
+   playground). Shares the card, chip, and gradient button
+   with the full banner, without the mockup, highlights, or
+   pricing footer. */
+
+const COMPACT_DEFAULT_TITLE = 'Also available as a Chrome extension'
+
+const COMPACT_DEFAULT_DESCRIPTION = (
+  <>
+    Bulk convert up to 100&nbsp;URLs into PDFs from Chrome&apos;s side panel —
+    every file bundled in one ZIP.
+  </>
+)
+
+export const ChromeExtensionBannerCompact = ({
+  title = COMPACT_DEFAULT_TITLE,
+  description = COMPACT_DEFAULT_DESCRIPTION,
+  buttonLabel = "Add to Chrome — it's free",
+  eventName = 'pdf extension install',
+  ...props
+}) => (
+  <CompactCard {...props}>
+    <Box css={{ flex: 1, minWidth: '260px' }}>
+      <Text
+        css={theme({
+          fontSize: [2, 2, '20px', '20px'],
+          fontWeight: 'bold',
+          color: 'black'
+        })}
+      >
+        {title}
+      </Text>
+      <Text
+        css={theme({
+          fontSize: '16px',
+          color: 'black80',
+          lineHeight: 2,
+          pt: 1
+        })}
+      >
+        {description}
+      </Text>
+    </Box>
+    <InstallButtonInline
+      href={PDF_EXTENSION_URL}
+      target='_blank'
+      rel='nofollow noopener noreferrer'
+      onClick={() => trackEvent(eventName)}
+    >
+      <Chrome size={18} style={{ flexShrink: 0 }} />
+      {buttonLabel}
+    </InstallButtonInline>
+  </CompactCard>
 )
 
 export default ChromeExtensionBanner
