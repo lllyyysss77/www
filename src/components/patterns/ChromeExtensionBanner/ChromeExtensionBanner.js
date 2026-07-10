@@ -56,7 +56,7 @@ const CompactCard = styled(Flex)`
   })}
 `
 
-const ChromeChip = styled(Flex)`
+export const ChromeChip = styled(Flex)`
   ${theme({
     alignItems: 'center',
     gap: 2,
@@ -120,7 +120,7 @@ const InstallButton = styled('a')`
   width: 100%;
 `
 
-const InstallButtonInline = styled('a')`
+export const InstallButtonInline = styled('a')`
   ${installButtonBase}
   flex-shrink: 0;
 `
@@ -210,7 +210,7 @@ const PanelZipRow = ({ icon: Icon, filename, label }) => (
   </Flex>
 )
 
-const PdfPanelMockup = () => (
+export const PdfPanelMockup = () => (
   <PanelFrame aria-hidden='true'>
     <PanelHeader icon={Chrome} count='100 of 100' />
     <Box css={theme({ py: 1 })}>
@@ -234,7 +234,7 @@ const ShotThumb = styled(Box)`
   })}
 `
 
-const ScreenshotPanelMockup = () => (
+export const ScreenshotPanelMockup = () => (
   <PanelFrame aria-hidden='true'>
     <PanelHeader icon={Camera} count='50 of 50' />
     <Box css={theme({ py: 2 })}>
