@@ -1,35 +1,25 @@
 import DotsBackground from 'components/patterns/DotsBackground/DotsBackground'
-import { withTitle } from 'helpers/hoc/with-title'
-import CaptionBase from 'components/patterns/Caption/Caption'
+import Caption from 'components/patterns/Caption/Caption'
 import Layout from 'components/patterns/Layout'
 import { layout, theme as themeProp } from 'theme'
 import Markdown from 'components/markdown'
-import Tooltip from 'components/patterns/Tooltip/Tooltip'
 import { trackEvent } from 'helpers/plausible'
-import { useClipboard } from 'components/hook/use-clipboard'
 import React from 'react'
 
 import Box from 'components/elements/Box'
 import { Button } from 'components/elements/Button/Button'
 import Caps from 'components/elements/Caps'
 import Container from 'components/elements/Container'
-import HeadingBase from 'components/elements/Heading'
+import Heading from 'components/elements/Heading'
 import Meta from 'components/elements/Meta/Meta'
-import Text from 'components/elements/Text'
 
 import Content from '../content/fragments/enterprise.md'
-
-const Heading = withTitle(HeadingBase)
-
-const Caption = withTitle(CaptionBase)
 
 export const Head = () => (
   <Meta description='Microlink Enterprise: dedicated API infrastructure, isolated browser pool, global CDN, and priority support for high-volume customers.' />
 )
 
 const EnterprisePage = () => {
-  const [ClipboardComponent, toClipboard] = useClipboard()
-
   return (
     <DotsBackground>
       <Layout>
@@ -40,14 +30,13 @@ const EnterprisePage = () => {
             alignItems: 'center'
           })}
         >
-          <Heading titleize={false}>Microlink for Enterprise</Heading>
+          <Heading>Microlink for Enterprise</Heading>
           <Caption
             css={themeProp({
               pt: [3, null, 4],
               px: 4,
               maxWidth: layout.small
             })}
-            titleize={false}
           >
             For high-volume customers who've outgrown shared infrastructure.
           </Caption>
@@ -75,28 +64,6 @@ const EnterprisePage = () => {
               <Caps css={themeProp({ fontSize: 0 })}>Contact sales</Caps>
             </Button>
           </Box>
-          <Box css={themeProp({ pt: 2 })}>
-            <Text css={themeProp({ fontSize: 0, color: 'black60' })}>
-              or email us at{' '}
-              <Text
-                as='span'
-                onClick={() =>
-                  toClipboard({
-                    copy: 'hello@microlink.io',
-                    text: Tooltip.TEXT.COPIED('email')
-                  })}
-                css={themeProp({
-                  color: 'black',
-                  cursor: 'pointer',
-                  textDecoration: 'underline',
-                  fontSize: 1
-                })}
-              >
-                hello@microlink.io
-              </Text>
-            </Text>
-          </Box>
-          <ClipboardComponent />
         </Container>
       </Layout>
     </DotsBackground>

@@ -6,7 +6,9 @@ import { getApiUrl } from '@microlink/mql'
 import { normalizeUrl } from 'helpers/url-input'
 import { trackEvent } from 'helpers/plausible'
 import { toCurlSnippetOrEmpty } from 'helpers/curl-snippet'
+import { lighthouseViewerUrl } from 'helpers/lighthouse'
 import { trimMs } from 'helpers/trim-ms'
+import { CDN_EDGES } from 'helpers/cdn-edges'
 import humanizeUrl from 'humanize-url'
 import get from 'dlv'
 
@@ -57,8 +59,7 @@ const FEATURES = [
   },
   {
     title: 'Global CDN Network',
-    description:
-      'Distributed across 240+ edge locations powered by Cloudflare. Lightning-fast performance insights from anywhere worldwide.'
+    description: `Distributed across ${CDN_EDGES} edge locations powered by Cloudflare. Lightning-fast performance insights from anywhere worldwide.`
   },
   {
     title: 'Developer-First API',
@@ -278,12 +279,9 @@ const LiveDemo = React.memo(function LiveDemo ({
   const snippetTechnologiesText = toCurlSnippetOrEmpty(embedTechnologiesUrl)
   const snippetInsightsText = toCurlSnippetOrEmpty(embedInsightsUrl)
 
-  const reportUrl = useMemo(() => {
-    if (!embedInsightsUrl) return ''
-    return `https://lighthouse.microlink.io/?url=${encodeURIComponent(
-      embedInsightsUrl
-    )}`
-  }, [embedInsightsUrl])
+  const reportUrl = embedInsightsUrl
+    ? lighthouseViewerUrl(embedInsightsUrl)
+    : ''
   const hasTechnologies = Array.isArray(technologies)
     ? technologies.length > 0
     : Boolean(technologies)

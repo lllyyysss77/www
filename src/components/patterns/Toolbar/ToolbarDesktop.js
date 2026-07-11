@@ -37,6 +37,7 @@ import {
   TOOLBAR_CHEVRON_ICON_SIZE,
   TOOLBAR_LIST_RESET_STYLES,
   TOOLBAR_MENU_ITEM_DESCRIPTION_STYLES,
+  TOOLBAR_MENU_ITEM_ICON_STYLES,
   TOOLBAR_MENU_ITEM_MEDIA_STYLES,
   TOOLBAR_RESOURCE_MENU_ITEM_MEDIA_STYLES,
   TOOLBAR_MENU_ITEM_TITLE_STYLES,
@@ -182,7 +183,7 @@ const MegaMenuPanel = styled(Box).withConfig({
   border: 1px solid ${colors.black10};
   border-radius: 20px;
   background: white;
-  box-shadow: ${shadows[2]};
+  box-shadow: ${shadows[4]};
   transform-origin: top center;
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   transform: translateY(${({ isVisible }) => (isVisible ? '0px' : '-8px')})
@@ -940,7 +941,10 @@ const ToolbarDesktop = () => {
                                   data-event-name={label}
                                   onClick={handleClosePanel}
                                   css={theme({
-                                    '> a': { padding: '6px 12px' },
+                                    '> a': {
+                                      padding: '6px 12px',
+                                      alignItems: 'center'
+                                    },
                                     whiteSpace: 'normal'
                                   })}
                                 >
@@ -952,10 +956,7 @@ const ToolbarDesktop = () => {
                                       RESOURCE_MENU_ITEM_ICON_CLASSNAME
                                     }
                                     iconCss={theme(
-                                      getMenuItemMediaStyles(
-                                        label,
-                                        TOOLBAR_RESOURCE_MENU_ITEM_MEDIA_STYLES
-                                      )
+                                      TOOLBAR_MENU_ITEM_ICON_STYLES
                                     )}
                                   />
                                   <Text

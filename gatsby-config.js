@@ -47,9 +47,9 @@ module.exports = {
     // Basic
     name: 'Microlink',
     author: 'Microlink HQ',
-    headline: 'Microlink | Headless Browser API: Screenshot, PDF & Previews',
+    headline: 'Microlink | Everything your AI agent needs from any link',
     description:
-      'Turn any URL into structured data. The all-in-one API for browser automation: screenshots, PDFs, scraping, and link previews. No infrastructure to manage.',
+      'Turn any link into screenshots, PDFs, clean text, and structured data with one simple API. Works with any AI agent or your own code. Try it, no signup.',
     siteUrl: SITE_URL,
     canonicalUrl: CANONICAL_URL,
     ogImageBase: OG_IMAGE_BASE,
