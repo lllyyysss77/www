@@ -28,19 +28,19 @@ export const getFaqQuestions = () => {
       )
     },
     {
-      question: 'What’s the difference between the free and Pro plans?',
+      question: 'What’s the difference between the free and paid plans?',
       answer: (
         <>
           <div>
-            The Pro plan is built for scale, with better performance and
+            The paid plan is built for scale, with better performance and
             unlocked features such as{' '}
             <Link href='/docs/api/parameters/headers'>headers</Link>,{' '}
             <Link href='/docs/api/parameters/ttl'>ttl</Link> or{' '}
             <Link href='/docs/api/parameters/proxy'>proxy</Link>.
           </div>
           <div>
-            A Pro plan comes with an associated API key and configurable quota.
-            You only pay for what you need.
+            It comes with an associated API key and configurable quota. You only
+            pay for what you need.
           </div>
         </>
       )
@@ -87,22 +87,29 @@ export const getFaqQuestions = () => {
       )
     },
     {
+      question: 'Can Microlink handle my traffic?',
+      answer: (
+        <>
+          <div>
+            Yes. The platform is built for production workloads and the bursty
+            traffic agents generate: retries, loops, and parallel fan-outs.
+            We&rsquo;ve supported enterprise deployments processing up to{' '}
+            {CAPACITY_REQUESTS_PER_MONTH} requests per month, with sustained
+            daily traffic of more than 6 million requests.
+          </div>
+          <div>
+            No need to warn us before a spike or throttle on your side; your
+            quota is the only limit.
+          </div>
+        </>
+      )
+    },
+    {
       question: "What's your SLA level?",
       answer: (
         <div>
           Our Service-Level Agreements commitment is 99.9% (three nines). You
           can see the live <Link href='/status'>status</Link> of the service.
-        </div>
-      )
-    },
-    {
-      question: 'Can Microlink handle my traffic?',
-      answer: (
-        <div>
-          Yes. The platform is built for production workloads and burst traffic.
-          We&rsquo;ve supported enterprise deployments processing up to{' '}
-          {CAPACITY_REQUESTS_PER_MONTH} requests per month, with sustained daily
-          traffic of more than 6 million requests.
         </div>
       )
     },

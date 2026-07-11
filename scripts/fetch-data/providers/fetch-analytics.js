@@ -5,6 +5,7 @@ const path = require('path')
 const ANALYTICS_URL = 'https://analytics.microlink.io?domain=microlink.io'
 const CLOUDFLARE_NETWORK_URL = 'https://www.cloudflare.com/network/'
 const FALLBACK_CDN_EDGES = 330
+const DIST = path.resolve(__dirname, '../../../data/analytics.json')
 
 const roundPretty = pretty => {
   const match = String(pretty).match(/^([\d.]+)(\D+)$/)
@@ -50,8 +51,9 @@ module.exports = () =>
         }
       ]
     },
-    { dist: path.resolve(__dirname, '../../../data/analytics.json') }
+    { dist: DIST }
   )
 
+module.exports.dist = DIST
 module.exports.roundPretty = roundPretty
 module.exports.parseCdnEdges = parseCdnEdges

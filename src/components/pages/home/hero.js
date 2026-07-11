@@ -2161,11 +2161,10 @@ const Hero = () => {
 
         <Caption
           forwardedAs='p'
-          css={theme({ pt: 3, mx: [0, 0, 5, 6], fontSize: 2 })}
+          css={theme({ pt: 3, maxWidth: '32rem', fontSize: 2 })}
         >
-          Everything your AI agent needs from any link: screenshots, PDFs, clean
-          markdown, and structured data through one simple API. Tell it what to
-          do below and try it live, no signup.
+          AI-ready web automation infrastructure. Any link, any scale, nothing
+          to maintain. Try it below, no signup.
         </Caption>
 
         <Composer>
