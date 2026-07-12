@@ -1,5 +1,3 @@
-import { lighten } from 'polished'
-
 export { css as theme } from '@techstack/styled-system'
 
 export const toPx = n => `${n}px`
@@ -27,9 +25,9 @@ export const borders = [0, '1px solid', '2px solid', '2px dashed']
 // https://palx.jxnblk.com/067df7
 // https://github.com/yeun/open-color
 export const colors = {
-  link: '#067df7',
-  hoverLink: lighten(0.15, '#067df7'),
-  secondary: '#EA407B',
+  link: '#0473e4',
+  hoverLink: '#015cba',
+  secondary: '#d92d6e',
   close: '#27C93F',
   minimize: '#FFBD2E',
   fullscreen: '#FF5F56',
