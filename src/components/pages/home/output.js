@@ -6,7 +6,7 @@ import { HeroCard } from 'components/pages/embed/PreviewCards'
 import { HeroSearchResultCard } from 'components/pages/search/ResultCards'
 import { lighthouseViewerUrl } from 'helpers/lighthouse'
 import { prefersReducedMotion } from 'helpers/reduced-motion'
-import { theme, fonts, colors, gradient } from 'theme'
+import { theme, fonts, colors, gradient, space } from 'theme'
 import React, { useEffect, useRef, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { getApiUrl } from '@microlink/mql'
@@ -15,6 +15,19 @@ const MONO = fonts.mono
 
 const CARD_SHADOW = '0 18px 50px -22px rgba(40,10,60,.45)'
 
+const MEDIA_MAX_HEIGHT = 440
+const STAGE_PADDING = parseInt(space[4], 10)
+
+export const PANEL_HEIGHT = `${MEDIA_MAX_HEIGHT + STAGE_PADDING * 2}px`
+
+const PanelContent = styled(Box)`
+  ${theme({
+    minHeight: 'inherit',
+    display: 'flex',
+    flexDirection: 'column'
+  })};
+`
+
 const Stage = styled(Flex)`
   align-items: center;
   justify-content: center;
@@ -22,17 +35,23 @@ const Stage = styled(Flex)`
     22px 22px;
 `
 
-const ImageOutput = ({ url, alt, contain }) => (
-  <Stage css={theme({ p: 4, maxHeight: '480px', overflow: 'auto' })}>
+const mediaBox = (width, height) =>
+  width > 0 && height > 0
+    ? {
+        width: `min(100%, calc(${MEDIA_MAX_HEIGHT}px * ${width / height}))`,
+        aspectRatio: `${width} / ${height}`
+      }
+    : { maxWidth: '100%', maxHeight: `${MEDIA_MAX_HEIGHT}px` }
+
+const ImageOutput = ({ url, alt, width, height }) => (
+  <Stage css={theme({ p: 4, maxHeight: PANEL_HEIGHT, overflow: 'auto' })}>
     <Box
       as='img'
       src={url}
       alt={alt}
       loading='lazy'
       css={theme({
-        maxWidth: '100%',
-        maxHeight: '440px',
-        objectFit: contain ? 'contain' : 'initial',
+        ...mediaBox(width, height),
         borderRadius: 4,
         boxShadow: CARD_SHADOW
       })}
@@ -40,7 +59,7 @@ const ImageOutput = ({ url, alt, contain }) => (
   </Stage>
 )
 
-const AnimatedOutput = ({ url }) => {
+const AnimatedOutput = ({ url, width, height }) => {
   const videoRef = useRef(null)
   const [reduced, setReduced] = useState(false)
 
@@ -51,7 +70,7 @@ const AnimatedOutput = ({ url }) => {
   }, [url])
 
   return (
-    <Stage css={theme({ p: 4, maxHeight: '480px', overflow: 'auto' })}>
+    <Stage css={theme({ p: 4, maxHeight: PANEL_HEIGHT, overflow: 'auto' })}>
       <Box
         as='video'
         ref={videoRef}
@@ -62,8 +81,7 @@ const AnimatedOutput = ({ url }) => {
         playsInline
         controls={reduced}
         css={theme({
-          maxWidth: '100%',
-          maxHeight: '440px',
+          ...mediaBox(width, height),
           borderRadius: 4,
           boxShadow: CARD_SHADOW
         })}
@@ -80,7 +98,7 @@ const Swatch = styled.span`
 `
 
 const LogoOutput = ({ logo, palette }) => (
-  <Box>
+  <PanelContent css={theme({ justifyContent: 'center' })}>
     <Stage css={theme({ p: 5, minHeight: '220px' })}>
       <Box
         as='img'
@@ -119,7 +137,7 @@ const LogoOutput = ({ logo, palette }) => (
         ))}
       </Flex>
     )}
-  </Box>
+  </PanelContent>
 )
 
 const PdfOutput = ({ url }) => (
@@ -127,20 +145,29 @@ const PdfOutput = ({ url }) => (
     as='iframe'
     src={url}
     title='PDF output'
-    css={theme({ width: '100%', height: '520px', border: 0, display: 'block' })}
+    css={theme({
+      width: '100%',
+      height: PANEL_HEIGHT,
+      border: 0,
+      display: 'block'
+    })}
   />
 )
 
 const Card = ({ data, fallbackUrl }) => (
-  <Flex css={theme({ p: 4, justifyContent: 'center' })}>
+  <PanelContent
+    css={theme({ p: 4, justifyContent: 'center', alignItems: 'center' })}
+  >
     <HeroCard data={{ url: fallbackUrl, ...data }} />
-  </Flex>
+  </PanelContent>
 )
 
-const EmbedOutput = ({ url }) => (
-  <Box css={theme({ p: 4, display: 'flex', justifyContent: 'center' })}>
-    <Microlink url={url} size='large' />
-  </Box>
+const EmbedOutput = ({ url, data }) => (
+  <PanelContent
+    css={theme({ p: 4, justifyContent: 'center', alignItems: 'center' })}
+  >
+    <Microlink url={url} size='large' fetchData={!data} setData={data} />
+  </PanelContent>
 )
 
 const MetadataOutput = ({ data }) => {
@@ -159,7 +186,7 @@ const MetadataOutput = ({ data }) => {
   ].filter(([, value]) => value)
 
   return (
-    <Box css={theme({ p: 4, maxHeight: '480px', overflow: 'auto' })}>
+    <Box css={theme({ p: 4, maxHeight: PANEL_HEIGHT, overflow: 'auto' })}>
       {fields.map(([label, value]) => (
         <Flex
           key={label}
@@ -264,7 +291,7 @@ const ProBadge = styled.span`
 `
 
 const SearchOutput = ({ data }) => (
-  <Box css={theme({ p: 4, maxHeight: '480px', overflow: 'auto' })}>
+  <Box css={theme({ p: 4, maxHeight: PANEL_HEIGHT, overflow: 'auto' })}>
     <Flex
       css={theme({
         alignItems: 'center',
@@ -296,7 +323,7 @@ const SearchOutput = ({ data }) => (
 )
 
 const RawText = styled(Box)`
-  max-height: 480px;
+  max-height: ${PANEL_HEIGHT};
   overflow: auto;
   white-space: pre-wrap;
   word-break: break-word;
@@ -311,7 +338,7 @@ const LighthouseOutput = ({ url }) => (
     )}
     css={theme({
       width: '100%',
-      height: '560px',
+      height: PANEL_HEIGHT,
       border: 0,
       display: 'block',
       background: '#fff'
@@ -332,12 +359,15 @@ const TechnologiesOutput = ({ technologies }) => {
     return <Empty>No technologies detected on this page.</Empty>
   }
   return (
-    <Box css={theme({ p: 3, maxHeight: '480px', overflow: 'auto' })}>
+    <PanelContent
+      css={theme({ p: 3, maxHeight: PANEL_HEIGHT, overflow: 'auto' })}
+    >
       <Flex
         css={theme({
           justifyContent: 'center',
           flexWrap: 'wrap',
-          gap: 2
+          gap: 2,
+          my: 'auto'
         })}
       >
         {technologies.map(tech => (
@@ -391,7 +421,7 @@ const TechnologiesOutput = ({ technologies }) => {
           </TechCard>
         ))}
       </Flex>
-    </Box>
+    </PanelContent>
   )
 }
 
@@ -407,7 +437,7 @@ const TextOutput = ({ text }) => (
   <Box
     css={theme({
       p: 4,
-      maxHeight: '480px',
+      maxHeight: PANEL_HEIGHT,
       overflow: 'auto',
       fontSize: 1,
       lineHeight: 1.7,
@@ -605,11 +635,13 @@ const AudioOutput = ({ data }) => {
   const subtitle = [data.author, data.publisher].filter(Boolean).join(' · ')
 
   return (
-    <Box css={theme({ p: 4 })}>
+    <PanelContent css={theme({ p: 4 })}>
       <Flex
         css={theme({
           maxWidth: '480px',
           mx: 'auto',
+          my: 'auto',
+          width: '100%',
           alignItems: 'center',
           gap: 3,
           p: 3,
@@ -740,7 +772,7 @@ const AudioOutput = ({ data }) => {
         preload='metadata'
         css={{ display: 'none' }}
       />
-    </Box>
+    </PanelContent>
   )
 }
 
@@ -832,12 +864,14 @@ const VideoOutput = ({ data }) => {
   const title = [data.title, data.publisher].filter(Boolean).join(' · ')
 
   return (
-    <Box css={theme({ p: 4 })}>
+    <PanelContent css={theme({ p: 4 })}>
       <Box
         css={theme({
           position: 'relative',
           maxWidth: '640px',
           mx: 'auto',
+          my: 'auto',
+          width: '100%',
           borderRadius: 8,
           overflow: 'hidden',
           background: '#000',
@@ -909,12 +943,12 @@ const VideoOutput = ({ data }) => {
           </Box>
         </ControlBar>
       </Box>
-    </Box>
+    </PanelContent>
   )
 }
 
 const CodeBlock = styled(Box)`
-  max-height: 320px;
+  max-height: ${PANEL_HEIGHT};
   overflow: auto;
   white-space: pre-wrap;
   word-break: break-word;
@@ -1114,14 +1148,19 @@ const FunctionOutput = ({ result }) => (
 )
 
 const Empty = ({ children }) => (
-  <Box css={theme({ p: 4 })}>
+  <PanelContent css={theme({ p: 4 })}>
     <Box
       as='span'
-      css={theme({ fontFamily: 'mono', fontSize: 0, color: 'gray6' })}
+      css={theme({
+        fontFamily: 'mono',
+        fontSize: 0,
+        color: 'gray6',
+        my: 'auto'
+      })}
     >
       {children}
     </Box>
-  </Box>
+  </PanelContent>
 )
 
 const Output = ({ req }) => {
@@ -1132,7 +1171,12 @@ const Output = ({ req }) => {
     case 'screenshot':
       return data.screenshot?.url
         ? (
-          <ImageOutput url={data.screenshot.url} alt='screenshot' />
+          <ImageOutput
+            url={data.screenshot.url}
+            alt='screenshot'
+            width={data.screenshot.width}
+            height={data.screenshot.height}
+          />
           )
         : (
           <Empty>No screenshot in this response.</Empty>
@@ -1141,7 +1185,11 @@ const Output = ({ req }) => {
     case 'animated':
       return data.screenshot?.animated?.url
         ? (
-          <AnimatedOutput url={data.screenshot.animated.url} />
+          <AnimatedOutput
+            url={data.screenshot.animated.url}
+            width={data.screenshot.animated.width}
+            height={data.screenshot.animated.height}
+          />
           )
         : (
           <Empty>No animated screenshot in this response.</Empty>
@@ -1229,7 +1277,7 @@ const Output = ({ req }) => {
           )
 
     case 'embed':
-      return <EmbedOutput url={req.D.fullUrl} />
+      return <EmbedOutput url={req.D.fullUrl} data={data} />
 
     case 'metadata':
       return <MetadataOutput data={data} />

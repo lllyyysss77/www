@@ -1,18 +1,14 @@
-import fs from 'node:fs'
-import path from 'node:path'
 import { describe, expect, test } from 'vitest'
+import heroDemoRequests from '../../src/components/pages/home/hero-demo-requests.js'
+import { sourceHarness } from '../utils/eval-source.mjs'
 
-const source = fs.readFileSync(
-  path.join(process.cwd(), 'src/components/pages/home/hero.js'),
-  'utf8'
-)
+const {
+  source,
+  slice,
+  evaluate: rawEvaluate
+} = sourceHarness('src/components/pages/home/hero.js')
 
-const slice = (start, end) =>
-  source.slice(source.indexOf(start), source.indexOf(end))
-
-const evaluate = (code, name) =>
-  // eslint-disable-next-line no-new-func
-  new Function(`${code}; return ${name}`)()
+const evaluate = (code, name) => rawEvaluate(code, name, { heroDemoRequests })
 
 const PROMPTS = evaluate(slice('const PROMPTS', 'const PARSE_RULES'), 'PROMPTS')
 const parseLocal = evaluate(
@@ -24,9 +20,10 @@ const derived = name =>
   evaluate(
     [
       "const SEARCH_EXAMPLE = { query: 'query' }",
+      'const { shortUrl } = heroDemoRequests',
       slice('const PROMPTS', 'const PARSE_RULES'),
-      slice('const DEFAULT_URLS', 'const FALLBACK_URL'),
-      slice('const shortUrl', 'const VERT_BORDER_ACTIVE')
+      slice('const DEFAULT_URLS', 'const assertProductParity'),
+      slice('const promptFor', 'const VERT_BORDER_ACTIVE')
     ].join('\n'),
     name
   )
@@ -36,8 +33,9 @@ const EXAMPLE_CHIPS = derived('EXAMPLE_CHIPS')
 
 const MAPS = evaluate(
   [
+    'const { FN_SNIPPET, REQUEST_OPTS } = heroDemoRequests',
     slice('const AGENT_TASK', 'const agentPrompt'),
-    slice('const FN_SNIPPET', 'const PROMPTS')
+    slice('const INSTALL_COMMENT', 'const PROMPTS')
   ].join('\n'),
   '({ AGENT_TASK, REQUEST_OPTS, CODE_TAB })'
 )

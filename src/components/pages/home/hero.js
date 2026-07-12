@@ -8,7 +8,7 @@ import Text from 'components/elements/Text'
 import Heading from 'components/elements/Heading'
 import Caption from 'components/patterns/Caption/Caption'
 import Overlay from 'components/pages/home/overlay'
-import Output from 'components/pages/home/output'
+import Output, { PANEL_HEIGHT } from 'components/pages/home/output'
 import FeatherIcon from 'components/icons/Feather'
 import { WandSparkles } from 'components/icons/WandSparkles'
 import {
@@ -16,6 +16,7 @@ import {
   SEARCH_EXAMPLE,
   VERTICAL_ORDER
 } from 'components/pages/home/catalog'
+import heroDemoRequests from 'components/pages/home/hero-demo-requests'
 import { blink } from 'components/keyframes'
 import { trackEvent } from 'helpers/plausible'
 import { isRateLimited } from 'helpers/api-error'
@@ -49,6 +50,7 @@ import mql, { getApiUrl } from '@microlink/mql'
 import { Copy as CopyIcon, Check as CheckIcon } from 'react-feather'
 
 import analyticsData from '../../../../data/analytics.json'
+import screenshotSnapshot from '../../../../static/data/hero-demo/screenshot.json'
 
 const [{ reqs_pretty: reqsPretty }] = analyticsData
 
@@ -77,12 +79,6 @@ const useIsomorphicLayoutEffect =
   typeof window === 'undefined' ? useEffect : useLayoutEffect
 
 const EASE_SMOOTH = timings.smooth
-
-const pulse = keyframes`
-  0% { box-shadow: 0 0 0 0 ${rgba(colors.green8, 0.45)} }
-  70% { box-shadow: 0 0 0 8px ${rgba(colors.green8, 0)} }
-  100% { box-shadow: 0 0 0 0 ${rgba(colors.green8, 0)} }
-`
 
 const fadeIn = keyframes`
   from { opacity: 0 }
@@ -144,34 +140,16 @@ const agentPrompt = ({ vertical, fullUrl }) => {
   return `Using the Microlink API, ${task}.\n\nSet up Microlink for your agent first: ${SKILL_INSTALL}`
 }
 
-const FN_SNIPPET = "({ page }) => page.$$eval('a', els => els.map(a => a.href))"
-
-const REQUEST_OPTS = {
-  screenshot: { screenshot: true },
-  animated: { screenshot: { animated: true } },
-  preview: {},
-  embed: { iframe: true },
-  markdown: { data: { markdown: { attr: 'markdown' } } },
-  html: { data: { html: { attr: 'html' } }, meta: false, ping: false },
-  text: { data: { text: { attr: 'text' } }, meta: false, ping: false },
-  metadata: {},
-  lighthouse: {
-    insights: { lighthouse: true, technologies: false },
-    meta: false,
-    ping: false
-  },
-  technologies: { insights: { lighthouse: false, technologies: true } },
-  function: {
-    function: FN_SNIPPET,
-    meta: false,
-    ping: false
-  },
-  search: {},
-  pdf: { pdf: true },
-  logo: { palette: true },
-  video: { video: true },
-  audio: { audio: true }
-}
+const {
+  FN_SNIPPET,
+  REQUEST_OPTS,
+  SNAPSHOT_URLS,
+  INITIAL_VERTICAL,
+  heroDemoPath,
+  shortUrl,
+  demoKey,
+  canonicalDemoUrl
+} = heroDemoRequests
 
 const INSTALL_COMMENT = '// npm install microlink.io'
 
@@ -356,26 +334,11 @@ const parseLocal = text => {
 }
 
 const DEFAULT_URLS = {
-  screenshot: 'https://www.apple.com/music',
-  animated: 'https://sauron-webgl.vercel.app/',
-  preview: 'https://github.com/',
-  embed: 'https://www.youtube.com/watch?v=9P6rdqiybaw',
-  markdown: 'https://microlink.io/docs',
-  html: 'https://example.com',
-  text: 'https://en.wikipedia.org',
-  metadata: 'https://github.com/',
-  lighthouse: 'https://simonwillison.net',
-  technologies: 'https://vercel.com',
-  function: 'https://example.com',
+  ...heroDemoRequests.DEMO_URLS,
   search: `https://www.google.com/search?q=${encodeURIComponent(
     SEARCH_EXAMPLE.query
-  )}`,
-  pdf: 'https://www.raycast.com',
-  logo: 'https://github.com',
-  video: 'https://www.w3schools.com/html/html5_video.asp',
-  audio: 'https://open.spotify.com/track/1W2919zs8SBCLTrOB1ftQT'
+  )}`
 }
-const FALLBACK_URL = 'https://example.com'
 
 const assertProductParity = (name, map, { except = [] } = {}) => {
   const expected = Object.keys(PRODUCTS).filter(key => !except.includes(key))
@@ -396,8 +359,6 @@ assertProductParity('CODE_TAB', CODE_TAB)
 assertProductParity('PROMPTS', PROMPTS)
 assertProductParity('DEFAULT_URLS', DEFAULT_URLS)
 assertProductParity('PARSE_RULES', Object.fromEntries(PARSE_RULES))
-
-const shortUrl = url => url.replace(/^https?:\/\//, '').replace(/^www\./, '')
 
 const promptFor = vertical =>
   `${PROMPTS[vertical]} of ${shortUrl(DEFAULT_URLS[vertical])}`
@@ -423,13 +384,19 @@ const EXAMPLE_CHIPS = [
 
 const VERT_BORDER_ACTIVE = rgba(colors.grape7, 0.45)
 
+const DEMO_KEYS = new Set(Object.values(DEFAULT_URLS).map(demoKey))
+
+const isDemoUrl = url => DEMO_KEYS.has(demoKey(url))
+
 const derive = (text, override) => {
   const p = parseLocal(text)
   const v = override || p.vertical
   const fullUrl =
     v === 'search'
       ? DEFAULT_URLS.search
-      : p.url || DEFAULT_URLS[v] || FALLBACK_URL
+      : p.url
+        ? canonicalDemoUrl(p.url, v)
+        : DEFAULT_URLS[v]
   return {
     vertical: v,
     label: PRODUCTS[v].label,
@@ -442,13 +409,12 @@ const TIMING_COLORS = ['green5', 'blue5', 'yellow5', 'pink5', 'grape5', 'teal5']
 
 const headersToRows = headers => {
   if (!headers) return []
-  const rows = []
-  headers.forEach((v, k) => rows.push({ k, v }))
-  return rows.sort((a, b) => a.k.localeCompare(b.k))
+  return Object.entries(headers)
+    .map(([k, v]) => ({ k, v }))
+    .sort((a, b) => a.k.localeCompare(b.k))
 }
 
-const parseServerTiming = headers => {
-  const raw = headers && headers.get('server-timing')
+const parseServerTiming = raw => {
   if (!raw) return { bars: [], rows: [], totalMs: null }
 
   const entries = parseServerTimingEntries(raw).map(e => ({
@@ -529,19 +495,6 @@ const Content = styled(Container)`
     & > * {
       animation-name: ${fadeIn};
     }
-  }
-`
-
-const PulseDot = styled(Dot)`
-  animation: ${pulse} 2s infinite;
-  ${theme({
-    width: '9px',
-    height: '9px',
-    borderRadius: '50%',
-    bg: 'green8'
-  })};
-  ${reduceMotion} {
-    animation: none;
   }
 `
 
@@ -910,8 +863,10 @@ const TabButton = styled.button`
     border: 0,
     bg: 'transparent',
     fontFamily: 'sans',
-    fontSize: '17px',
+    fontSize: 0,
     fontWeight: 'regular',
+    textTransform: 'uppercase',
+    letterSpacing: 2,
     pt: 0,
     px: 0,
     pb: '14px',
@@ -972,6 +927,7 @@ const VertMenu = styled(Box)`
 
 const TabContent = styled.div`
   animation: ${fadeIn} ${transition.short};
+  ${theme({ minHeight: [null, null, PANEL_HEIGHT, PANEL_HEIGHT] })};
 
   ${reduceMotion} {
     animation: none;
@@ -1060,7 +1016,7 @@ const Code = styled.pre`
     fontFamily: 'mono',
     whiteSpace: 'pre-wrap',
     wordBreak: 'break-word',
-    maxHeight: '380px',
+    maxHeight: PANEL_HEIGHT,
     overflow: 'auto'
   })};
 `
@@ -1503,7 +1459,7 @@ const ResultPanel = React.memo(({ tab, setTab, req }) => {
                   pt: 2,
                   px: 3,
                   pb: 3,
-                  maxHeight: '380px',
+                  maxHeight: PANEL_HEIGHT,
                   overflow: 'auto'
                 })}
               >
@@ -1550,7 +1506,9 @@ const ResultPanel = React.memo(({ tab, setTab, req }) => {
                 </Box>
                 )
               : (
-                <Box css={theme({ p: 3, maxHeight: '380px', overflow: 'auto' })}>
+                <Box
+                  css={theme({ p: 3, maxHeight: PANEL_HEIGHT, overflow: 'auto' })}
+                >
                   <Flex
                     css={theme({
                       alignItems: 'center',
@@ -1679,7 +1637,7 @@ const ResultPanel = React.memo(({ tab, setTab, req }) => {
               pb: 4,
               fontSize: 0,
               lineHeight: '2',
-              maxHeight: '340px',
+              maxHeight: PANEL_HEIGHT,
               color: 'black'
             })}
           >
@@ -1770,12 +1728,46 @@ const loadingReq = snapshot => ({
   apiUrl: getApiUrl(snapshot.fullUrl, REQUEST_OPTS[snapshot.vertical] || {})[0]
 })
 
+const demoSnapshots = new Map()
+
+const fetchDemoSnapshot = vertical => {
+  let promise = demoSnapshots.get(vertical)
+  if (!promise) {
+    promise = window
+      .fetch(heroDemoPath(vertical))
+      .then(res => (res.ok ? res.json() : null))
+      .catch(() => null)
+    demoSnapshots.set(vertical, promise)
+  }
+  return promise
+}
+
+const snapshotReq = (snapshot, cached, elapsedMs) => ({
+  status: 'success',
+  D: snapshot,
+  apiUrl: cached.apiUrl,
+  body: cached.body,
+  headerRows: headersToRows(cached.headers),
+  ...parseServerTiming(cached.headers['server-timing']),
+  elapsedMs
+})
+
+demoSnapshots.set(INITIAL_VERTICAL, Promise.resolve(screenshotSnapshot))
+
+const INITIAL_SNAPSHOT = derive(CYCLE[0])
+
+const INITIAL_REQ =
+  INITIAL_SNAPSHOT.vertical === INITIAL_VERTICAL &&
+  screenshotSnapshot.apiUrl === loadingReq(INITIAL_SNAPSHOT).apiUrl
+    ? snapshotReq(INITIAL_SNAPSHOT, screenshotSnapshot)
+    : loadingReq(INITIAL_SNAPSHOT)
+
 const Hero = () => {
   const [dText, setDText] = useState(CYCLE[0])
   const [dTab, setDTab] = useState('output')
   const [dVert, setDVert] = useState(null)
   const [menuState, setMenuState] = useState(null)
-  const [req, setReq] = useState(() => loadingReq(derive(CYCLE[0])))
+  const [req, setReq] = useState(INITIAL_REQ)
   const reqId = useRef(0)
   const anim = useRef({
     ci: 0,
@@ -1873,24 +1865,42 @@ const Hero = () => {
     const loading = loadingReq(snapshot)
     const { apiUrl } = loading
     const id = ++reqId.current
+
+    if (snapshot.fullUrl === SNAPSHOT_URLS[snapshot.vertical]) {
+      const cachedT0 = window.performance.now()
+      const loadingTimer = window.setTimeout(() => {
+        if (id === reqId.current) setReq(loading)
+      }, 150)
+      const cached = await fetchDemoSnapshot(snapshot.vertical)
+      window.clearTimeout(loadingTimer)
+      if (id !== reqId.current) return
+      if (cached && cached.body && cached.apiUrl === apiUrl) {
+        setReq(
+          snapshotReq(
+            snapshot,
+            cached,
+            Math.round(window.performance.now() - cachedT0) || undefined
+          )
+        )
+        return
+      }
+    }
+
     setReq(loading)
     const t0 = window.performance.now()
     try {
       const { response, ...body } = await mql(snapshot.fullUrl, opts)
       if (id !== reqId.current) return
-      const headers = response && response.headers
-      const { bars, rows, totalMs } = parseServerTiming(headers)
-      setReq({
-        status: 'success',
-        D: snapshot,
-        apiUrl,
-        body,
-        headerRows: headersToRows(headers),
-        bars,
-        rows,
-        totalMs,
-        elapsedMs: Math.round(window.performance.now() - t0)
-      })
+      const headers = response
+        ? Object.fromEntries(response.headers.entries())
+        : null
+      setReq(
+        snapshotReq(
+          snapshot,
+          { apiUrl, body, headers: headers || {} },
+          Math.round(window.performance.now() - t0)
+        )
+      )
     } catch (err) {
       if (id !== reqId.current) return
       if (err && (isRateLimited(err.statusCode) || isRateLimited(err.code))) {
@@ -2003,8 +2013,8 @@ const Hero = () => {
       takeOver(shared.q)
       setDVert(shared.product)
       runRequest(derive(shared.q, shared.product))
-    } else {
-      runRequest(derive(CYCLE[0]))
+    } else if (INITIAL_REQ.status !== 'success') {
+      runRequest(INITIAL_SNAPSHOT)
     }
   }, [runRequest])
 
@@ -2080,10 +2090,15 @@ const Hero = () => {
     writeSharedState(text, dVert)
   }
 
-  const pickExample = value => () => {
+  const typedUrl = () => {
     const { raw } = parseLocal(dText)
-    const fallback = DEFAULT_URLS[parseLocal(value).vertical] || FALLBACK_URL
-    const text = `${value} of ${raw || shortUrl(fallback)}`
+    return raw && !isDemoUrl(raw) ? raw : null
+  }
+
+  const pickExample = value => () => {
+    const vertical = parseLocal(value).vertical
+    const url = typedUrl() || shortUrl(DEFAULT_URLS[vertical])
+    const text = `${value} of ${url}`
     takeOver(text)
     setDVert(null)
     closeMenu()
@@ -2093,8 +2108,8 @@ const Hero = () => {
 
   const pickVertical = k => {
     const template = PROMPTS[k] || ''
-    const { raw } = parseLocal(dText)
-    const prompt = raw ? `${template} of ${raw}` : template
+    const url = typedUrl() || (k !== 'search' && shortUrl(DEFAULT_URLS[k]))
+    const prompt = url ? `${template} of ${url}` : template
     takeOver(prompt)
     setDVert(k)
     closeMenu()
@@ -2148,7 +2163,7 @@ const Hero = () => {
       <Overlay start='60%' />
       <Content>
         <Badge>
-          <PulseDot />
+          <Dot.Success />
           Handling +{reqsPretty} requests every month
         </Badge>
 
