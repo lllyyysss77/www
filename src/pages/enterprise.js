@@ -38,7 +38,8 @@ const EnterprisePage = () => {
               maxWidth: layout.small
             })}
           >
-            For high-volume customers who've outgrown shared infrastructure.
+            The Microlink API you own. Dedicated endpoint, always-ready
+            infrastructure, worldwide distribution.
           </Caption>
           <Box
             css={themeProp({

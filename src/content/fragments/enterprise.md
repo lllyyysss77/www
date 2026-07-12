@@ -1,25 +1,31 @@
 import { CDN_EDGES } from 'helpers/cdn-edges'
+import Annotation from 'components/elements/Annotation'
 
-The **Microlink Enterprise** plan is designed for customers who want to maximize Microlink's capabilities, unleashing maximum performance with dedicated hardware and seamless software integration with their existing infrastructure.
+**Microlink Enterprise** is the Microlink API running on <Annotation>hardware that serves only you</Annotation>. No shared capacity. No noisy neighbors. One environment, tuned for your workload, integrated with your existing infrastructure.
 
-If your **Microlink Pro** plan is hitting its limits or you need fully isolated infrastructure, **Microlink Enterprise** is the next step.
+When **Microlink Pro** starts hitting its limits, this is the next step.
 
-Running a **Microlink Enterprise** plan means:
+Everything is yours:
 
-- Your own Microlink API endpoint, isolated from other customers, with your own dedicated pool of always-ready browsers.
-- Your own S3-like storage service for asset integration, with no time-to-live (TTL) restrictions.
-- Your own worldwide CDN distribution ({CDN_EDGES} nodes around the world, powered by Cloudflare).
-- Priority support via email and Slack, with direct access to the Microlink team and a maximum 12-hour response time.
-- 99.9% uptime SLA.
+- Your own API endpoint, isolated from other customers, backed by a dedicated pool of always-ready browsers.
+- Your own S3-like storage for assets, with no time-to-live (TTL) restrictions.
+- Your own worldwide CDN: {CDN_EDGES} nodes, powered by Cloudflare.
+- Priority support via email and Slack, with direct access to the Microlink team and a 12-hour maximum response time.
+- <Annotation>99.9% uptime SLA</Annotation>.
 - A GDPR-compliant [Data Processing Agreement](/dpa).
 - Enterprise onboarding and launch validation.
 
-The physical servers associated with your Microlink API endpoint can be chosen from 8 locations (🇺🇸 New York, 🇺🇸 San Francisco, 🇳🇱 Amsterdam, 🇸🇬 Singapore, 🇬🇧 London, 🇩🇪 Frankfurt, 🇨🇦 Toronto, or 🇮🇳 Bangalore).
+Choose where your hardware lives, from <Annotation>8 locations</Annotation>:
 
-Enterprise pricing has two parts: an infrastructure subscription for your dedicated environment, plus a usage plan tier that follows the same model as **Microlink Pro**.
+- 🇺🇸 New York
+- 🇺🇸 San Francisco
+- 🇳🇱 Amsterdam
+- 🇸🇬 Singapore
+- 🇬🇧 London
+- 🇩🇪 Frankfurt
+- 🇨🇦 Toronto
+- 🇮🇳 Bangalore
 
-Usage costs scale linearly with your traffic, so growth never changes your subscription, only the usage component. 
+Pricing is two numbers: infrastructure and usage. Infrastructure is a flat subscription for your dedicated environment. Usage follows the same model as **Microlink Pro**, scaling linearly with your traffic. Growth never touches your subscription.
 
-Annual commitments get a 10% discount. 
-
-Final terms are negotiated based on your specific needs.
+Annual commitments get a <Annotation>10% discount</Annotation>. Final terms are negotiated to fit your needs.
