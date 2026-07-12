@@ -12,6 +12,7 @@ export default function HTML (props) {
           content='width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover'
         />
         <meta name='theme-color' content='#fff' />
+        <meta name='color-scheme' content='light' />
 
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link
