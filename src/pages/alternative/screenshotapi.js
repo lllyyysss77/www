@@ -7,7 +7,8 @@ import {
   fontSizes,
   space,
   radii,
-  breakpoints
+  breakpoints,
+  shadows
 } from 'theme'
 import { withTitle } from 'helpers/hoc/with-title'
 import CaptionBase from 'components/patterns/Caption/Caption'
@@ -30,6 +31,7 @@ import Meta from 'components/elements/Meta/Meta'
 import SubheadBase from 'components/elements/Subhead'
 import Text from 'components/elements/Text'
 import { extractDomain } from 'helpers/extract-domain'
+import { CDN_EDGES } from 'helpers/cdn-edges'
 import MultiCodeEditorInteractive from 'components/patterns/MultiCodeEditor/MultiCodeEditorInteractive'
 import { useBreakpoint } from 'components/hook/use-breakpoint'
 
@@ -41,7 +43,7 @@ const RaceHero = styled(Box)`
     borderRadius: 4,
     bg: 'white',
     p: [3, 3, 4, 4],
-    boxShadow: `0 25px 50px ${colors.black10}, 0 0 0 1px ${colors.black05}`
+    boxShadow: `${shadows[4]}`
   })}
 
   & > div {
@@ -396,7 +398,11 @@ const COMPARISON_DATA = [
     microlink: true,
     screenshotapi: false
   },
-  { feature: '240+ CDN edge nodes', microlink: true, screenshotapi: false },
+  {
+    feature: `${CDN_EDGES} CDN edge nodes`,
+    microlink: true,
+    screenshotapi: false
+  },
   {
     feature: 'MQL (structured data extraction)',
     microlink: true,
@@ -1565,7 +1571,7 @@ const PricingSection = () => (
                 'Screenshots, PDF, metadata, link previews, remote\u00a0JS',
                 'Free: 25\u00a0requests/day, no credit card, no expiry',
                 'No rate limit on any paid plan',
-                '240+ edge nodes, 99.9%\u00a0SLA',
+                `${CDN_EDGES} edge nodes, 99.9%\u00a0SLA`,
                 'Open-source core (MIT licensed)',
                 '~$0.00107/request \u2014 8\u00d7 cheaper than ScreenshotAPI\u00a0Essentials'
               ].map(item => (
@@ -1849,7 +1855,7 @@ const FAQSection = () => (
             <div>
               Yes. Microlink's <Link href='/pricing'>free tier</Link> gives you
               25&nbsp;requests/day with no credit card and no expiry date. Same
-              API, same quality, same 240+ edge network as paid plans.
+              API, same quality, same {CDN_EDGES} edge network as paid plans.
             </div>
             <div>
               ScreenshotAPI's free trial is 100&nbsp;screenshots that expire
@@ -1993,9 +1999,9 @@ const FAQSection = () => (
           <>
             <div>
               Microlink guarantees 99.9% uptime with a formal SLA. Requests are
-              served from 240+ Cloudflare edge nodes, so latency stays low
-              regardless of where your users are located. ScreenshotAPI runs on
-              Google Cloud Platform and does not publish a formal SLA or CDN
+              served from {CDN_EDGES} Cloudflare edge nodes, so latency stays
+              low regardless of where your users are located. ScreenshotAPI runs
+              on Google Cloud Platform and does not publish a formal SLA or CDN
               edge distribution.
             </div>
           </>
@@ -2043,7 +2049,7 @@ export const Head = () => (
             name: 'How does Microlink compare to ScreenshotAPI for screenshot quality?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Both services produce high-quality screenshots using Chromium. Microlink serves maximum quality with optimal compression by default and is 33% faster on average — up to 4× faster on full-page captures — due to its 240+ edge node infrastructure.'
+              text: `Both services produce high-quality screenshots using Chromium. Microlink serves maximum quality with optimal compression by default and is 33% faster on average — up to 4× faster on full-page captures — due to its ${CDN_EDGES} edge node infrastructure.`
             }
           },
           {
@@ -2115,7 +2121,7 @@ export const Head = () => (
             name: 'What SLA does Microlink offer?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Microlink guarantees 99.9% uptime with a formal SLA, served from 240+ Cloudflare edge nodes. ScreenshotAPI runs on Google Cloud Platform and does not publish a formal SLA.'
+              text: `Microlink guarantees 99.9% uptime with a formal SLA, served from ${CDN_EDGES} Cloudflare edge nodes. ScreenshotAPI runs on Google Cloud Platform and does not publish a formal SLA.`
             }
           }
         ]

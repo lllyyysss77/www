@@ -7,6 +7,8 @@ const {
   isEmbedIndexable
 } = require('./src/components/pages/embed-url/indexable')
 
+const { serializeBlogFeed } = require('./src/helpers/feed')
+
 // Drop embed-url provider pages we deliberately keep out of the index
 // (noindex, follow) so the sitemap never sends Google a conflicting signal.
 // The hub (/tools/embed-url) and any non-provider page pass through untouched.
@@ -47,9 +49,9 @@ module.exports = {
     // Basic
     name: 'Microlink',
     author: 'Microlink HQ',
-    headline: 'Microlink | Headless Browser API: Screenshot, PDF & Previews',
+    headline: 'Microlink | AI-ready web automation infrastructure',
     description:
-      'Turn any URL into structured data. The all-in-one API for browser automation: screenshots, PDFs, scraping, and link previews. No infrastructure to manage.',
+      'AI-ready web automation infrastructure. Turn any link into screenshots, PDFs, clean markdown, and structured data with one API. Try it, no signup.',
     siteUrl: SITE_URL,
     canonicalUrl: CANONICAL_URL,
     ogImageBase: OG_IMAGE_BASE,
@@ -246,6 +248,66 @@ module.exports = {
           }
           return { url, lastmod }
         }
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+        {
+          site {
+            siteMetadata {
+              siteUrl
+            }
+          }
+        }
+        `,
+        feeds: [
+          {
+            setup: ({ query: { site }, ...rest }) => ({
+              ...rest,
+              site_url: site.siteMetadata.siteUrl,
+              feed_url: `${site.siteMetadata.siteUrl}/rss.xml`
+            }),
+            serialize: ({ query: { site, allMdx } }) =>
+              serializeBlogFeed({
+                siteUrl: site.siteMetadata.siteUrl,
+                nodes: allMdx.nodes
+              }),
+            query: `
+            {
+              allMdx(
+                filter: { fields: { slug: { regex: "/^\\/blog\\//" } } }
+                sort: { frontmatter: { date: DESC } }
+                limit: 25
+              ) {
+                nodes {
+                  excerpt(pruneLength: 240)
+                  fields {
+                    slug
+                  }
+                  frontmatter {
+                    title
+                    description
+                    date
+                  }
+                }
+              }
+            }
+            `,
+            output: '/rss.xml',
+            title: 'Microlink Blog',
+            description: 'Engineering details through Microlink.',
+            language: 'en',
+            custom_namespaces: {
+              sy: 'http://purl.org/rss/1.0/modules/syndication/'
+            },
+            custom_elements: [
+              { 'sy:updatePeriod': 'weekly' },
+              { 'sy:updateFrequency': 1 }
+            ]
+          }
+        ]
       }
     }
   ].filter(Boolean)

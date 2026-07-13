@@ -6,7 +6,8 @@ import {
   transition,
   fontSizes,
   space,
-  radii
+  radii,
+  shadows
 } from 'theme'
 import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { trackEvent } from 'helpers/plausible'
@@ -53,6 +54,7 @@ import { useSiteMetadata } from 'components/hook/use-site-meta'
 import { ApiErrorBody } from 'components/patterns/ApiError/ApiError'
 import { normalizeApiError } from 'helpers/api-error'
 import { extractDomain } from 'helpers/extract-domain'
+import { CDN_EDGES } from 'helpers/cdn-edges'
 import analyticsData from '../../data/analytics.json'
 import ossData from '../../data/oss.json'
 
@@ -183,7 +185,7 @@ const DocumentViewer = styled('div')`
   })};
   overflow: hidden;
   border: ${borders[1]} ${colors.black10};
-  box-shadow: 0 2px 8px ${colors.black05}, 0 12px 32px ${colors.black05};
+  box-shadow: ${shadows[3]};
 `
 
 const DocumentHeader = styled(Flex)`
@@ -215,7 +217,7 @@ const NavArrow = styled('button')`
 
   &:not(:disabled) {
     cursor: pointer;
-    color: ${colors.gray6};
+    color: ${colors.gray7};
 
     &:hover {
       color: ${colors.gray8};
@@ -527,7 +529,7 @@ const HistoryDropdown = styled('div')`
   right: 0;
   border: ${borders[1]} ${colors.black20};
   overflow: hidden;
-  box-shadow: 0 16px 40px ${colors.black20};
+  box-shadow: ${shadows[4]};
   z-index: 10;
 `
 
@@ -1926,7 +1928,7 @@ const RepoCard = styled('a')`
 
   &:hover {
     border-color: ${colors.black};
-    box-shadow: 0 8px 24px ${colors.black10};
+    box-shadow: ${shadows[3]};
 
     .repo-github-icon {
       fill: ${colors.black};
@@ -1945,7 +1947,7 @@ const RepoCardPrimary = styled(RepoCard)`
 
   &:hover {
     border-color: ${colors.black};
-    box-shadow: 0 8px 24px ${colors.black10};
+    box-shadow: ${shadows[3]};
   }
 `
 
@@ -2745,7 +2747,7 @@ const CodeExample = () => {
                   width: '100%'
                 },
                 '& > div > div:first-child': {
-                  boxShadow: `0 24px 64px ${colors.black20}, 0 4px 16px ${colors.black10}`
+                  boxShadow: `${shadows[4]}`
                 }
               }
             ]}
@@ -2853,8 +2855,7 @@ const CAPABILITIES = [
       </svg>
     ),
     title: 'Sub-second cached responses',
-    description:
-      'Cached responses return in milliseconds from 240+ Cloudflare edge locations. Configure TTL caching rules to keep your content fresh with minimal latency.'
+    description: `Cached responses return in milliseconds from ${CDN_EDGES} Cloudflare edge locations. Configure TTL caching rules to keep your content fresh with minimal latency.`
   }
 ]
 

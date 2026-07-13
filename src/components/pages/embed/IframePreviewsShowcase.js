@@ -13,7 +13,6 @@ const Stage = styled(Box)`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${theme({ minHeight: ['480px', '520px', '560px', '560px'] })};
 `
 
 const Layer = styled(Box)`
@@ -45,7 +44,6 @@ const CardShell = styled(Box)`
   border: 1px solid ${colors.black10};
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
 `
 
 const TextLine = styled(Box)`
@@ -497,7 +495,9 @@ const PREVIEWS = [
   { id: 'twitter', component: XPreview, name: 'X (Twitter) iframe embed' }
 ]
 
-export const IframePreviewsShowcase = () => {
+export const IframePreviewsShowcase = ({
+  minHeight = ['480px', '520px', '560px', '560px']
+}) => {
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
@@ -508,7 +508,7 @@ export const IframePreviewsShowcase = () => {
   }, [])
 
   return (
-    <Stage>
+    <Stage css={theme({ minHeight })}>
       {PREVIEWS.map(({ component: Variant, name }, i) => (
         <Layer key={i} $active={i === index} aria-hidden={i !== index}>
           <h3

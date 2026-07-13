@@ -7,7 +7,8 @@ import {
   gradient,
   fontSizes,
   space,
-  radii
+  radii,
+  shadows
 } from 'theme'
 import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { trackEvent } from 'helpers/plausible'
@@ -62,6 +63,7 @@ import {
 } from 'components/patterns/ApiError/ApiError'
 import { normalizeApiError } from 'helpers/api-error'
 import { extractDomain } from 'helpers/extract-domain'
+import { CDN_EDGES } from 'helpers/cdn-edges'
 
 import analyticsData from '../../data/analytics.json'
 import ossData from '../../data/oss.json'
@@ -100,8 +102,7 @@ const FEATURES = [
   },
   {
     title: 'Global Edge Delivery',
-    description:
-      'Assets are automatically cached and distributed across 240+ edge locations powered by Cloudflare, ensuring lightning-fast image delivery worldwide.'
+    description: `Assets are automatically cached and distributed across ${CDN_EDGES} edge locations powered by Cloudflare, ensuring lightning-fast image delivery worldwide.`
   },
   {
     title: 'Language-Agnostic API',
@@ -197,7 +198,7 @@ const BrowserWindow = styled('div')`
   })};
   overflow: hidden;
   border: ${borders[1]} ${colors.black05};
-  box-shadow: 0 8px 24px ${colors.black10};
+  box-shadow: ${shadows[3]};
 
   &:hover:not(:has(.screenshot-api-bar:hover)) .address-bar {
     background: ${colors.gray1};
@@ -244,7 +245,7 @@ const NavArrow = styled('button')`
 
   &:not(:disabled) {
     cursor: pointer;
-    color: ${colors.gray6};
+    color: ${colors.gray7};
 
     &:hover {
       color: ${colors.gray8};
@@ -269,7 +270,7 @@ const caretPulse = keyframes`
     background: ${colors.white};
   }
   50% {
-    box-shadow: 0 0 0 1px ${colors.black10};
+    box-shadow: ${shadows[0]};
     border-color: ${colors.black20};
     background: ${colors.white95};
   }
@@ -307,7 +308,7 @@ const AddressBar = styled(Flex)`
     css`
       background: ${colors.white};
       border-color: ${colors.black10};
-      box-shadow: 0 0 0 1px ${colors.black10};
+      box-shadow: ${shadows[0]};
     `}
 
   ${({ $isPulsing }) =>
@@ -322,13 +323,13 @@ const AddressBar = styled(Flex)`
     css`
       background: ${colors.white};
       border-color: ${colors.black10};
-      box-shadow: 0 0 0 1px ${colors.black10};
+      box-shadow: ${shadows[0]};
     `}
 
   &:focus-within {
     background: ${colors.white};
     border-color: ${colors.black10};
-    box-shadow: 0 0 0 1px ${colors.black10};
+    box-shadow: ${shadows[0]};
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -518,7 +519,7 @@ const HistoryDropdown = styled('div')`
   right: 0;
   border: ${borders[1]} ${colors.black20};
   overflow: hidden;
-  box-shadow: 0 16px 40px ${colors.black20};
+  box-shadow: ${shadows[4]};
   z-index: 10;
 `
 
@@ -1791,7 +1792,7 @@ const RepoCard = styled('a')`
 
   &:hover {
     border-color: ${colors.black};
-    box-shadow: 0 8px 24px ${colors.black10};
+    box-shadow: ${shadows[3]};
 
     .repo-github-icon {
       fill: ${colors.black};
@@ -1810,7 +1811,7 @@ const RepoCardPrimary = styled(RepoCard)`
 
   &:hover {
     border-color: ${colors.black};
-    box-shadow: 0 8px 24px ${colors.black10};
+    box-shadow: ${shadows[3]};
   }
 `
 
@@ -2775,7 +2776,7 @@ const CodeExample = () => {
                   width: '100%'
                 },
                 '& > div > div:first-child': {
-                  boxShadow: `0 24px 64px ${colors.black20}, 0 4px 16px ${colors.black10}`
+                  boxShadow: `${shadows[4]}`
                 }
               }
             ]}
@@ -3057,7 +3058,7 @@ const Capabilities = () => {
                 width: ['100%', '100%', '80%', '100%'],
                 borderRadius: 3,
                 overflow: 'hidden',
-                boxShadow: `0 8px 32px ${colors.black10}`,
+                boxShadow: `${shadows[3]}`,
                 lineHeight: 0
               }),
               {
@@ -3458,8 +3459,8 @@ const ProductInformation = () => {
                 <Link href='/status'>status page</Link>.
               </div>
               <div>
-                For latency: assets are distributed via Cloudflare's 240+ edge
-                locations, meaning{' '}
+                For latency: assets are distributed via Cloudflare's {CDN_EDGES}{' '}
+                edge locations, meaning{' '}
                 <Link href='/docs/guides/screenshot/caching-and-performance'>
                   cached responses
                 </Link>{' '}

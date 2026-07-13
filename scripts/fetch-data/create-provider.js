@@ -4,9 +4,10 @@ const { identity, castArray, isEmpty } = require('lodash')
 const { readFile, writeFile } = require('fs/promises')
 const jsonFuture = require('json-future')
 
-const existsFile = async filepath => {
+const isReusable = async filepath => {
   try {
-    return (await readFile(filepath)).byteLength !== 0
+    const buffer = await readFile(filepath)
+    return buffer.byteLength > 0
   } catch (_) {
     return false
   }
@@ -23,7 +24,7 @@ const fetchData = async url => {
 }
 
 module.exports.fromUrl = async (url, { dist, mapper = identity }) => {
-  if (await existsFile(dist)) return
+  if (await isReusable(dist)) return
   const { data, isJSON } = await fetchData(url)
   return isJSON
     ? jsonFuture.saveAsync(dist, castArray(mapper(data)))
@@ -31,4 +32,4 @@ module.exports.fromUrl = async (url, { dist, mapper = identity }) => {
 }
 
 module.exports.fromCode = async (fn, { dist }) =>
-  !(await existsFile(dist)) && jsonFuture.saveAsync(dist, await fn())
+  !(await isReusable(dist)) && jsonFuture.saveAsync(dist, await fn())
