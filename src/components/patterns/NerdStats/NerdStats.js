@@ -1,9 +1,19 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { Terminal } from 'react-feather'
-import { theme, borders, colors, radii, space, transition } from 'theme'
+import {
+  theme,
+  borders,
+  colors,
+  radii,
+  space,
+  transition,
+  shadows
+} from 'theme'
+import Email from 'components/elements/Email'
 import Box from 'components/elements/Box'
 import Flex from 'components/elements/Flex'
+import { parseServerTimingEntries } from 'helpers/server-timing'
 
 const NERD_STATS_STORAGE_KEY = 'screenshot-nerd-stats'
 
@@ -236,24 +246,17 @@ const formatValue = (key, value) => {
     }
   }
   if (key === 'server-timing') {
-    const entries = value
-      .split(',')
-      .map(s => s.trim())
-      .filter(s => s.includes(';dur='))
-      .map(s => {
-        const [name, ...rest] = s.split(';')
-        const dur = rest.find(p => p.startsWith('dur='))
-        return dur ? { name: name.trim(), ms: dur.replace('dur=', '') } : null
-      })
-      .filter(Boolean)
+    const entries = parseServerTimingEntries(value).filter(
+      entry => entry.dur != null
+    )
 
     if (entries.length === 0) return value
 
     return (
       <span css={{ display: 'flex', flexDirection: 'column', gap: space[1] }}>
-        {entries.map(({ name, ms }) => (
+        {entries.map(({ name, dur }) => (
           <span key={name}>
-            <span css={{ color: colors.green6 }}>{name}</span> {ms}
+            <span css={{ color: colors.green6 }}>{name}</span> {dur}
             ms
           </span>
         ))}
@@ -396,7 +399,7 @@ const ToggleButton = styled.button`
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px ${colors.black10};
+    box-shadow: ${shadows[2]};
     background: ${({ $active }) => ($active ? colors.green1 : colors.black025)};
     border-color: ${({ $active }) =>
       $active ? colors.green5 : colors.black20};
@@ -512,7 +515,7 @@ const NerdStatsOverlay = ({ stats, mqlQuery, responseData }) => {
               textDecoration: 'none'
             }}
           >
-            Say hi at hello@microlink.io
+            Say hi at <Email>hello@microlink.io</Email>
           </a>
         </Box>
       </Flex>

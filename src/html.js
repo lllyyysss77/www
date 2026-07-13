@@ -11,12 +11,14 @@ export default function HTML (props) {
           name='viewport'
           content='width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover'
         />
+        <meta name='theme-color' content='#fff' />
+        <meta name='color-scheme' content='light' />
 
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link
           rel='preconnect'
           href='https://fonts.gstatic.com'
-          crossOrigin='true'
+          crossOrigin='anonymous'
         />
         <link
           rel='preconnect'
@@ -27,8 +29,8 @@ export default function HTML (props) {
         {props.headComponents}
 
         <link
-          as='font'
-          href='https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;700&display=swap'
+          rel='stylesheet'
+          href='https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,700;1,400;1,500&display=swap'
         />
 
         <meta property='apple-mobile-web-app-capable' content='yes' />

@@ -1,17 +1,15 @@
 import React from 'react'
-import SubheadBase from 'components/elements/Subhead'
+import Subhead from 'components/elements/Subhead'
 import Text from 'components/elements/Text'
 import Box from 'components/elements/Box'
 import Container from 'components/elements/Container'
 import Flex from 'components/elements/Flex'
-import { withTitle } from 'helpers/hoc/with-title'
 import { withSlug } from 'helpers/hoc/with-slug'
 import { slug as slugger } from 'github-slugger'
 import Caption from '../Caption/Caption'
+import toParagraphs from './to-paragraphs'
 import { layout, space, theme } from 'theme'
 import styled from 'styled-components'
-
-const Subhead = withTitle(SubheadBase)
 
 const Question = withSlug(({ index, ...props }) => (
   <Caption
@@ -39,7 +37,6 @@ const Faq = ({
           <Subhead
             css={theme({ px: 4, fontSize: titleSize })}
             variant='gradient'
-            titleize={false}
           >
             {title}
           </Subhead>
@@ -70,7 +67,7 @@ const Faq = ({
             return (
               <Text css={theme({ maxWidth: layout.small })} key={question}>
                 <Question index={index}>{question}</Question>
-                {React.Children.map(answer.props.children, (paraph, index) => (
+                {toParagraphs(answer).map((paraph, index) => (
                   <Text
                     css={theme({
                       pt: [3, 4, 4, 4]

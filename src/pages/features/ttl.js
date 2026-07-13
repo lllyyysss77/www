@@ -1,6 +1,8 @@
-import { breakpoints, colors, layout, theme } from 'theme'
+import { breakpoints, colors, layout, theme, shadows } from 'theme'
 import React from 'react'
 import styled from 'styled-components'
+
+import { CDN_EDGES } from 'helpers/cdn-edges'
 
 import Box from 'components/elements/Box'
 import CodeEditor from 'components/elements/CodeEditor/CodeEditor'
@@ -13,13 +15,9 @@ import Text from 'components/elements/Text'
 import { CodeInline } from 'components/markdown/CodeInline'
 
 import ArrowLink from 'components/patterns/ArrowLink'
-import CaptionBase from 'components/patterns/Caption/Caption'
+import Caption from 'components/patterns/Caption/Caption'
 import Faq from 'components/patterns/Faq/Faq'
 import Layout from 'components/patterns/Layout'
-
-import { withTitle } from 'helpers/hoc/with-title'
-
-const Caption = withTitle(CaptionBase)
 
 /* ─── Layout primitives ──────────────────────────────────────────────────── */
 
@@ -57,7 +55,6 @@ const Eyebrow = styled(Text)`
 const BodyText = props => (
   <Caption
     forwardedAs='p'
-    titleize={false}
     {...props}
     css={[
       theme({
@@ -160,7 +157,6 @@ const Hero = () => (
       </Text>
       <Caption
         forwardedAs='p'
-        titleize={false}
         css={theme({
           pt: [3, 3, 4, 4],
           fontSize: [1, 2, 2, 2],
@@ -209,7 +205,7 @@ const WhatItDoes = () => (
         <CodeInline>x-cache-status</CodeInline>) holds the shared copy per URL;
         a <strong>CloudFlare edge cache</strong> (
         <CodeInline>cf-cache-status</CodeInline>) serves it from the nearest of{' '}
-        <Link href='/blog/edge-cdn'>240+ edge nodes</Link>. Cold regions
+        <Link href='/blog/edge-cdn'>{CDN_EDGES} edge nodes</Link>. Cold regions
         auto-populate from the unified layer.
       </BodyText>
       <BodyText css={theme({ pt: [3, 3, 4, 4] })}>
@@ -255,7 +251,7 @@ const Card = styled(Box)`
     gap: [3, 3, 4, 4],
     alignItems: 'stretch'
   })}
-  box-shadow: 0 1px 2px ${colors.black05};
+  box-shadow: ${shadows[1]};
 `
 
 const CardSide = styled(Box)`
@@ -498,7 +494,7 @@ const Node = styled(Box)`
     minWidth: [0, 0, '0', '0'],
     flex: ['0 0 auto', '0 0 auto', '1 1 0', '1 1 0']
   })}
-  box-shadow: 0 1px 2px ${colors.black05};
+  box-shadow: ${shadows[1]};
   text-align: center;
 `
 
@@ -744,7 +740,7 @@ const Diagram = () => (
               <NodeLabel css={theme({ color: 'secondary' })}>
                 CloudFlare edge
               </NodeLabel>
-              <NodeSub>nearest of 240+ nodes</NodeSub>
+              <NodeSub>nearest of {CDN_EDGES} nodes</NodeSub>
             </NodeActive>
             <Arrow />
             <Node>
@@ -1150,7 +1146,6 @@ const CtaSection = () => (
       </SubheadBase>
       <Caption
         forwardedAs='p'
-        titleize={false}
         css={theme({
           color: 'black70',
           pt: [3, 3, 4, 4],

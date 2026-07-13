@@ -11,13 +11,13 @@ import { Link } from 'components/elements/Link'
 import LineBreak from 'components/elements/LineBreak'
 import Meta from 'components/elements/Meta/Meta'
 import { PLANS } from 'components/elements/PricePicker'
-import HeadingBase from 'components/elements/Heading'
-import SubheadBase from 'components/elements/Subhead'
+import Heading from 'components/elements/Heading'
+import Subhead from 'components/elements/Subhead'
 import Text from 'components/elements/Text'
 import FeatherIcon from 'components/icons/Feather'
 import { useSiteMetadata } from 'components/hook/use-site-meta'
 import ArrowLink from 'components/patterns/ArrowLink'
-import CaptionBase from 'components/patterns/Caption/Caption'
+import Caption from 'components/patterns/Caption/Caption'
 import Faq from 'components/patterns/Faq/Faq'
 import Layout from 'components/patterns/Layout'
 import {
@@ -25,8 +25,8 @@ import {
   useCurrencyContext
 } from 'components/hook/use-currency'
 import Plans, { CURRENCIES, formatPrice } from 'components/patterns/Plans/Plans'
-import { withTitle } from 'helpers/hoc/with-title'
 import { trackEvent } from 'helpers/plausible'
+import { CDN_EDGES } from 'helpers/cdn-edges'
 import {
   borders,
   colors,
@@ -35,20 +35,11 @@ import {
   radii,
   space,
   theme,
-  transition
+  transition,
+  shadows
 } from 'theme'
 
-// ─── HOCs ────────────────────────────────────────────────────────────────────
-
-const Heading = withTitle(HeadingBase)
-const Subhead = withTitle(SubheadBase)
-const Caption = withTitle(CaptionBase)
-
-// ─── Constants ───────────────────────────────────────────────────────────────
-
 const SECTION_VERTICAL_SPACING = [4, 4, 5, 5]
-
-// ─── Head / SEO ──────────────────────────────────────────────────────────────
 
 export const Head = () => {
   const proOffers = PLANS.map(({ id, monthlyPrice, reqsPerMonth }) => ({
@@ -209,8 +200,6 @@ export const Head = () => {
   )
 }
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
-
 const DashedGridOverlay = styled(Box)`
   ${theme({ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 0 })}
   height: 1200px;
@@ -270,7 +259,6 @@ const Hero = () => {
       })}
     >
       <Heading
-        titleize={false}
         css={theme({
           fontSize: ['34px', '42px', '54px', '62px'],
           maxWidth: layout.large,
@@ -282,7 +270,6 @@ const Hero = () => {
 
       <Caption
         forwardedAs='div'
-        titleize={false}
         css={theme({
           pt: [3, 3, 4, 4],
           maxWidth: [layout.small, layout.small, layout.normal, layout.normal]
@@ -293,8 +280,6 @@ const Hero = () => {
     </Container>
   )
 }
-
-// ─── Comparison table ─────────────────────────────────────────────────────────
 
 const PLAN_NAMES = ['Free', 'Pro', 'Enterprise']
 
@@ -325,7 +310,7 @@ const COMPARISON_ROWS = [
 const ComparisonTable = styled(Box)`
   ${theme({ width: '100%', bg: 'white', borderRadius: 3, overflow: 'hidden' })}
   border: 1px solid ${colors.black10};
-  box-shadow: 0 2px 8px ${colors.black05};
+  box-shadow: ${shadows[1]};
 `
 
 const ComparisonRow = styled(Flex)`
@@ -480,17 +465,13 @@ const Comparison = () => (
         pb: [4, 4, 5, 5]
       })}
     >
-      <Subhead
-        titleize={false}
-        css={theme({ fontSize: ['28px', '34px', '42px', '46px'] })}
-      >
+      <Subhead css={theme({ fontSize: ['28px', '34px', '42px', '46px'] })}>
         Compare every feature,
         <LineBreak />
         side by <span css={theme({ color: 'secondary' })}>side</span>.
       </Subhead>
       <Caption
         forwardedAs='div'
-        titleize={false}
         css={theme({ pt: [3, 3, 4, 4], fontSize: [1, 2, 2, 2] })}
       >
         Every paid plan unlocks the same toolbox. Pick the volume that matches
@@ -566,8 +547,6 @@ const Comparison = () => (
     </Box>
   </Container>
 )
-
-// ─── Capabilities ─────────────────────────────────────────────────────────────
 
 const ClockIcon = (
   <svg
@@ -756,7 +735,6 @@ const Capabilities = () => (
       })}
     >
       <Subhead
-        titleize={false}
         css={theme({
           fontSize: ['28px', '34px', '42px', '46px'],
           textAlign: 'left'
@@ -768,7 +746,6 @@ const Capabilities = () => (
       </Subhead>
       <Caption
         forwardedAs='div'
-        titleize={false}
         css={theme({
           pt: [3, 3, 4, 4],
           fontSize: [1, 2, 2, 2],
@@ -796,8 +773,6 @@ const Capabilities = () => (
   </Container>
 )
 
-// ─── Build vs Buy ─────────────────────────────────────────────────────────────
-
 const BUILD_BULLETS = [
   'Spin up Chromium clusters and babysit browser pools.',
   '$200–$800 / month minimum on infra (browsers are RAM-hungry).',
@@ -810,7 +785,7 @@ const BUY_BULLETS = [
   'One HTTP call. No SDK to install, no daemon to run.',
   'Start at €0. Pay only for the volume you actually use.',
   'Zero ops: cache, proxies, adblock, retries baked in.',
-  '240+ edge nodes, 99.9% SLA, isolated browsers per request.',
+  `${CDN_EDGES} edge nodes, 99.9% SLA, isolated browsers per request.`,
   'Spend engineering time on your product, not on Chromium.'
 ]
 
@@ -881,16 +856,12 @@ const BuildVsBuy = () => (
         pb: [4, 4, 5, 5]
       })}
     >
-      <Subhead
-        titleize={false}
-        css={theme({ fontSize: ['28px', '34px', '42px', '46px'] })}
-      >
+      <Subhead css={theme({ fontSize: ['28px', '34px', '42px', '46px'] })}>
         Build it, or just{' '}
         <span css={theme({ color: 'secondary' })}>call it</span>.
       </Subhead>
       <Caption
         forwardedAs='div'
-        titleize={false}
         css={theme({ pt: [3, 3, 4, 4], fontSize: [1, 2, 2, 2] })}
       >
         We&apos;ve been running headless browsers in production since 2017. So
@@ -974,8 +945,6 @@ const BuildVsBuy = () => (
   </Container>
 )
 
-// ─── Testimonials ─────────────────────────────────────────────────────────────
-
 // TODO: replace with real customer quotes once collected.
 const TESTIMONIALS = [
   {
@@ -1020,10 +989,10 @@ const TestimonialCard = styled(Flex)`
     position: 'relative'
   })}
   border: ${borders[1]};
-  box-shadow: 0 2px 8px ${colors.black05};
+  box-shadow: ${shadows[1]};
   transition: box-shadow 200ms ease, transform 200ms ease;
   &:hover {
-    box-shadow: 0 8px 24px ${colors.black10};
+    box-shadow: ${shadows[3]};
     transform: translateY(-2px);
   }
 `
@@ -1118,16 +1087,12 @@ const Testimonials = () => (
         pb: [4, 4, 5, 5]
       })}
     >
-      <Subhead
-        titleize={false}
-        css={theme({ fontSize: ['28px', '34px', '42px', '46px'] })}
-      >
+      <Subhead css={theme({ fontSize: ['28px', '34px', '42px', '46px'] })}>
         Loved by teams in{' '}
         <span css={theme({ color: 'secondary' })}>production</span>.
       </Subhead>
       <Caption
         forwardedAs='div'
-        titleize={false}
         css={theme({ pt: [3, 3, 4, 4], fontSize: [1, 2, 2, 2] })}
       >
         Engineers, founders and platform teams pick Microlink because it just
@@ -1149,8 +1114,6 @@ const Testimonials = () => (
     </Flex>
   </Container>
 )
-
-// ─── Clients ──────────────────────────────────────────────────────────────────
 
 const CLIENTS = [
   {
@@ -1300,8 +1263,6 @@ const Clients = () => (
     </Flex>
   </Container>
 )
-
-// ─── FAQs ─────────────────────────────────────────────────────────────────────
 
 const Faqs = () => (
   <Faq
@@ -1491,8 +1452,6 @@ const Faqs = () => (
   />
 )
 
-// ─── CTA ──────────────────────────────────────────────────────────────────────
-
 const CTA_DURATION = 6.2
 const CTA_SWEEP_PCT = (1.2 / CTA_DURATION) * 100
 const CTA_LEAD_CHARS = 'Start'.split('')
@@ -1556,7 +1515,6 @@ const Cta = () => {
         })}
       >
         <Subhead
-          titleize={false}
           css={theme({
             fontSize: ['34px', '42px', '54px', '62px'],
             textAlign: 'center'
@@ -1571,7 +1529,6 @@ const Cta = () => {
         </Subhead>
         <Caption
           forwardedAs='div'
-          titleize={false}
           css={theme({ pt: [3, 3, 4, 4], fontSize: [1, 2, 2, 2] })}
         >
           Free forever plan, no credit card. Pro plans start at {symbol}
@@ -1609,8 +1566,6 @@ const Cta = () => {
     </Container>
   )
 }
-
-// ─── Page ─────────────────────────────────────────────────────────────────────
 
 const PricingPage = () => {
   const { canonicalUrl, stripeKey } = useSiteMetadata()

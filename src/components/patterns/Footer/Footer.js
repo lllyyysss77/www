@@ -11,6 +11,7 @@ import Choose from 'components/elements/Choose'
 import Container from 'components/elements/Container'
 import Caps from 'components/elements/Caps'
 import Box from 'components/elements/Box'
+import Email from 'components/elements/Email'
 import { Button } from 'components/elements/Button/Button'
 import Flex from 'components/elements/Flex'
 import Input from 'components/elements/Input/Input'
@@ -348,7 +349,6 @@ const GiantEmail = () => (
     onClick={() => track('Email', { location: 'Footer' })}
     css={theme({
       display: 'block',
-      overflow: 'hidden',
       opacity: 0.08,
       transition: `opacity ${transition.medium}`,
       _hover: { opacity: 0.16 }
@@ -356,17 +356,17 @@ const GiantEmail = () => (
   >
     <Box
       as='svg'
-      viewBox='0 0 1000 130'
+      viewBox='0 0 1000 128'
       preserveAspectRatio='xMinYMax meet'
       css={theme({
         display: 'block',
-        width: '100%',
-        transform: 'translateY(14%)'
+        width: '100%'
       })}
     >
-      <text
+      <Email
+        as='text'
         x='0'
-        y='110'
+        y='100'
         textLength='1000'
         lengthAdjust='spacingAndGlyphs'
         fontFamily={fonts.sans}
@@ -375,7 +375,7 @@ const GiantEmail = () => (
         fill={colors.black}
       >
         hello@microlink.io
-      </text>
+      </Email>
     </Box>
   </Box>
 )

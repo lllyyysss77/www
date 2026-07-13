@@ -7,9 +7,11 @@ import {
   fontSizes,
   space,
   radii,
-  breakpoints
+  breakpoints,
+  shadows
 } from 'theme'
 import { withTitle } from 'helpers/hoc/with-title'
+import { CDN_EDGES } from 'helpers/cdn-edges'
 import CaptionBase from 'components/patterns/Caption/Caption'
 import Layout from 'components/patterns/Layout'
 import Faq from 'components/patterns/Faq/Faq'
@@ -41,7 +43,7 @@ const RaceHero = styled(Box)`
     borderRadius: 4,
     bg: 'white',
     p: [3, 3, 4, 4],
-    boxShadow: `0 25px 50px ${colors.black10}, 0 0 0 1px ${colors.black05}`
+    boxShadow: `${shadows[4]}`
   })}
 
   & > div {
@@ -1774,7 +1776,7 @@ const PricingSection = () => (
                 'Screenshots + PDF + metadata + previews + remote JS',
                 'Free tier: 25 requests/day, no credit card',
                 'No per-minute cap on paid plans',
-                '240+ edge nodes, 99.9% SLA',
+                `${CDN_EDGES} edge nodes, 99.9% SLA`,
                 'Built-in proxy + antibot tooling',
                 'Open-source core (MIT)'
               ].map(item => (

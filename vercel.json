@@ -20,6 +20,15 @@
       ]
     },
     {
+      "source": "/(.*)\\.(js|css)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
       "source": "/page-data/(.*)",
       "headers": [
         {
@@ -68,6 +77,10 @@
         {
           "key": "origin-agent-cluster",
           "value": "?1"
+        },
+        {
+          "key": "permissions-policy",
+          "value": "camera=(), microphone=(), geolocation=()"
         },
         {
           "key": "referrer-policy",
