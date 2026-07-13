@@ -174,6 +174,33 @@ const GradientButton = styled(Flex)`
   line-height: 1;
 `
 
+const ZipRow = ({ filename, label, ...props }) => (
+  <Flex
+    css={theme({
+      alignItems: 'center',
+      gap: 2,
+      borderRadius: 2,
+      bg: 'violet0',
+      px: '8px',
+      py: '6px'
+    })}
+    {...props}
+  >
+    <Archive size={12} color={colors.violet7} style={{ flexShrink: 0 }} />
+    <Text
+      css={theme({
+        fontSize: '10px',
+        fontWeight: 'bold',
+        color: 'black80',
+        lineHeight: 1
+      })}
+    >
+      {filename}
+    </Text>
+    <Hint css='margin-left: auto;'>{label}</Hint>
+  </Flex>
+)
+
 /* ─── Website to PDF ─────────────────────────────────────
    Signature features: bulk URL textarea, paper format and
    orientation options, everything bundled into one ZIP. */
@@ -218,29 +245,7 @@ export const PdfExtensionMockup = () => (
         </Flex>
       </PanelCard>
       <GradientButton>Generate PDFs</GradientButton>
-      <Flex
-        css={theme({
-          alignItems: 'center',
-          gap: 2,
-          borderRadius: 2,
-          bg: 'violet0',
-          px: '8px',
-          py: '6px'
-        })}
-      >
-        <Archive size={12} color={colors.violet7} style={{ flexShrink: 0 }} />
-        <Text
-          css={theme({
-            fontSize: '10px',
-            fontWeight: 'bold',
-            color: 'black80',
-            lineHeight: 1
-          })}
-        >
-          website-pdfs.zip
-        </Text>
-        <Hint css='margin-left: auto;'>3 PDFs</Hint>
-      </Flex>
+      <ZipRow filename='website-pdfs.zip' label='3 PDFs' />
     </PanelBody>
   </PanelFrame>
 )
@@ -318,4 +323,226 @@ export const ScreenshotExtensionMockup = () => (
       <GradientButton>Generate Screenshot</GradientButton>
     </PanelBody>
   </PanelFrame>
+)
+
+/* ─── Step minis ─────────────────────────────────────────
+   Bite-sized fragments of the panels above, one per
+   "How it works" step on the extension landings. Same
+   atoms, same fidelity — just the piece of UI the step
+   is talking about. Rendered inside StepCard's visual
+   well (aria-hidden). */
+
+const MiniPanel = styled(Box)`
+  /* Standalone fragment: outside PanelFrame, so it declares the sans
+     stack itself (no global body font on this site). */
+  font-family: ${fonts.sans};
+  ${theme({ bg: 'white', borderRadius: 2, p: '8px', width: '100%' })}
+  max-width: 240px;
+  margin: 0 auto;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 12px 20px -8px rgb(0 0 0 / 0.12);
+`
+
+const ProgressTrack = styled(Box)`
+  height: 6px;
+  border-radius: 3px;
+  background: ${colors.gray1};
+  overflow: hidden;
+`
+
+const ProgressFill = styled(Box)`
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+`
+
+const SkeletonBar = styled(Box)`
+  height: 6px;
+  border-radius: 3px;
+  background: ${colors.black05};
+`
+
+const BrowserDot = styled(Box)`
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: ${colors.black10};
+  flex-shrink: 0;
+`
+
+/* Website to PDF — steps */
+
+export const PdfStepUrlsMini = () => (
+  <MiniPanel aria-hidden='true'>
+    <FieldLabel $color={colors.violet7}>Target URLs</FieldLabel>
+    <InputBox css={theme({ mt: '6px' })}>
+      <MonoLine>https://microlink.io</MonoLine>
+      <MonoLine>https://github.com</MonoLine>
+      <MonoLine>https://stripe.com</MonoLine>
+      <MonoLine>https://vercel.com</MonoLine>
+    </InputBox>
+    <Flex
+      css={theme({
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        mt: '6px'
+      })}
+    >
+      <Hint>One URL per line</Hint>
+      <Hint
+        css={`
+          color: ${colors.violet7};
+          font-weight: 700;
+        `}
+      >
+        4/100
+      </Hint>
+    </Flex>
+  </MiniPanel>
+)
+
+export const PdfStepOptionsMini = () => (
+  <MiniPanel aria-hidden='true'>
+    <FieldLabel $color={colors.violet7}>PDF options</FieldLabel>
+    <Flex css={theme({ alignItems: 'stretch', gap: '6px', mt: '6px' })}>
+      <SelectChip css={{ flex: 1 }}>A4</SelectChip>
+      <ToggleGroup css={{ flex: 2 }}>
+        <ToggleOption $active>Portrait</ToggleOption>
+        <ToggleOption>Landscape</ToggleOption>
+      </ToggleGroup>
+    </Flex>
+    <ToggleGroup css={theme({ mt: '6px' })}>
+      <ToggleOption $active>Print version</ToggleOption>
+      <ToggleOption>Screen view</ToggleOption>
+    </ToggleGroup>
+    <Flex
+      css={theme({
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        mt: '8px'
+      })}
+    >
+      <Hint>Advanced config</Hint>
+      <Hint
+        css={`
+          color: ${colors.violet7};
+          font-weight: 700;
+        `}
+      >
+        Show
+      </Hint>
+    </Flex>
+  </MiniPanel>
+)
+
+export const PdfStepDownloadMini = () => (
+  <MiniPanel aria-hidden='true'>
+    <Flex
+      css={theme({
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 1
+      })}
+    >
+      <Text
+        css={theme({
+          fontSize: '10px',
+          fontWeight: 'bold',
+          color: 'black80',
+          lineHeight: 1
+        })}
+      >
+        Completed 97 of 100
+      </Text>
+      <MiniChip>Stop</MiniChip>
+    </Flex>
+    <ProgressTrack css={theme({ mt: '6px' })}>
+      <ProgressFill css={{ width: '97%' }} />
+    </ProgressTrack>
+    <ZipRow
+      filename='website-pdfs.zip'
+      label='100 PDFs'
+      css={theme({ mt: '8px' })}
+    />
+  </MiniPanel>
+)
+
+/* Web Page Screenshots — steps */
+
+export const ScreenshotStepUrlMini = () => (
+  <MiniPanel aria-hidden='true'>
+    <FieldLabel $color={colors.pink7}>Target URL</FieldLabel>
+    <InputBox css={theme({ mt: '6px' })}>github.com</InputBox>
+    <Flex
+      css={theme({
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 1,
+        mt: '6px'
+      })}
+    >
+      <Hint>https://github.com/</Hint>
+      <MiniChip>Use current tab</MiniChip>
+    </Flex>
+  </MiniPanel>
+)
+
+export const ScreenshotStepConfigMini = () => (
+  <MiniPanel aria-hidden='true'>
+    <FieldLabel $color={colors.pink7}>Viewport</FieldLabel>
+    <ToggleGroup css={theme({ mt: '6px' })}>
+      <ToggleOption $active>Desktop</ToggleOption>
+      <ToggleOption>Tablet</ToggleOption>
+      <ToggleOption>Mobile</ToggleOption>
+    </ToggleGroup>
+    <FieldLabel $color={colors.pink7} css={theme({ mt: '10px' })}>
+      Background gradient
+    </FieldLabel>
+    <Flex css={theme({ alignItems: 'center', gap: '6px', mt: '6px' })}>
+      {GRADIENT_DOTS.map((gradient, index) => (
+        <GradientDot
+          key={gradient}
+          $selected={index === 0}
+          style={{ background: gradient }}
+        />
+      ))}
+    </Flex>
+  </MiniPanel>
+)
+
+export const ScreenshotStepResultMini = () => (
+  <MiniPanel aria-hidden='true'>
+    <Box
+      css={theme({ borderRadius: 2, p: '10px' })}
+      style={{ background: GRADIENT_DOTS[0] }}
+    >
+      <Box css={theme({ bg: 'white', borderRadius: 2, overflow: 'hidden' })}>
+        <Flex
+          css={theme({
+            alignItems: 'center',
+            gap: 1,
+            px: '6px',
+            py: '5px',
+            bg: 'gray1'
+          })}
+        >
+          <BrowserDot />
+          <BrowserDot />
+          <BrowserDot />
+          <SkeletonBar css={{ width: '50%', marginLeft: '4px' }} />
+        </Flex>
+        <Box css={theme({ p: '8px' })}>
+          <SkeletonBar css={theme({ width: '80%', mb: '4px' })} />
+          <SkeletonBar css={theme({ width: '60%', mb: '4px' })} />
+          <SkeletonBar css={{ width: '70%' }} />
+        </Box>
+      </Box>
+    </Box>
+    <Flex css={theme({ alignItems: 'center', gap: '6px', mt: '8px' })}>
+      <MiniChip>Copy</MiniChip>
+      <MiniChip>Download</MiniChip>
+      <MiniChip>Annotate</MiniChip>
+      <MiniChip>ZIP</MiniChip>
+    </Flex>
+  </MiniPanel>
 )

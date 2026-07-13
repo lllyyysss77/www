@@ -20,3 +20,14 @@ export { CtaSection } from 'components/patterns/CustomerStory/CtaSection'
 export { WhyCard } from 'components/patterns/CustomerStory/WhyCards'
 export { FeatureCard, FeatureGrid } from './FeatureGrid'
 export { MoreExtensions } from './MoreExtensions'
+export { StepCard } from './StepCard'
+export {
+  PdfExtensionMockup,
+  PdfStepDownloadMini,
+  PdfStepOptionsMini,
+  PdfStepUrlsMini,
+  ScreenshotExtensionMockup,
+  ScreenshotStepConfigMini,
+  ScreenshotStepResultMini,
+  ScreenshotStepUrlMini
+} from './mockups'

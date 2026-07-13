@@ -25,15 +25,19 @@ import {
   SCREENSHOT_EXTENSION_URL
 } from 'components/patterns/ChromeExtensionBanner/ChromeExtensionBanner'
 import {
-  ACCENT,
   CtaSection,
   DashedGridOverlay,
+  EXTENSIONS,
   Eyebrow,
   FeatureCard,
   FeatureGrid,
+  ScreenshotExtensionMockup,
+  ScreenshotStepConfigMini,
+  ScreenshotStepResultMini,
+  ScreenshotStepUrlMini,
   Section,
   SectionInner,
-  WhyCard
+  StepCard
 } from 'components/patterns/ExtensionStory'
 import Layout from 'components/patterns/Layout'
 
@@ -41,12 +45,19 @@ import { trackEvent } from 'helpers/plausible'
 
 const EVENT_NAME = 'screenshot extension install'
 
+// The screenshot extension owns the pink end of the install gradient
+// (see the registry in ExtensionStory/extensions.js) — the page accent
+// must match its mockups, not the violet extensions umbrella.
+const ACCENT = EXTENSIONS.find(
+  extension => extension.slug === 'chrome/website-screenshot'
+).accent
+
 /* ─── Hero ───────────────────────────────────────────────────────────────── */
 
-const WhatItDoesGrid = styled(Box)`
+const HeroGrid = styled(Box)`
   display: grid;
   grid-template-columns: 1fr;
-  ${theme({ gap: [4, 4, 4, 5] })}
+  ${theme({ gap: [4, 4, 5, 5] })}
   align-items: center;
 
   @media (min-width: ${breakpoints[2]}) {
@@ -54,81 +65,95 @@ const WhatItDoesGrid = styled(Box)`
   }
 `
 
-const ShotImage = styled('img')`
-  ${theme({
-    borderRadius: 3,
-    border: 1,
-    borderColor: 'black10',
-    maxWidth: ['300px', '320px', '340px', '376px']
-  })}
-  display: block;
+const HeroMockup = styled(Box)`
+  position: relative;
   width: 100%;
-  height: auto;
-  margin: 0 auto;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
-    0 8px 10px -6px rgb(0 0 0 / 0.04);
+  max-width: 300px;
+  ${theme({ mx: 'auto' })}
+`
+
+const HeroMockupGlow = styled(Box)`
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  filter: blur(64px);
+  pointer-events: none;
 `
 
 const Hero = () => (
   <Section as='header' css={theme({ pt: [3, 3, 4, 4], pb: [3, 3, 4, 4] })}>
-    <SectionInner css={theme({ textAlign: 'center' })}>
-      <ChromeChip css={theme({ mb: [3, 3, 4, 4], mx: 'auto' })}>
-        <Chrome size={14} color={colors.black80} />
-        <Caps css={theme({ fontSize: 0, fontWeight: 'bold' })}>
-          Chrome extension
-        </Caps>
-      </ChromeChip>
-      <Text
-        as='h1'
-        css={theme({
-          color: 'black',
-          fontWeight: 'bold',
-          fontSize: ['32px', '40px', '52px', '60px'],
-          textAlign: 'center',
-          letterSpacing: '-0.01em',
-          lineHeight: 0,
-          m: 0,
-          scrollMarginTop: 4
-        })}
-      >
-        Capture, annotate, and share{' '}
-        <span css={theme({ color: ACCENT.text })}>website screenshots</span>
-      </Text>
-      <Text
-        as='p'
-        css={theme({ pt: [3, 3, 4, 4], maxWidth: layout.normal, mx: 'auto' })}
-      >
-        <b>Microlink: Web Page Screenshots</b> lives in Chrome&apos;s side
-        panel. Capture any URL — or 50 at once — in pixel-perfect quality,
-        annotate the result in the built-in editor, and wrap it in a
-        social-ready browser frame. Powered by the{' '}
-        <Link href='/screenshot'>Microlink Screenshot API</Link>.
-      </Text>
-      <Flex
-        css={theme({
-          pt: [3, 3, 4, 4],
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          gap: 3
-        })}
-      >
-        <InstallButtonInline
-          href={SCREENSHOT_EXTENSION_URL}
-          target='_blank'
-          rel='noopener noreferrer'
-          onClick={() => trackEvent(EVENT_NAME)}
-        >
-          <Chrome size={18} style={{ flexShrink: 0 }} />
-          Add to Chrome — it&apos;s free
-        </InstallButtonInline>
-        <ArrowLink
-          href='/tools/website-screenshot'
-          css={theme({ color: 'link', fontWeight: 'bold', fontSize: 1 })}
-        >
-          Or try it online first
-        </ArrowLink>
-      </Flex>
+    <SectionInner>
+      <HeroGrid>
+        <Box>
+          <ChromeChip css={theme({ mb: [3, 3, 4, 4] })}>
+            <Chrome size={14} color={colors.black80} />
+            <Caps css={theme({ fontSize: 0, fontWeight: 'bold' })}>
+              Chrome extension
+            </Caps>
+          </ChromeChip>
+          <Text
+            as='h1'
+            css={theme({
+              color: 'black',
+              fontWeight: 'bold',
+              fontSize: ['32px', '40px', '52px', '60px'],
+              textAlign: 'left',
+              letterSpacing: '-0.01em',
+              lineHeight: 0,
+              m: 0,
+              scrollMarginTop: 4
+            })}
+          >
+            Capture, annotate, and share{' '}
+            <span css={theme({ color: ACCENT.text })}>website screenshots</span>
+          </Text>
+          <Text
+            as='p'
+            css={theme({ pt: [3, 3, 4, 4], maxWidth: layout.normal })}
+          >
+            <b>Microlink: Web Page Screenshots</b> lives in Chrome&apos;s side
+            panel. Capture any URL — or 50 at once — in pixel-perfect quality,
+            annotate the result in the built-in editor, and wrap it in a
+            social-ready browser frame. Powered by the{' '}
+            <Link href='/screenshot'>Microlink Screenshot API</Link>.
+          </Text>
+          <Flex
+            css={theme({
+              pt: [3, 3, 4, 4],
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: 3
+            })}
+          >
+            <InstallButtonInline
+              href={SCREENSHOT_EXTENSION_URL}
+              target='_blank'
+              rel='noopener noreferrer'
+              onClick={() => trackEvent(EVENT_NAME)}
+            >
+              <Chrome size={18} style={{ flexShrink: 0 }} />
+              Add to Chrome — it&apos;s free
+            </InstallButtonInline>
+            <ArrowLink
+              href='/tools/website-screenshot'
+              css={theme({ color: 'link', fontWeight: 'bold', fontSize: 1 })}
+            >
+              Or try it online first
+            </ArrowLink>
+          </Flex>
+        </Box>
+        <HeroMockup aria-hidden='true'>
+          <HeroMockupGlow
+            css={`
+              background: ${colors.pink2};
+              opacity: 0.5;
+            `}
+          />
+          <Box css={theme({ position: 'relative', zIndex: 1 })}>
+            <ScreenshotExtensionMockup />
+          </Box>
+        </HeroMockup>
+      </HeroGrid>
     </SectionInner>
   </Section>
 )
@@ -138,39 +163,27 @@ const Hero = () => (
 const WhatItDoes = () => (
   <Section css={theme({ pt: [4, 4, 5, 5], pb: 0 })}>
     <SectionInner>
-      <WhatItDoesGrid>
-        <Box>
-          <Eyebrow accent={ACCENT} css={theme({ pb: 3, display: 'block' })}>
-            What it does
-          </Eyebrow>
-          <Text as='h2' css={theme({ pb: [3, 3, 4, 4] })}>
-            Screenshots that skip the crop-and-cleanup step
-          </Text>
-          <Text as='p' css={theme({ pb: 4 })}>
-            System screenshots capture your screen — browser chrome,
-            notifications, and all. This extension captures the <i>page</i>: it
-            renders the URL in a clean headless browser in the cloud and returns
-            a pixel-perfect image at the exact viewport you choose. Desktop
-            (1920×1080), tablet (768×1024), mobile (393×852), or any custom size
-            — plus full-page capture that scrolls the entire document for you.
-          </Text>
-          <Text as='p'>
-            It even suggests the tab you&apos;re looking at: open the side panel
-            and the current URL is pre-filled, one click away from a capture.
-            From there, copy it to the clipboard, download it, annotate it in
-            the editor, or switch to Social Sharing mode and get a framed,
-            gradient-backed image ready for X, LinkedIn, or your changelog.
-          </Text>
-        </Box>
-        <ShotImage
-          src='/images/screenshot-extension-2.jpg'
-          alt='Microlink Web Page Screenshots extension running in the Chrome side panel'
-          width='376'
-          height='762'
-          loading='lazy'
-          decoding='async'
-        />
-      </WhatItDoesGrid>
+      <Eyebrow accent={ACCENT} css={theme({ pb: 3, display: 'block' })}>
+        What it does
+      </Eyebrow>
+      <Text as='h2' css={theme({ pb: [3, 3, 4, 4] })}>
+        Screenshots that skip the crop-and-cleanup step
+      </Text>
+      <Text as='p' css={theme({ pb: 4 })}>
+        System screenshots capture your screen — browser chrome, notifications,
+        and all. This extension captures the <i>page</i>: it renders the URL in
+        a clean headless browser in the cloud and returns a pixel-perfect image
+        at the exact viewport you choose. Desktop (1920×1080), tablet
+        (768×1024), mobile (393×852), or any custom size — plus full-page
+        capture that scrolls the entire document for you.
+      </Text>
+      <Text as='p'>
+        It even suggests the tab you&apos;re looking at: open the side panel and
+        the current URL is pre-filled, one click away from a capture. From
+        there, copy it to the clipboard, download it, annotate it in the editor,
+        or switch to Social Sharing mode and get a framed, gradient-backed image
+        ready for X, LinkedIn, or your changelog.
+      </Text>
     </SectionInner>
   </Section>
 )
@@ -211,7 +224,7 @@ const FEATURES = [
 ]
 
 const Features = () => (
-  <Section>
+  <Section css={theme({ pt: 0 })}>
     <SectionInner>
       <Eyebrow accent={ACCENT} css={theme({ pb: 2, display: 'block' })}>
         Features
@@ -231,7 +244,7 @@ const Features = () => (
 /* ─── How it works ───────────────────────────────────────────────────────── */
 
 const HowItWorks = () => (
-  <Section id='how-it-works' css={theme({ scrollMarginTop: 4, pt: 0 })}>
+  <Section id='how-it-works' css={theme({ scrollMarginTop: 4 })}>
     <SectionInner>
       <Eyebrow accent={ACCENT} css={theme({ pb: 2, display: 'block' })}>
         How it works
@@ -245,26 +258,29 @@ const HowItWorks = () => (
           alignItems: 'stretch'
         })}
       >
-        <WhyCard
+        <StepCard
           accent={ACCENT}
           number={1}
           kicker='Pick a URL'
           title='The side panel already knows where you are.'
           body='Open the extension and the current tab’s URL is pre-filled. Keep it, paste another one, or switch to bulk mode and drop in up to 50 links at once.'
+          visual={<ScreenshotStepUrlMini />}
         />
-        <WhyCard
+        <StepCard
           accent={ACCENT}
           number={2}
           kicker='Choose your capture'
           title='Viewport, full page, or a single element.'
           body='Select a device preset or custom dimensions, toggle full-page capture, choose the image format, or target a specific DOM element with a CSS selector. Social Sharing mode adds the browser frame and gradient background.'
+          visual={<ScreenshotStepConfigMini />}
         />
-        <WhyCard
+        <StepCard
           accent={ACCENT}
           number={3}
           kicker='Act on the result'
           title='Copy, download, annotate, or ZIP.'
           body='Preview appears inline: copy it to the clipboard as PNG, download it with a URL-based filename, or open the annotation editor. Bulk runs bundle every image into one ZIP, and everything lands in your 24-hour history.'
+          visual={<ScreenshotStepResultMini />}
         />
       </Flex>
     </SectionInner>
@@ -307,8 +323,8 @@ const WebsiteScreenshotExtensionPage = () => (
     <Box css={theme({ position: 'relative', zIndex: 1 })}>
       <Hero />
       <WhatItDoes />
-      <Features />
       <HowItWorks />
+      <Features />
       <Pricing />
       <CtaSection
         accent={ACCENT}

@@ -31,9 +31,13 @@ import {
   Eyebrow,
   FeatureCard,
   FeatureGrid,
+  PdfExtensionMockup,
+  PdfStepDownloadMini,
+  PdfStepOptionsMini,
+  PdfStepUrlsMini,
   Section,
   SectionInner,
-  WhyCard
+  StepCard
 } from 'components/patterns/ExtensionStory'
 import Layout from 'components/patterns/Layout'
 
@@ -43,10 +47,10 @@ const EVENT_NAME = 'pdf extension install'
 
 /* ─── Hero ───────────────────────────────────────────────────────────────── */
 
-const WhatItDoesGrid = styled(Box)`
+const HeroGrid = styled(Box)`
   display: grid;
   grid-template-columns: 1fr;
-  ${theme({ gap: [4, 4, 4, 5] })}
+  ${theme({ gap: [4, 4, 5, 5] })}
   align-items: center;
 
   @media (min-width: ${breakpoints[2]}) {
@@ -54,81 +58,95 @@ const WhatItDoesGrid = styled(Box)`
   }
 `
 
-const ShotImage = styled('img')`
-  ${theme({
-    borderRadius: 3,
-    border: 1,
-    borderColor: 'black10',
-    maxWidth: ['300px', '320px', '340px', '376px']
-  })}
-  display: block;
+const HeroMockup = styled(Box)`
+  position: relative;
   width: 100%;
-  height: auto;
-  margin: 0 auto;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
-    0 8px 10px -6px rgb(0 0 0 / 0.04);
+  max-width: 300px;
+  ${theme({ mx: 'auto' })}
+`
+
+const HeroMockupGlow = styled(Box)`
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  filter: blur(64px);
+  pointer-events: none;
 `
 
 const Hero = () => (
   <Section as='header' css={theme({ pt: [3, 3, 4, 4], pb: [3, 3, 4, 4] })}>
-    <SectionInner css={theme({ textAlign: 'center' })}>
-      <ChromeChip css={theme({ mb: [3, 3, 4, 4], mx: 'auto' })}>
-        <Chrome size={14} color={colors.black80} />
-        <Caps css={theme({ fontSize: 0, fontWeight: 'bold' })}>
-          Chrome extension
-        </Caps>
-      </ChromeChip>
-      <Text
-        as='h1'
-        css={theme({
-          color: 'black',
-          fontWeight: 'bold',
-          fontSize: ['32px', '40px', '52px', '60px'],
-          textAlign: 'center',
-          letterSpacing: '-0.01em',
-          lineHeight: 0,
-          m: 0,
-          scrollMarginTop: 4
-        })}
-      >
-        Convert websites to PDF,{' '}
-        <span css={theme({ color: ACCENT.text })}>100 at a time</span>
-      </Text>
-      <Text
-        as='p'
-        css={theme({ pt: [3, 3, 4, 4], maxWidth: layout.normal, mx: 'auto' })}
-      >
-        <b>Microlink: Website to PDF</b> lives in Chrome&apos;s side panel.
-        Paste up to 100 links, pick your paper format and margins, and every
-        page becomes a PDF — bundled into a single ZIP that downloads
-        automatically. Powered by the <Link href='/pdf'>Microlink PDF API</Link>
-        .
-      </Text>
-      <Flex
-        css={theme({
-          pt: [3, 3, 4, 4],
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          gap: 3
-        })}
-      >
-        <InstallButtonInline
-          href={PDF_EXTENSION_URL}
-          target='_blank'
-          rel='noopener noreferrer'
-          onClick={() => trackEvent(EVENT_NAME)}
-        >
-          <Chrome size={18} style={{ flexShrink: 0 }} />
-          Add to Chrome — it&apos;s free
-        </InstallButtonInline>
-        <ArrowLink
-          href='/tools/website-to-pdf'
-          css={theme({ color: 'link', fontWeight: 'bold', fontSize: 1 })}
-        >
-          Or try it online first
-        </ArrowLink>
-      </Flex>
+    <SectionInner>
+      <HeroGrid>
+        <Box>
+          <ChromeChip css={theme({ mb: [3, 3, 4, 4] })}>
+            <Chrome size={14} color={colors.black80} />
+            <Caps css={theme({ fontSize: 0, fontWeight: 'bold' })}>
+              Chrome extension
+            </Caps>
+          </ChromeChip>
+          <Text
+            as='h1'
+            css={theme({
+              color: 'black',
+              fontWeight: 'bold',
+              fontSize: ['32px', '40px', '52px', '60px'],
+              textAlign: 'left',
+              letterSpacing: '-0.01em',
+              lineHeight: 0,
+              m: 0,
+              scrollMarginTop: 4
+            })}
+          >
+            Convert websites to PDF,{' '}
+            <span css={theme({ color: ACCENT.text })}>100 at a time</span>
+          </Text>
+          <Text
+            as='p'
+            css={theme({ pt: [3, 3, 4, 4], maxWidth: layout.normal })}
+          >
+            <b>Microlink: Website to PDF</b> lives in Chrome&apos;s side panel.
+            Paste up to 100 links, pick your paper format and margins, and every
+            page becomes a PDF — bundled into a single ZIP that downloads
+            automatically. Powered by the{' '}
+            <Link href='/pdf'>Microlink PDF API</Link>.
+          </Text>
+          <Flex
+            css={theme({
+              pt: [3, 3, 4, 4],
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: 3
+            })}
+          >
+            <InstallButtonInline
+              href={PDF_EXTENSION_URL}
+              target='_blank'
+              rel='noopener noreferrer'
+              onClick={() => trackEvent(EVENT_NAME)}
+            >
+              <Chrome size={18} style={{ flexShrink: 0 }} />
+              Add to Chrome — it&apos;s free
+            </InstallButtonInline>
+            <ArrowLink
+              href='/tools/website-to-pdf'
+              css={theme({ color: 'link', fontWeight: 'bold', fontSize: 1 })}
+            >
+              Or try it online first
+            </ArrowLink>
+          </Flex>
+        </Box>
+        <HeroMockup aria-hidden='true'>
+          <HeroMockupGlow
+            css={`
+              background: ${colors.violet2};
+              opacity: 0.5;
+            `}
+          />
+          <Box css={theme({ position: 'relative', zIndex: 1 })}>
+            <PdfExtensionMockup />
+          </Box>
+        </HeroMockup>
+      </HeroGrid>
     </SectionInner>
   </Section>
 )
@@ -138,38 +156,25 @@ const Hero = () => (
 const WhatItDoes = () => (
   <Section css={theme({ pt: [4, 4, 5, 5], pb: 0 })}>
     <SectionInner>
-      <WhatItDoesGrid>
-        <Box>
-          <Eyebrow accent={ACCENT} css={theme({ pb: 3, display: 'block' })}>
-            What it does
-          </Eyebrow>
-          <Text as='h2' css={theme({ pb: [3, 3, 4, 4] })}>
-            From a list of links to a ZIP of PDFs
-          </Text>
-          <Text as='p' css={theme({ pb: 4 })}>
-            Archiving articles, saving invoices, snapshotting competitor pages —
-            converting web pages to PDF one by one is slow, and browser print
-            dialogs mangle layouts. This extension takes a plain list of URLs
-            (one per line), converts each page through the Microlink API with
-            ads blocked automatically, and tracks progress live with a running
-            &ldquo;Completed X of Y&rdquo; counter and a Stop button.
-          </Text>
-          <Text as='p'>
-            When the batch finishes, every document is bundled into one ZIP
-            archive that downloads on its own. Each PDF is generated by a real
-            headless browser in the cloud — your machine does none of the
-            rendering work.
-          </Text>
-        </Box>
-        <ShotImage
-          src='/images/pdf-extension.jpg'
-          alt='Microlink Website to PDF extension running in the Chrome side panel'
-          width='376'
-          height='914'
-          loading='lazy'
-          decoding='async'
-        />
-      </WhatItDoesGrid>
+      <Eyebrow accent={ACCENT} css={theme({ pb: 3, display: 'block' })}>
+        What it does
+      </Eyebrow>
+      <Text as='h2' css={theme({ pb: [3, 3, 4, 4] })}>
+        From a list of links to a ZIP of PDFs
+      </Text>
+      <Text as='p' css={theme({ pb: 4 })}>
+        Archiving articles, saving invoices, snapshotting competitor pages —
+        converting web pages to PDF one by one is slow, and browser print
+        dialogs mangle layouts. This extension takes a plain list of URLs (one
+        per line), converts each page through the Microlink API with ads blocked
+        automatically, and tracks progress live with a running &ldquo;Completed
+        X of Y&rdquo; counter and a Stop button.
+      </Text>
+      <Text as='p'>
+        When the batch finishes, every document is bundled into one ZIP archive
+        that downloads on its own. Each PDF is generated by a real headless
+        browser in the cloud — your machine does none of the rendering work.
+      </Text>
     </SectionInner>
   </Section>
 )
@@ -210,7 +215,7 @@ const FEATURES = [
 ]
 
 const Features = () => (
-  <Section>
+  <Section css={theme({ pt: 0 })}>
     <SectionInner>
       <Eyebrow accent={ACCENT} css={theme({ pb: 2, display: 'block' })}>
         Features
@@ -230,7 +235,7 @@ const Features = () => (
 /* ─── How it works ───────────────────────────────────────────────────────── */
 
 const HowItWorks = () => (
-  <Section id='how-it-works' css={theme({ scrollMarginTop: 4, pt: 0 })}>
+  <Section id='how-it-works' css={theme({ scrollMarginTop: 4 })}>
     <SectionInner>
       <Eyebrow accent={ACCENT} css={theme({ pb: 2, display: 'block' })}>
         How it works
@@ -244,26 +249,29 @@ const HowItWorks = () => (
           alignItems: 'stretch'
         })}
       >
-        <WhyCard
+        <StepCard
           accent={ACCENT}
           number={1}
           kicker='Paste your URLs'
           title='Open the side panel and drop in your list.'
           body='Click the extension icon and Chrome opens the side panel next to whatever you are reading. Paste up to 100 links, one per line — articles, invoices, documentation, any public page.'
+          visual={<PdfStepUrlsMini />}
         />
-        <WhyCard
+        <StepCard
           accent={ACCENT}
           number={2}
           kicker='Pick your options'
           title='Same knobs as the Microlink PDF API.'
           body='Choose paper format, orientation, and appearance (print version or screen view). Open Advanced for scale (0.1–2.0), custom margins in any CSS unit, and page ranges like 1-5,8. Every option maps one-to-one to a documented API parameter.'
+          visual={<PdfStepOptionsMini />}
         />
-        <WhyCard
+        <StepCard
           accent={ACCENT}
           number={3}
           kicker='Download the ZIP'
           title='Watch the counter, get the archive.'
           body='The extension converts each URL and shows a live “Completed X of Y” counter with a Stop button. When the batch is done, the ZIP with every PDF downloads automatically — and the run is saved to your 24-hour history.'
+          visual={<PdfStepDownloadMini />}
         />
       </Flex>
     </SectionInner>
@@ -304,8 +312,8 @@ const WebsitePdfExtensionPage = () => (
     <Box css={theme({ position: 'relative', zIndex: 1 })}>
       <Hero />
       <WhatItDoes />
-      <Features />
       <HowItWorks />
+      <Features />
       <Pricing />
       <CtaSection
         accent={ACCENT}
