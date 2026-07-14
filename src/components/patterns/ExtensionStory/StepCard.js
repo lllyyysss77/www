@@ -1,4 +1,4 @@
-import { breakpoints, colors, theme } from 'theme'
+import { breakpoints, colors, shadows, theme } from 'theme'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,7 +20,7 @@ const Card = styled(Box)`
     width: '100%',
     minWidth: 0
   })}
-  box-shadow: 0 1px 2px ${colors.black05};
+  box-shadow: ${shadows[1]};
 `
 
 const Grid = styled(Box)`

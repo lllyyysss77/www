@@ -2,6 +2,7 @@ import {
   breakpoints,
   colors,
   layout,
+  shadows,
   textGradient,
   theme,
   transition
@@ -214,7 +215,7 @@ const Card = styled(Box)`
     flexDirection: 'column',
     overflow: 'hidden'
   })}
-  box-shadow: 0 1px 2px ${colors.black05};
+  box-shadow: ${shadows[1]};
   transition: box-shadow ${transition.medium}, transform ${transition.medium},
     border-color ${transition.medium};
 
