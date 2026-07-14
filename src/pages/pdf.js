@@ -1010,7 +1010,6 @@ const Hero = function Hero ({ onRequestTiming }) {
               pt: [3, 3, 4, 4],
               px: [1, 2, 4, 0],
               maxWidth: ['100%', layout.small, layout.small, '640px'],
-              fontSize: [2, 2, 2, 2],
               textAlign: ['center', 'center', 'center', 'left']
             })}
           >
@@ -1567,7 +1566,7 @@ const Timings = ({ timingMs, timingUrl, timingHistory }) => {
         alignItems: 'center'
       })}
     >
-      <Subhead css={theme({ fontSize: [2, 3, 3, '44px'], color: 'white' })}>
+      <Subhead css={theme({ color: 'white' })}>
         Send the URL{' '}
         <span css={theme({ display: 'block', color: 'white60' })}>
           Get a PDF back
@@ -2030,7 +2029,6 @@ const Capabilities = () => {
         >
           <Subhead
             css={theme({
-              fontSize: [3, 4, 4, 4],
               textAlign: ['center', 'center', 'center', 'left'],
               width: '100%'
             })}
@@ -2169,7 +2167,6 @@ const CodeExample = () => {
         >
           <Subhead
             css={theme({
-              fontSize: [3, 3, 4, 4],
               textAlign: ['center', 'center', 'center', 'left'],
               width: '100%'
             })}
@@ -2517,12 +2514,7 @@ const Pricing = () => {
             pt: SECTION_VERTICAL_SPACING
           })}
         >
-          <Subhead
-            variant='gradient'
-            css={theme({ fontSize: ['34px', '42px', '54px', '62px'] })}
-          >
-            Start free, scale when ready
-          </Subhead>
+          <Subhead variant='gradient'>Start free, scale when ready</Subhead>
           <Caption
             forwardedAs='div'
             css={theme({
@@ -2803,7 +2795,6 @@ const OpenSource = () => (
         <Subhead
           css={theme({
             textAlign: ['center', 'center', 'center', 'left'],
-            fontSize: [3, 3, 4, 4],
             width: '100%'
           })}
         >
@@ -2889,7 +2880,6 @@ const Playground = () => (
     >
       <Subhead
         css={theme({
-          fontSize: ['28px', '36px', '46px', '46px'],
           textAlign: 'center'
         })}
       >
@@ -3123,7 +3113,6 @@ const Benchmark = () => (
     >
       <Subhead
         css={theme({
-          fontSize: [3, 3, '44px', '44px'],
           color: 'white',
           textAlign: 'center'
         })}
@@ -3217,7 +3206,6 @@ const CallToAction = () => (
     >
       <Subhead
         css={theme({
-          fontSize: [4, 4, 5, 5],
           textAlign: 'center'
         })}
       >
@@ -3612,13 +3600,7 @@ const PdfPage = () => {
           <Subhead
             css={theme({
               width: '100%',
-              textAlign: 'left',
-              fontSize: [
-                4,
-                4,
-                `calc(${fontSizes[6]} - 1px)`,
-                `calc(${fontSizes[6]} - 1px)`
-              ]
+              textAlign: 'left'
             })}
           >
             The best HTML to PDF API,{' '}

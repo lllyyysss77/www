@@ -520,7 +520,6 @@ const Hero = function Hero ({
               pt: [3, 3, 4, 4],
               px: [1, 2, 4, 0],
               maxWidth: ['100%', layout.small, layout.small, '640px'],
-              fontSize: [2, 2, 3, 3],
               textAlign: ['center', 'center', 'center', 'left']
             })}
           >
@@ -769,9 +768,7 @@ const Providers = () => {
         textAlign: 'center'
       })}
     >
-      <Subhead
-        css={theme({ fontSize: [2, 3, 3, '44px'], color: 'white', mb: 3 })}
-      >
+      <Subhead css={theme({ color: 'white', mb: 3 })}>
         300+ embed providers{' '}
         <span css={theme({ display: 'block', color: 'white60' })}>
           One API call for every URL
@@ -976,7 +973,6 @@ const Capabilities = () => (
       >
         <Subhead
           css={theme({
-            fontSize: [3, 4, 4, 4],
             textAlign: ['center', 'center', 'center', 'left'],
             width: '100%'
           })}
@@ -1089,7 +1085,6 @@ const CopyPasteEmbed = () => (
         <Subhead
           variant='gradient'
           css={theme({
-            fontSize: [3, 4, 5, 5],
             textAlign: ['center', 'center', 'left', 'left'],
             width: '100%'
           })}
@@ -1418,12 +1413,7 @@ const Pricing = () => {
             pt: SECTION_VERTICAL_SPACING
           })}
         >
-          <Subhead
-            variant='gradient'
-            css={theme({ fontSize: ['34px', '42px', '54px', '62px'] })}
-          >
-            Start free, scale when ready
-          </Subhead>
+          <Subhead variant='gradient'>Start free, scale when ready</Subhead>
           <Caption
             forwardedAs='div'
             css={theme({
@@ -1704,7 +1694,6 @@ const OpenSource = () => (
         <Subhead
           css={theme({
             textAlign: ['center', 'center', 'center', 'left'],
-            fontSize: [3, 3, 4, 4],
             width: '100%'
           })}
         >
@@ -1800,7 +1789,6 @@ const SdkSection = () => (
         <Subhead
           css={theme({
             textAlign: ['center', 'center', 'center', 'left'],
-            fontSize: [3, 3, 4, 4],
             width: '100%'
           })}
         >
@@ -1985,7 +1973,6 @@ const CustomerStories = () => {
     >
       <Subhead
         css={theme({
-          fontSize: [2, 2, 3, 3],
           textAlign: 'center',
           px: [4, 4, 4, 0]
         })}
@@ -2113,7 +2100,6 @@ const CallToAction = () => (
     >
       <Subhead
         css={theme({
-          fontSize: [4, 4, 5, 5],
           textAlign: 'center'
         })}
       >
@@ -2531,7 +2517,6 @@ const Playground = () => {
       >
         <Subhead
           css={theme({
-            fontSize: ['28px', '36px', '46px', '46px'],
             textAlign: 'center'
           })}
         >
@@ -2756,13 +2741,7 @@ const EmbedPage = () => {
                   <Subhead
                     css={theme({
                       width: '100%',
-                      textAlign: 'left',
-                      fontSize: [
-                        4,
-                        4,
-                        `calc(${fontSizes[6]} - 1px)`,
-                        `calc(${fontSizes[6]} - 1px)`
-                      ]
+                      textAlign: 'left'
                     })}
                   >
                     The most complete embed API for developers,{' '}
