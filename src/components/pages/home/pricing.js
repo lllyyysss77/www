@@ -20,12 +20,7 @@ const Pricing = () => {
           px: [3, 3, 4, 4]
         })}
       >
-        <Subhead css={theme({ maxWidth: layout.large })}>
-          Pricing built for{' '}
-          <Subhead variant='gradient' as='span'>
-            builders
-          </Subhead>
-        </Subhead>
+        <Subhead variant='gradient'>Simple to start. Ready to scale.</Subhead>
         <Caption
           forwardedAs='div'
           css={theme({
@@ -33,7 +28,8 @@ const Pricing = () => {
             maxWidth: [layout.small, layout.small, layout.normal, layout.normal]
           })}
         >
-          Start free, scale predictably. No seats, no minimums, no surprises.
+          Start free and pay only for what you use as you grow. No seats, no
+          minimums, no surprises.
         </Caption>
       </Container>
       <Plans

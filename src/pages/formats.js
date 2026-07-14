@@ -190,7 +190,7 @@ const FormatsPage = () => (
           css={theme({
             pt: [3, 3, 4, 4],
             flexDirection: 'column',
-            maxWidth: ['95vw', '95vw', undefined, undefined],
+            maxWidth: '95vw',
             overflowX: 'auto'
           })}
         >

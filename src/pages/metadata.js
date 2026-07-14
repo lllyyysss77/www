@@ -1705,13 +1705,11 @@ const Hero = function Hero ({ onRequestTiming, onUrlChange, onDataChange }) {
           <Heading
             css={theme({
               px: [2, 3, 4, 0],
-              fontSize: [4, 4, 5, 5],
               maxWidth: ['100%', '100%', '100%', '640px'],
               textAlign: ['center', 'center', 'center', 'left']
             })}
           >
-            Website Metadata API{' '}
-            <span style={{ whiteSpace: 'nowrap' }}>for developers</span>
+            Website Metadata API for developers
           </Heading>
           <Caption
             forwardedAs='h2'
@@ -4642,7 +4640,6 @@ const TOP_FAQ_ITEMS = [
 const ProductInformation = () => (
   <Faq
     title='Product Information'
-    titleSize={['40px', 4, 5, 5]}
     caption={
       <>
         Everything you need to know about <LineBreak /> the Microlink metadata

@@ -2,10 +2,7 @@ import Box from 'components/elements/Box'
 import Flex from 'components/elements/Flex'
 import Text from 'components/elements/Text'
 import { theme, layout, SECTION_VERTICAL_SPACING } from 'theme'
-import {
-  CAPACITY_REQUESTS_PER_MONTH,
-  HOME_CONTENT_WIDTH
-} from 'components/pages/home/catalog'
+import { HOME_CONTENT_WIDTH } from 'components/pages/home/catalog'
 import Subhead from 'components/elements/Subhead'
 import Caption from 'components/patterns/Caption/Caption'
 
@@ -86,13 +83,7 @@ const Production = () => (
         px: 3
       })}
     >
-      <Subhead>
-        From one request
-        <br />
-        <Subhead variant='gradient' as='span'>
-          to millions
-        </Subhead>
-      </Subhead>
+      <Subhead variant='gradient'>Production-ready infrastructure</Subhead>
 
       <Caption
         forwardedAs='div'
@@ -101,12 +92,8 @@ const Production = () => (
           pt: [3, 3, 4, 4]
         })}
       >
-        Microlink is the infrastructure between your agents and the web: behind
-        every request, a real browser in the cloud opens the page, does the
-        work, and delivers the result. Agents retry, loop, and fan out in
-        parallel; the platform is built to absorb exactly that traffic. Our
-        largest customers process {CAPACITY_REQUESTS_PER_MONTH} requests a
-        month, and nobody had to warn us first.
+        From your first request to millions, the same infrastructure scales with
+        your business. No maintenance, no capacity planning, no surprises.
       </Caption>
     </Box>
 

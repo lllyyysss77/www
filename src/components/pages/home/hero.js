@@ -2265,19 +2265,19 @@ const Hero = () => {
           Handling +{reqsPretty} requests every month
         </Badge>
 
-        <Heading variant={null} css={theme({ fontSize: [4, 4, 5, 5] })}>
+        <Heading variant={null}>
           The web,{' '}
-          <Heading forwardedAs='span' css={theme({ fontSize: 'inherit' })}>
-            automated
+          <Heading
+            forwardedAs='span'
+            css={theme({ fontSize: 'inherit', fontStyle: 'italic' })}
+          >
+            transformed
           </Heading>
         </Heading>
 
-        <Caption
-          forwardedAs='p'
-          css={theme({ pt: 3, maxWidth: '32rem', fontSize: 2 })}
-        >
-          AI-ready web automation infrastructure. Any link, any scale, nothing
-          to maintain. Try it below, no signup.
+        <Caption forwardedAs='p' css={theme({ pt: 3 })}>
+          AI-ready infrastructure for interacting with the web. Built on real
+          browsers. Exposed through a single API.
         </Caption>
 
         <Composer>

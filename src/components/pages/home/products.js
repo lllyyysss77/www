@@ -2308,17 +2308,10 @@ const Products = () => (
         px: 3
       })}
     >
-      <Subhead>
-        Turn any link
-        <br />
-        into{' '}
-        <Subhead variant='gradient' as='span'>
-          what you need
-        </Subhead>
-      </Subhead>
+      <Subhead variant='gradient'>Turn the web into capabilities</Subhead>
       <Caption forwardedAs='p' css={theme({ pt: [3, 3, 4, 4] })}>
-        Screenshots, PDFs, clean text, data & more. One simple request, any
-        format.
+        Build features, not the infrastructure behind them. We handle everything
+        required to run them at scale.
       </Caption>
     </Box>
 

@@ -999,13 +999,11 @@ const Hero = function Hero ({ onRequestTiming }) {
           <Heading
             css={theme({
               px: [2, 3, 4, 0],
-              fontSize: [3, 3, 4, 4],
               maxWidth: ['100%', '100%', '100%', '640px'],
               textAlign: ['center', 'center', 'center', 'left']
             })}
           >
-            URL to PDF API{' '}
-            <span style={{ whiteSpace: 'nowrap' }}>for developers</span>
+            URL to PDF API for developers
           </Heading>
           <Caption
             forwardedAs='h2'
@@ -3300,7 +3298,6 @@ const CallToAction = () => (
 const ProductInformation = () => (
   <Faq
     title='Product Information'
-    titleSize={['40px', 4, 5, 5]}
     caption={
       <>
         Everything you need to know about <LineBreak /> Microlink HTML to PDF
