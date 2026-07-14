@@ -37,6 +37,7 @@ import Text from 'components/elements/Text'
 
 import Block from 'components/patterns/Block/Block'
 import CaptionBase from 'components/patterns/Caption/Caption'
+import { ScreenshotExtensionBanner } from 'components/patterns/ChromeExtensionBanner/ChromeExtensionBanner'
 import Faq from 'components/patterns/Faq/Faq'
 import Features from 'components/patterns/Features/Features'
 import Layout from 'components/patterns/Layout'
@@ -2315,6 +2316,19 @@ const HowItWorks = () => (
         You get the same speed, quality, and reliability at no cost.
       </Text>
     </Caption>
+
+    <ScreenshotExtensionBanner
+      title='Need bigger batches? The Chrome extension captures 50 URLs'
+      description={
+        <>
+          The <b>Microlink Web Page Screenshots</b> extension brings this bulk
+          capture into Chrome&apos;s side panel — same viewports, full-page, and
+          social-share frames, powered by the same{' '}
+          <Link href='/screenshot'>Screenshot API</Link> — with every image
+          bundled in a single ZIP.
+        </>
+      }
+    />
   </Container>
 )
 

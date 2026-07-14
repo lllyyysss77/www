@@ -14,6 +14,7 @@ import { BookImage as BookImageIcon } from 'components/icons/BookImage'
 import {
   Layers,
   BarChart2,
+  Chrome as ChromeIcon,
   Code,
   Codesandbox as CodesandboxIcon,
   Image,
@@ -172,6 +173,12 @@ export const TOOLS_INTEGRATIONS_ITEMS = [
     href: '/embed/providers',
     description: '300+ embed-ready sites',
     icon: GridIcon
+  }),
+  createNavigationItem({
+    label: 'Extensions',
+    href: '/extensions',
+    description: 'Microlink in your browser',
+    icon: ChromeIcon
   }),
   createNavigationItem({
     label: 'Geolocation',

@@ -46,6 +46,7 @@ import Plans from 'components/patterns/Plans/Plans'
 import MultiCodeEditorInteractive from 'components/patterns/MultiCodeEditor/MultiCodeEditorInteractive'
 import { FeaturedToolCard } from 'components/patterns/Tools/ToolCards'
 import { TOOLS as TOOL_CATALOG } from 'components/patterns/Tools/toolCatalog'
+import { ChromeExtensionBannerCompact } from 'components/patterns/ChromeExtensionBanner/ChromeExtensionBanner'
 
 import { useHealthcheck } from 'components/hook/use-healthcheck'
 import { useSiteMetadata } from 'components/hook/use-site-meta'
@@ -2924,6 +2925,13 @@ const Playground = () => (
           </Box>
         ))}
       </Flex>
+
+      <ChromeExtensionBannerCompact
+        css={theme({
+          mt: 3,
+          maxWidth: ['550px', '550px', layout.normal, layout.normal]
+        })}
+      />
     </Flex>
   </Container>
 )

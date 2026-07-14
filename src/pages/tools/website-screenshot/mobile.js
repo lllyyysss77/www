@@ -26,6 +26,7 @@ import Text from 'components/elements/Text'
 
 import Block from 'components/patterns/Block/Block'
 import CaptionBase from 'components/patterns/Caption/Caption'
+import { ScreenshotExtensionBanner } from 'components/patterns/ChromeExtensionBanner/ChromeExtensionBanner'
 import Faq from 'components/patterns/Faq/Faq'
 import Features from 'components/patterns/Features/Features'
 import Layout from 'components/patterns/Layout'
@@ -880,6 +881,18 @@ const HowItWorks = () => (
         get enterprise performance at no cost.
       </Text>
     </Caption>
+
+    <ScreenshotExtensionBanner
+      description={
+        <>
+          Skip the tab switching — the <b>Microlink Web Page Screenshots</b>{' '}
+          extension captures mobile-viewport screenshots from Chrome&apos;s side
+          panel, powered by the same{' '}
+          <Link href='/screenshot'>Screenshot API</Link> as this tool. Desktop,
+          tablet, and mobile presets — single or up to 50 in bulk.
+        </>
+      }
+    />
   </Container>
 )
 
