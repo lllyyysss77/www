@@ -2,6 +2,7 @@ import {
   breakpoints,
   colors,
   layout,
+  radii,
   shadows,
   textGradient,
   theme,
@@ -134,7 +135,7 @@ const Hero = () => (
               pt: 3
             })}
           >
-            Free to install · No account · 25 requests a day
+            Free to install · No account <LineBreak />· 25 requests a day
           </Caps>
           <Flex css={theme({ pt: [3, 3, 4, 4] })}>
             <ArrowLink
@@ -207,6 +208,7 @@ const CardsGrid = styled(Box)`
 
 const Card = styled(Box)`
   ${theme({
+    position: 'relative',
     bg: 'white',
     border: 1,
     borderColor: 'black10',
@@ -333,17 +335,39 @@ const ExtensionCard = ({ extension }) => {
           ))}
         </Box>
         <Text css={theme({ fontSize: 0, color: 'black60' })}>
-          Runs on the <Link href={apiHref}>{category}</Link> — call the same
-          endpoint from your own code.
+          Runs on the{' '}
+          <Link href={apiHref} css={theme({ position: 'relative', zIndex: 2 })}>
+            {category}
+          </Link>{' '}
+          — call the same endpoint from your own code.
         </Text>
         <Box css={theme({ mt: 'auto', pt: 2 })}>
           <ArrowLink
             href={href}
-            css={theme({
-              color: accent.text,
-              fontWeight: 'bold',
-              fontSize: 1
-            })}
+            css={`
+              ${theme({
+                color: accent.text,
+                fontWeight: 'bold',
+                fontSize: 1
+              })}
+
+              > a::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                z-index: 1;
+                border-radius: ${radii[3]};
+              }
+
+              > a:focus-visible {
+                outline: none;
+              }
+
+              > a:focus-visible::after {
+                outline: 2px solid ${colors.link};
+                outline-offset: 2px;
+              }
+            `}
           >
             See all features
           </ArrowLink>

@@ -1,5 +1,5 @@
 import { colors, layout, theme, transition } from 'theme'
-import { Archive, Camera, Check, Chrome, Image } from 'react-feather'
+import { Check, Chrome } from 'react-feather'
 import styled, { css } from 'styled-components'
 import React from 'react'
 
@@ -9,6 +9,11 @@ import Container from 'components/elements/Container'
 import Flex from 'components/elements/Flex'
 import { Link } from 'components/elements/Link'
 import Text from 'components/elements/Text'
+
+import {
+  PdfExtensionMockup,
+  ScreenshotExtensionMockup
+} from 'components/patterns/ExtensionStory/mockups'
 
 import { trackEvent } from 'helpers/plausible'
 
@@ -125,160 +130,6 @@ export const InstallButtonInline = styled('a')`
   flex-shrink: 0;
 `
 
-/* ─── Side panel mockup ──────────────────────────────────
-   Stylized preview of the extension running in Chrome's
-   side panel: a batch of converted URLs plus the final
-   ZIP download row. Purely decorative. */
-
-const PanelFrame = styled(Box)`
-  ${theme({
-    width: '100%',
-    borderRadius: 3,
-    bg: 'white',
-    p: 3
-  })}
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
-    0 8px 10px -6px rgb(0 0 0 / 0.04);
-`
-
-const SkeletonBar = styled(Box)`
-  ${theme({
-    height: '8px',
-    borderRadius: 2,
-    bg: 'black05'
-  })}
-`
-
-const PanelRow = ({ width }) => (
-  <Flex css={theme({ alignItems: 'center', gap: 2, py: 2 })}>
-    <Box
-      css={theme({
-        width: '8px',
-        height: '8px',
-        borderRadius: '50%',
-        flexShrink: 0
-      })}
-      style={{ background: colors.black10 }}
-    />
-    <SkeletonBar css={{ width }} />
-    <Check
-      size={14}
-      color={colors.close}
-      style={{ marginLeft: 'auto', flexShrink: 0 }}
-    />
-  </Flex>
-)
-
-const PanelHeader = ({ icon: Icon, count }) => (
-  <Flex
-    css={theme({
-      alignItems: 'center',
-      gap: 2,
-      pb: 2,
-      borderBottom: 1,
-      borderColor: 'black05'
-    })}
-  >
-    <Icon size={14} color={colors.black60} />
-    <Caps css={theme({ fontSize: 0, color: 'black60' })}>Side panel</Caps>
-    <Caps css={theme({ fontSize: 0, color: 'black40', ml: 'auto' })}>
-      {count}
-    </Caps>
-  </Flex>
-)
-
-const PanelZipRow = ({ icon: Icon, filename, label }) => (
-  <Flex
-    css={theme({
-      alignItems: 'center',
-      gap: 2,
-      mt: 1,
-      py: 2,
-      px: 2,
-      borderRadius: 2
-    })}
-    style={{ background: colors.pinkest }}
-  >
-    <Icon size={14} color={colors.black80} />
-    <Text css={theme({ fontSize: 0, fontWeight: 'bold', color: 'black80' })}>
-      {filename}
-    </Text>
-    <Text css={theme({ fontSize: 0, color: 'black60', ml: 'auto' })}>
-      {label}
-    </Text>
-  </Flex>
-)
-
-export const PdfPanelMockup = () => (
-  <PanelFrame aria-hidden='true'>
-    <PanelHeader icon={Chrome} count='100 of 100' />
-    <Box css={theme({ py: 1 })}>
-      <PanelRow width='72%' />
-      <PanelRow width='55%' />
-      <PanelRow width='64%' />
-    </Box>
-    <PanelZipRow icon={Archive} filename='website-pdfs.zip' label='100 PDFs' />
-  </PanelFrame>
-)
-
-/* Screenshot flavour: a browser-framed capture preview instead of
-   document rows, echoing the extension's Social Sharing mode. */
-
-const ShotThumb = styled(Box)`
-  ${theme({
-    borderRadius: 2,
-    overflow: 'hidden',
-    border: 1,
-    borderColor: 'black05'
-  })}
-`
-
-export const ScreenshotPanelMockup = () => (
-  <PanelFrame aria-hidden='true'>
-    <PanelHeader icon={Camera} count='50 of 50' />
-    <Box css={theme({ py: 2 })}>
-      <ShotThumb>
-        <Flex
-          css={theme({
-            alignItems: 'center',
-            gap: 1,
-            py: 1,
-            px: 2,
-            bg: 'black05'
-          })}
-        >
-          <Box
-            css={theme({ width: '6px', height: '6px', borderRadius: '50%' })}
-            style={{ background: colors.black10 }}
-          />
-          <Box
-            css={theme({ width: '6px', height: '6px', borderRadius: '50%' })}
-            style={{ background: colors.black10 }}
-          />
-          <Box
-            css={theme({ width: '6px', height: '6px', borderRadius: '50%' })}
-            style={{ background: colors.black10 }}
-          />
-          <SkeletonBar css={{ width: '55%', marginLeft: '8px' }} />
-        </Flex>
-        <Box
-          css={theme({ p: 2 })}
-          style={{
-            background:
-              'linear-gradient(135deg, #fce7f3 0%, #ede9fe 60%, #f5f3ff 100%)'
-          }}
-        >
-          <SkeletonBar css={theme({ width: '80%', mb: 1 })} />
-          <SkeletonBar css={theme({ width: '60%', mb: 1 })} />
-          <SkeletonBar css={{ width: '68%' }} />
-        </Box>
-      </ShotThumb>
-    </Box>
-    <PanelZipRow icon={Image} filename='screenshots.zip' label='50 images' />
-  </PanelFrame>
-)
-
 const DEFAULT_TITLE = 'Convert websites to PDF right from Chrome'
 
 const DEFAULT_HIGHLIGHTS = [
@@ -304,7 +155,7 @@ const ChromeExtensionBanner = ({
   description,
   highlights = DEFAULT_HIGHLIGHTS,
   href = PDF_EXTENSION_URL,
-  mockup = <PdfPanelMockup />,
+  mockup = <PdfExtensionMockup />,
   pricingNote = DEFAULT_PRICING_NOTE,
   buttonLabel = "Add to Chrome — it's free",
   eventName = 'pdf extension install',
@@ -531,7 +382,7 @@ export const ScreenshotExtensionBanner = ({
     description={description}
     highlights={highlights}
     href={SCREENSHOT_EXTENSION_URL}
-    mockup={<ScreenshotPanelMockup />}
+    mockup={<ScreenshotExtensionMockup />}
     pricingNote={SCREENSHOT_PRICING_NOTE}
     eventName='screenshot extension install'
     {...props}
