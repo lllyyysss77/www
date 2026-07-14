@@ -9,18 +9,8 @@ import Text from 'components/elements/Text'
 
 import MicrolinkLogo from 'components/logos/Microlink'
 
-/* ─── Extension panel mockups ────────────────────────────
-   Stylized but faithful replicas of the real side-panel
-   UIs (see MICROLINK/extensions repo): light panel, white
-   cards, dark pill toggles, uppercase field labels, and
-   the pink → violet "Generate" button. Purely decorative —
-   every instance renders inside an aria-hidden container. */
-
 const PanelFrame = styled(Box)`
   ${theme({ width: '100%', borderRadius: 3, overflow: 'hidden' })}
-  /* No global body font on this site: typography normally comes from the
-     Text element, so raw divs (toggles, buttons, chips) must inherit the
-     sans stack from the frame or they fall back to the browser serif. */
   font-family: ${fonts.sans};
   background: ${colors.gray0};
   border: 1px solid rgba(0, 0, 0, 0.06);
@@ -201,10 +191,6 @@ const ZipRow = ({ filename, label, ...props }) => (
   </Flex>
 )
 
-/* ─── Website to PDF ─────────────────────────────────────
-   Signature features: bulk URL textarea, paper format and
-   orientation options, everything bundled into one ZIP. */
-
 export const PdfExtensionMockup = () => (
   <PanelFrame aria-hidden='true'>
     <Titlebar title='Microlink: Website to PDF' />
@@ -249,11 +235,6 @@ export const PdfExtensionMockup = () => (
     </PanelBody>
   </PanelFrame>
 )
-
-/* ─── Web Page Screenshots ───────────────────────────────
-   Signature features: Capture vs Social Sharing modes,
-   current-tab suggestion, and the gradient backgrounds
-   behind the browser frame. */
 
 const GRADIENT_DOTS = [
   'linear-gradient(135deg, #a855f7, #6b21a8)',
@@ -325,16 +306,7 @@ export const ScreenshotExtensionMockup = () => (
   </PanelFrame>
 )
 
-/* ─── Step minis ─────────────────────────────────────────
-   Bite-sized fragments of the panels above, one per
-   "How it works" step on the extension landings. Same
-   atoms, same fidelity — just the piece of UI the step
-   is talking about. Rendered inside StepCard's visual
-   well (aria-hidden). */
-
 const MiniPanel = styled(Box)`
-  /* Standalone fragment: outside PanelFrame, so it declares the sans
-     stack itself (no global body font on this site). */
   font-family: ${fonts.sans};
   ${theme({ bg: 'white', borderRadius: 2, p: '8px', width: '100%' })}
   max-width: 240px;
@@ -369,8 +341,6 @@ const BrowserDot = styled(Box)`
   background: ${colors.black10};
   flex-shrink: 0;
 `
-
-/* Website to PDF — steps */
 
 export const PdfStepUrlsMini = () => (
   <MiniPanel aria-hidden='true'>
@@ -466,8 +436,6 @@ export const PdfStepDownloadMini = () => (
     />
   </MiniPanel>
 )
-
-/* Web Page Screenshots — steps */
 
 export const ScreenshotStepUrlMini = () => (
   <MiniPanel aria-hidden='true'>

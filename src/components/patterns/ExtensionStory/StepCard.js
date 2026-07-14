@@ -6,10 +6,6 @@ import Box from 'components/elements/Box'
 import Flex from 'components/elements/Flex'
 import Text from 'components/elements/Text'
 
-/* WhyCard's anatomy (kicker / title / body) plus a tinted visual well
-   holding a step mini from ./mockups — used by the "How it works"
-   sections on the extension landings. */
-
 const Card = styled(Box)`
   ${theme({
     bg: 'white',
