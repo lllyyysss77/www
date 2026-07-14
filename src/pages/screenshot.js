@@ -1015,13 +1015,11 @@ const Hero = function Hero ({ onRequestTiming, heroLayout = HERO_LAYOUT }) {
           <Heading
             css={theme({
               px: [2, 3, 4, 0],
-              fontSize: [3, 3, 4, 4],
               maxWidth: ['100%', '100%', '100%', '640px'],
               textAlign: ['center', 'center', 'center', 'left']
             })}
           >
-            Website <span style={{ whiteSpace: 'nowrap' }}>screenshot API</span>{' '}
-            <span style={{ whiteSpace: 'nowrap' }}>for developers</span>
+            Website screenshot API for developers
           </Heading>
           <Caption
             forwardedAs='h2'
@@ -3329,7 +3327,6 @@ const ProductInformation = () => {
   return (
     <Faq
       title='Product Information'
-      titleSize={['40px', 4, 5, 5]}
       caption={
         <>
           Everything you need to know about <LineBreak /> Microlink website

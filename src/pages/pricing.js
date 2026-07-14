@@ -258,14 +258,8 @@ const Hero = () => {
         px: [3, 3, 4, 4]
       })}
     >
-      <Heading
-        css={theme({
-          fontSize: ['34px', '42px', '54px', '62px'],
-          maxWidth: layout.large,
-          textAlign: 'center'
-        })}
-      >
-        Pricing built for builders
+      <Heading css={theme({ maxWidth: layout.large })}>
+        Simple to start. Ready to scale.
       </Heading>
 
       <Caption
@@ -1268,7 +1262,6 @@ const Faqs = () => (
   <Faq
     title='Pricing FAQs'
     caption='Everything you need to know before you pick a plan.'
-    titleSize={['28px', '34px', '42px', '46px']}
     css={theme({
       bg: 'white',
       maxWidth: '100%',
