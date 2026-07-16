@@ -1,5 +1,5 @@
 import { rgba } from 'polished'
-import { colors, layout, theme } from 'theme'
+import { colors, layout, theme, SECTION_VERTICAL_SPACING } from 'theme'
 import React from 'react'
 import { Check } from 'react-feather'
 import styled from 'styled-components'
@@ -63,9 +63,7 @@ const WhyChoose = ({ heading, reasons, accentColor }) => {
       id='why-choose'
       css={theme({
         alignItems: 'center',
-        pb: [4, 4, 5, 5],
-        pt: [4, 4, 5, 5],
-        mt: [3, 3, 4, 4]
+        py: SECTION_VERTICAL_SPACING
       })}
     >
       <Subhead>{heading}</Subhead>

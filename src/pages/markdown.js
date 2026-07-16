@@ -1,4 +1,5 @@
 import {
+  SECTION_VERTICAL_SPACING,
   borders,
   layout,
   colors,
@@ -14,6 +15,7 @@ import { trackEvent } from 'helpers/plausible'
 import { trimMs } from 'helpers/trim-ms'
 import styled, { css, keyframes } from 'styled-components'
 import Box from 'components/elements/Box'
+import TimingsBand from 'components/patterns/Timings'
 import Button from 'components/elements/Button/Button'
 import Caps from 'components/elements/Caps'
 import Container from 'components/elements/Container'
@@ -37,7 +39,6 @@ import NerdStatsOverlay, {
 } from 'components/patterns/NerdStats/NerdStats'
 import { rotate, dash, fadeInDown, highlight } from 'components/keyframes'
 import ArrowLink from 'components/patterns/ArrowLink'
-import Block from 'components/patterns/Block/Block'
 import { withTitle } from 'helpers/hoc/with-title'
 import CaptionBase from 'components/patterns/Caption/Caption'
 import Faq from 'components/patterns/Faq/Faq'
@@ -712,7 +713,6 @@ const HERO_LAYOUT = {
   secondaryWidth: '45%',
   gap: [1, 1, 1, 5]
 }
-const SECTION_VERTICAL_SPACING = [4, 4, 5, 5]
 
 const DEFAULT_HISTORY = [
   'https://microlink.io',
@@ -1843,15 +1843,8 @@ const Timings = ({ timingMs, timingUrl, timingHistory }) => {
   )
 
   return (
-    <Block
-      forwardedAs='section'
-      id='timings'
-      flexDirection='column'
-      css={theme({
-        px: 4,
-        py: SECTION_VERTICAL_SPACING,
-        width: '100%',
-        backgroundImage: `radial-gradient(
+    <TimingsBand
+      accent={`radial-gradient(
           circle at center right,
           ${colors.orange9} 0%,
           ${colors.orange9} 48%,
@@ -1863,12 +1856,9 @@ const Timings = ({ timingMs, timingUrl, timingHistory }) => {
           ${colors.orange6} 79%,
           ${colors.orange5} 79%,
           ${colors.orange5} 100%
-        )`,
-        borderTop: `${borders[1]} ${colors.white20}`,
-        borderBottom: `${borders[1]} ${colors.white20}`
-      })}
-      blockOne={blockOne}
-      blockTwo={blockTwo}
+        )`}
+      title={blockOne}
+      stats={blockTwo}
     />
   )
 }
@@ -1972,7 +1962,7 @@ const OpenSource = () => (
     css={theme({
       alignItems: 'center',
       width: '100%',
-      py: [5, 5, 5, 6],
+      py: SECTION_VERTICAL_SPACING,
       px: [1, 1, 5, 5]
     })}
   >
@@ -2190,8 +2180,7 @@ const Playground = () => {
       css={theme({
         alignItems: 'center',
         width: '100%',
-        pt: [3, 3, 3, 3],
-        pb: SECTION_VERTICAL_SPACING,
+        py: SECTION_VERTICAL_SPACING,
         px: [1, 1, 5, 5]
       })}
     >
@@ -2258,10 +2247,11 @@ const Playground = () => {
 const TokenSavings = () => (
   <section
     id='token-savings'
-    css={{
+    css={theme({
       position: 'relative',
       overflow: 'hidden',
       width: '100%',
+      py: SECTION_VERTICAL_SPACING,
       backgroundImage: `radial-gradient(
         circle at center right,
         ${colors.orange9} 0%,
@@ -2277,7 +2267,7 @@ const TokenSavings = () => (
       )`,
       borderTop: `${borders[1]} ${colors.white20}`,
       borderBottom: `${borders[1]} ${colors.white20}`
-    }}
+    })}
   >
     <Flex
       css={theme({
@@ -2286,7 +2276,6 @@ const TokenSavings = () => (
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        py: [4, 4, 5, 5],
         px: 4,
         gap: [3, 3, 4, 4]
       })}
@@ -2451,8 +2440,7 @@ const Clients = () => (
     css={theme({
       alignItems: 'center',
       maxWidth: layout.large,
-      pt: [3, 3, 2, 2],
-      pb: [5, 5, 5, 5]
+      py: SECTION_VERTICAL_SPACING
     })}
   >
     <Caps
@@ -3495,14 +3483,14 @@ const Pricing = () => {
         as='section'
         id='pricing'
         css={theme({
-          bg: 'pinky'
+          bg: 'pinky',
+          py: SECTION_VERTICAL_SPACING
         })}
       >
         <Container
           css={theme({
             alignItems: 'center',
-            maxWidth: '100%',
-            pt: SECTION_VERTICAL_SPACING
+            maxWidth: '100%'
           })}
         >
           <Subhead variant='gradient'>Free to start, scales when ready</Subhead>
@@ -3663,7 +3651,7 @@ const ProductInformation = () => {
         </>
       }
       css={theme({
-        pb: [5, 5, 6, 6],
+        py: SECTION_VERTICAL_SPACING,
         bg: 'pinky',
         borderTop: `${borders[1]} ${colors.pinkest}`,
         borderBottom: `${borders[1]} ${colors.pinkest}`
@@ -4100,7 +4088,7 @@ const MarkdownPage = () => {
       <Playground />
       <TokenSavings />
       <Features
-        css={theme({ px: 4, pb: 5, pt: [5, 5, 6, 6] })}
+        css={theme({ px: 4, py: SECTION_VERTICAL_SPACING })}
         title={
           <Subhead
             css={theme({

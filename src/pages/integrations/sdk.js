@@ -32,12 +32,11 @@ import Layout from 'components/patterns/Layout'
 import Microlink from 'components/patterns/Microlink/Microlink'
 import MultiCodeEditor from 'components/patterns/MultiCodeEditor/MultiCodeEditor'
 
-import { colors, layout, space, theme } from 'theme'
+import { colors, layout, space, theme, SECTION_VERTICAL_SPACING } from 'theme'
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const ACCENT = 'red6'
-const SECTION_VERTICAL_SPACING = [4, 4, 5, 5]
 const SECTION_MAX_WIDTH = '1200px'
 
 const YOUTUBE_URL = 'https://www.youtube.com/watch?v=9P6rdqiybaw'
@@ -228,6 +227,7 @@ const Hero = () => (
       textAlign: 'center',
       maxWidth: '100%',
       pt: [3, 3, 4, 4],
+      pb: SECTION_VERTICAL_SPACING,
       px: [3, 3, 4, 4]
     })}
   >
@@ -317,7 +317,7 @@ const PillarIcon = styled(Flex)`
 `
 
 const Pillars = () => (
-  <SectionContainer id='why' css={theme({ mt: 4 })}>
+  <SectionContainer id='why'>
     <Flex
       css={theme({
         width: '100%',

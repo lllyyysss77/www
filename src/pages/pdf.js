@@ -1,4 +1,5 @@
 import {
+  SECTION_VERTICAL_SPACING,
   borders,
   layout,
   colors,
@@ -16,6 +17,7 @@ import { trimMs } from 'helpers/trim-ms'
 import styled, { css, keyframes } from 'styled-components'
 
 import Box from 'components/elements/Box'
+import TimingsBand from 'components/patterns/Timings'
 import Caps from 'components/elements/Caps'
 import Container from 'components/elements/Container'
 import Flex from 'components/elements/Flex'
@@ -35,7 +37,6 @@ import {
 import { Check as CheckIcon, Star as StarIcon } from 'react-feather'
 import { rotate, dash, fadeInDown, highlight } from 'components/keyframes'
 import ArrowLink from 'components/patterns/ArrowLink'
-import Block from 'components/patterns/Block/Block'
 import { withTitle } from 'helpers/hoc/with-title'
 import CaptionBase from 'components/patterns/Caption/Caption'
 import Faq from 'components/patterns/Faq/Faq'
@@ -152,7 +153,6 @@ const HERO_LAYOUT = {
   secondaryWidth: '45%',
   gap: [1, 1, 1, 5]
 }
-const SECTION_VERTICAL_SPACING = [4, 4, 5, 5]
 
 // --- Styled Components ---
 
@@ -1675,15 +1675,8 @@ const Timings = ({ timingMs, timingUrl, timingHistory }) => {
   )
 
   return (
-    <Block
-      forwardedAs='section'
-      id='timings'
-      flexDirection='column'
-      css={theme({
-        px: 4,
-        py: SECTION_VERTICAL_SPACING,
-        width: '100%',
-        backgroundImage: `radial-gradient(
+    <TimingsBand
+      accent={`radial-gradient(
           circle at center right,
           ${colors.grape9} 0%,
           ${colors.grape9} 48%,
@@ -1695,12 +1688,9 @@ const Timings = ({ timingMs, timingUrl, timingHistory }) => {
           ${colors.pink7} 79%,
           ${ACCENT} 79%,
           ${ACCENT} 100%
-        )`,
-        borderTop: `${borders[1]} ${colors.white20}`,
-        borderBottom: `${borders[1]} ${colors.white20}`
-      })}
-      blockOne={blockOne}
-      blockTwo={blockTwo}
+        )`}
+      title={blockOne}
+      stats={blockTwo}
     />
   )
 }
@@ -2371,8 +2361,7 @@ const Clients = () => (
     css={theme({
       alignItems: 'center',
       maxWidth: layout.large,
-      pt: [3, 3, 2, 2],
-      pb: [5, 5, 5, 5]
+      py: SECTION_VERTICAL_SPACING
     })}
   >
     <Caps
@@ -2504,14 +2493,14 @@ const Pricing = () => {
         as='section'
         id='pricing'
         css={theme({
-          bg: 'pinky'
+          bg: 'pinky',
+          py: SECTION_VERTICAL_SPACING
         })}
       >
         <Container
           css={theme({
             alignItems: 'center',
-            maxWidth: '100%',
-            pt: SECTION_VERTICAL_SPACING
+            maxWidth: '100%'
           })}
         >
           <Subhead variant='gradient'>Start free, scale when ready</Subhead>
@@ -2643,7 +2632,7 @@ const OpenSource = () => (
     css={theme({
       alignItems: 'center',
       width: '100%',
-      py: [5, 5, 5, 6],
+      py: SECTION_VERTICAL_SPACING,
       px: [1, 1, 5, 5]
     })}
   >
@@ -2863,8 +2852,7 @@ const Playground = () => (
     css={theme({
       alignItems: 'center',
       width: '100%',
-      pt: [3, 3, 3, 3],
-      pb: SECTION_VERTICAL_SPACING,
+      py: SECTION_VERTICAL_SPACING,
       px: [1, 1, 5, 5]
     })}
   >
@@ -2962,10 +2950,11 @@ const SpeedLine = styled('div')`
 const Benchmark = () => (
   <section
     id='benchmark'
-    css={{
+    css={theme({
       position: 'relative',
       overflow: 'hidden',
       width: '100%',
+      py: SECTION_VERTICAL_SPACING,
       backgroundImage: `radial-gradient(
         circle at center right,
         #850ba7 0%,
@@ -2981,7 +2970,7 @@ const Benchmark = () => (
       )`,
       borderTop: `${borders[1]} ${colors.white20}`,
       borderBottom: `${borders[1]} ${colors.white20}`
-    }}
+    })}
   >
     <Box
       css={{
@@ -3111,7 +3100,6 @@ const Benchmark = () => (
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        py: [4, 4, 5, 5],
         px: 4,
         gap: [3, 3, 4, 4]
       })}
@@ -3288,7 +3276,7 @@ const ProductInformation = () => (
       </>
     }
     css={theme({
-      pb: [5, 5, 6, 6],
+      py: SECTION_VERTICAL_SPACING,
       bg: 'pinky',
       borderTop: `${borders[1]} ${colors.pinkest}`,
       borderBottom: `${borders[1]} ${colors.pinkest}`
@@ -3598,7 +3586,7 @@ const PdfPage = () => {
       <Playground />
       <Benchmark />
       <Features
-        css={theme({ px: 4, pb: 5, pt: [5, 5, 6, 6] })}
+        css={theme({ px: 4, py: SECTION_VERTICAL_SPACING })}
         title={
           <Subhead
             css={theme({

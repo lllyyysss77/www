@@ -1,6 +1,14 @@
-import { borders, breakpoints, layout, colors, theme } from 'theme'
+import {
+  borders,
+  breakpoints,
+  layout,
+  colors,
+  theme,
+  SECTION_VERTICAL_SPACING
+} from 'theme'
 import React, { useMemo } from 'react'
 import { useMounted } from 'components/hook/use-mounted'
+import TimingsBand from 'components/patterns/Timings'
 import { useUrlInput } from 'components/hook/use-url-input'
 import { getApiUrl } from '@microlink/mql'
 import { normalizeUrl } from 'helpers/url-input'
@@ -620,20 +628,8 @@ const Timings = () => {
   )
 
   return (
-    <Block
-      forwardedAs='section'
-      id='timings'
-      flexDirection='column'
-      blockOne={blockOne}
-      blockTwo={blockTwo}
-      css={theme({
-        pb: [5, 5, 6, 6],
-        px: 4,
-        width: '100%',
-        borderTop: `${borders[1]} ${colors.white20}`,
-        borderBottom: `${borders[1]} ${colors.white20}`,
-        // https://www.gradientmagic.com/collection/radialstripes
-        backgroundImage: `radial-gradient(
+    <TimingsBand
+      accent={`radial-gradient(
           circle at top right,
           rgb(36, 9, 119) 0%,
           rgb(36, 9, 119) 48%,
@@ -645,8 +641,9 @@ const Timings = () => {
           rgb(145, 2, 208) 69%,
           rgb(181, 0, 237) 69%,
           rgb(181, 0, 237) 100%
-        )`
-      })}
+        )`}
+      title={blockOne}
+      stats={blockTwo}
     />
   )
 }
@@ -658,7 +655,7 @@ const Resume = () => (
     css={theme({
       alignItems: 'center',
       maxWidth: [layout.normal, layout.normal, layout.large, layout.large],
-      pb: [5, 5, 6, 6]
+      py: SECTION_VERTICAL_SPACING
     })}
   >
     <Subhead css={theme({ px: [3, 3, 4, 4] })} variant='gradient'>
@@ -815,7 +812,7 @@ const ProductInformation = () => {
       title='Product Information'
       caption='All the details you need to know about the product.'
       css={theme({
-        pb: [5, 5, 6, 6],
+        py: SECTION_VERTICAL_SPACING,
         bg: 'pinky',
         borderTop: `${borders[1]} ${colors.pinkest}`,
         borderBottom: `${borders[1]} ${colors.pinkest}`
