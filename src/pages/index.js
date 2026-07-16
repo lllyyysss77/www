@@ -1,6 +1,7 @@
 import Analytics from 'components/pages/home/analytics'
 import Faqs, { getFaqQuestions } from 'components/pages/home/faqs'
 import Hero from 'components/pages/home/hero'
+import OpenSource from 'components/pages/home/open-source'
 import Products from 'components/pages/home/products'
 import Production from 'components/pages/home/production'
 import Pricing from 'components/pages/home/pricing'
@@ -69,6 +70,7 @@ const HomePage = () => {
         <Analytics />
         <Pricing />
         <Production />
+        <OpenSource />
         <Faqs />
       </Layout>
     </CurrencyProvider>

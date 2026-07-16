@@ -40,7 +40,7 @@ import CaptionBase from 'components/patterns/Caption/Caption'
 import Faq from 'components/patterns/Faq/Faq'
 import Features from 'components/patterns/Features/Features'
 import Layout from 'components/patterns/Layout'
-import OpenSource, { getRepoStarsLabel } from 'components/patterns/OpenSource'
+import OpenSource, { getRepoStars } from 'components/patterns/OpenSource'
 import { CurrencyProvider } from 'components/hook/use-currency'
 import Plans from 'components/patterns/Plans/Plans'
 import Microlink from 'components/patterns/Microlink/Microlink'
@@ -3714,36 +3714,7 @@ const Pricing = () => {
 
 // --- Open Source ---
 
-const REPOS = [
-  {
-    name: 'metascraper',
-    org: 'microlinkhq',
-    description:
-      'The rule-based library that powers Microlink metadata. Normalize Open Graph, JSON-LD, Twitter Cards, microdata, RDFa, oEmbed, and HTML tags from any website.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '2.6k',
-    primary: true
-  },
-  {
-    name: 'browserless',
-    org: 'microlinkhq',
-    description:
-      'The headless Chrome/Chromium driver on top of Puppeteer. Renders JavaScript-heavy pages so metadata injected at runtime is captured correctly.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '1.8k'
-  },
-  {
-    name: 'sdk',
-    org: 'microlinkhq',
-    description:
-      'Make any URL embeddable. Turn any URL into a beautiful link preview using the metadata returned by the Microlink API.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '1.4k'
-  }
-]
+const REPOS = ['metascraper', 'browserless', 'sdk']
 
 // --- Playground ---
 
@@ -4487,7 +4458,7 @@ export const Head = () => (
             interactionType: {
               '@type': 'https://schema.org/LikeAction'
             },
-            userInteractionCount: getRepoStarsLabel(REPOS[0], true),
+            userInteractionCount: getRepoStars(REPOS[0]),
             interactionService: {
               '@type': 'WebSite',
               name: 'GitHub',

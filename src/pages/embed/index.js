@@ -41,7 +41,7 @@ import Features from 'components/patterns/Features/Features'
 import FetchProvider from 'components/patterns/FetchProvider'
 import Layout from 'components/patterns/Layout'
 import Block from 'components/patterns/Block/Block'
-import OpenSource, { getRepoStarsLabel } from 'components/patterns/OpenSource'
+import OpenSource, { getRepoStars } from 'components/patterns/OpenSource'
 import LinkPreviewRaw from '@microlink/react'
 import { FeaturedToolCard } from 'components/patterns/Tools/ToolCards'
 import { TOOLS as TOOL_CATALOG } from 'components/patterns/Tools/toolCatalog'
@@ -1403,36 +1403,7 @@ const Pricing = () => {
   )
 }
 
-const REPOS = [
-  {
-    name: 'sdk',
-    org: 'microlinkhq',
-    description:
-      'Make any URL embeddable. The official Microlink SDK family — React, Vue, and vanilla JS — under 10KB, framework-agnostic, MIT licensed.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '616',
-    primary: true
-  },
-  {
-    name: 'cards',
-    org: 'microlinkhq',
-    description:
-      'The easiest way to create and share dynamic images at scale. Build social cards from any URL.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '402'
-  },
-  {
-    name: 'metascraper',
-    org: 'microlinkhq',
-    description:
-      'A library to scrape unified metadata from any URL. The engine that powers the embed payload.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '2.6k'
-  }
-]
+const REPOS = ['sdk', 'cards', 'metascraper']
 
 const SDK_CODE_SNIPPET = `
 import Microlink from '@microlink/react'
@@ -2346,7 +2317,7 @@ export const Head = () => (
           interactionStatistic: {
             '@type': 'InteractionCounter',
             interactionType: { '@type': 'https://schema.org/LikeAction' },
-            userInteractionCount: getRepoStarsLabel(REPOS[0], true),
+            userInteractionCount: getRepoStars(REPOS[0]),
             interactionService: {
               '@type': 'WebSite',
               name: 'GitHub',

@@ -1,1 +1,1 @@
-export { default, getRepoStarsLabel } from './OpenSource'
+export { default, getRepoStars, OSS_STATS } from './OpenSource'

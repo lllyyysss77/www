@@ -20,13 +20,9 @@ import Subhead from 'components/elements/Subhead'
 import Text from 'components/elements/Text'
 
 import ArrowLink from 'components/patterns/ArrowLink'
-import CaptionBase from 'components/patterns/Caption/Caption'
-
-import { withTitle } from 'helpers/hoc/with-title'
+import Caption from 'components/patterns/Caption/Caption'
 
 import ossData from '../../../../data/oss.json'
-
-const Caption = withTitle(CaptionBase)
 
 const LAYOUT = {
   maxWidth: ['100%', '100%', '100%', `calc(${layout.large} * 1.7)`],
@@ -43,16 +39,21 @@ const COMPACT_NUMBER_FORMATTER = new Intl.NumberFormat('en-US', {
 const formatCompactCount = number =>
   COMPACT_NUMBER_FORMATTER.format(number).toLowerCase()
 
-const OSS_STARS_BY_NAME = new Map(
-  ossData.map(({ name, stars }) => [name, stars])
-)
+const LANGUAGE_COLORS = {
+  JavaScript: '#f1e05a',
+  HTML: '#e34c26',
+  TypeScript: '#3178c6'
+}
 
-export const getRepoStarsLabel = (repo, asNumber = false) => {
-  const liveStars = OSS_STARS_BY_NAME.get(repo.name)
-  if (asNumber) return liveStars
-  return typeof liveStars === 'number'
-    ? formatCompactCount(liveStars)
-    : repo.stars
+const REPOS_BY_NAME = new Map(ossData.map(repo => [repo.name, repo]))
+
+export const getRepoStars = name => REPOS_BY_NAME.get(name)?.stars
+
+export const OSS_STATS = {
+  repos: ossData.length,
+  stars: formatCompactCount(
+    ossData.reduce((total, { stars }) => total + stars, 0)
+  )
 }
 
 const RepoCard = styled('a')`
@@ -121,7 +122,7 @@ const GithubIcon = ({ size, fill }) => (
 
 const RepoCardItem = ({ repo, primary, ...props }) => (
   <RepoCard
-    href={`https://github.com/${repo.org}/${repo.name}`}
+    href={repo.url}
     target='_blank'
     rel='noopener noreferrer'
     {...props}
@@ -153,129 +154,138 @@ const RepoCardItem = ({ repo, primary, ...props }) => (
     </Text>
     <RepoMeta css={primary ? theme({ fontSize: 1 }) : undefined}>
       <Flex css={theme({ alignItems: 'center', gap: 1 })}>
-        <LanguageDot $color={repo.languageColor} />
+        <LanguageDot
+          $color={LANGUAGE_COLORS[repo.language] ?? colors.black20}
+        />
         {repo.language}
       </Flex>
       <Flex css={theme({ alignItems: 'center', gap: 1 })}>
         <StarIcon size={primary ? 16 : 14} aria-hidden='true' />
-        {getRepoStarsLabel(repo)}
+        {formatCompactCount(repo.stars)}
       </Flex>
     </RepoMeta>
   </RepoCard>
 )
 
-const OpenSource = ({ repos, accent, caption, ...props }) => (
-  <Container
-    as='section'
-    id='open-source'
-    css={theme({
-      alignItems: 'center',
-      width: '100%',
-      py: SECTION_VERTICAL_SPACING,
-      px: [1, 1, 5, 5]
-    })}
-    {...props}
-  >
-    <Flex
+const OpenSource = ({
+  repos,
+  accent,
+  caption,
+  ctaHref = 'https://github.com/microlinkhq',
+  ctaLabel = 'Explore on GitHub',
+  ...props
+}) => {
+  const [primary, ...secondary] = repos
+    .map(name => REPOS_BY_NAME.get(name))
+    .filter(Boolean)
+
+  return (
+    <Container
+      as='section'
+      id='open-source'
       css={theme({
+        alignItems: 'center',
         width: '100%',
-        maxWidth: LAYOUT.maxWidth,
-        mx: 'auto',
-        flexDirection: ['column', 'column', 'column', 'row'],
-        alignItems: ['center', 'center', 'center', 'stretch'],
-        gap: LAYOUT.gap
+        py: SECTION_VERTICAL_SPACING,
+        px: [1, 1, 5, 5]
       })}
+      {...props}
     >
       <Flex
         css={theme({
-          width: ['100%', '100%', '100%', LAYOUT.mainWidth],
-          pt: [4, 4, 5, 0],
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
+          width: '100%',
+          maxWidth: LAYOUT.maxWidth,
+          mx: 'auto',
+          flexDirection: ['column', 'column', 'column', 'row'],
+          alignItems: ['center', 'center', 'center', 'stretch'],
+          gap: LAYOUT.gap
         })}
       >
         <Flex
           css={theme({
-            width: ['100%', '100%', '85%', '100%'],
+            width: ['100%', '100%', '100%', LAYOUT.mainWidth],
+            pt: [4, 4, 5, 0],
             flexDirection: 'column',
-            gap: [3, 3, 4, 4]
+            justifyContent: 'center',
+            alignItems: 'center'
           })}
         >
-          {repos
-            .filter(repo => repo.primary)
-            .map(repo => (
-              <RepoCardItem key={repo.name} repo={repo} primary />
-            ))}
           <Flex
             css={theme({
-              gap: [3, 3, 4, 4],
-              flexDirection: ['column', 'column', 'row', 'row']
+              width: ['100%', '100%', '85%', '100%'],
+              flexDirection: 'column',
+              gap: [3, 3, 4, 4]
             })}
           >
-            {repos
-              .filter(repo => !repo.primary)
-              .map(repo => (
+            {primary && <RepoCardItem repo={primary} primary />}
+            <Flex
+              css={theme({
+                gap: [3, 3, 4, 4],
+                flexDirection: ['column', 'column', 'row', 'row']
+              })}
+            >
+              {secondary.map(repo => (
                 <RepoCardItem
                   key={repo.name}
                   repo={repo}
                   css={theme({ flex: 1 })}
                 />
               ))}
+            </Flex>
+          </Flex>
+        </Flex>
+        <Flex
+          css={theme({
+            flexDirection: 'column',
+            width: ['100%', '100%', '100%', LAYOUT.secondaryWidth],
+            justifyContent: 'center',
+            alignItems: ['center', 'center', 'center', 'flex-start'],
+            order: [-1, -1, -1, 0]
+          })}
+        >
+          <Subhead
+            css={theme({
+              textAlign: ['center', 'center', 'center', 'left'],
+              width: '100%'
+            })}
+          >
+            Built on <span css={{ color: accent }}>open source</span>,
+            <br />
+            trusted by developers
+          </Subhead>
+          <Caption
+            css={theme({
+              pt: [3, 3, 4, 4],
+              px: [4, 4, 4, 0],
+              maxWidth: [
+                layout.small,
+                layout.small,
+                layout.normal,
+                layout.normal
+              ],
+              textAlign: ['center', 'center', 'center', 'left']
+            })}
+          >
+            {caption}
+          </Caption>
+          <Flex
+            css={theme({
+              pt: [3, 3, 4, 4],
+              width: '100%',
+              justifyContent: ['center', 'center', 'center', 'flex-start']
+            })}
+          >
+            <ArrowLink
+              href={ctaHref}
+              css={theme({ fontSize: ['20px', '20px', '24px', '24px'] })}
+            >
+              {ctaLabel}
+            </ArrowLink>
           </Flex>
         </Flex>
       </Flex>
-      <Flex
-        css={theme({
-          flexDirection: 'column',
-          width: ['100%', '100%', '100%', LAYOUT.secondaryWidth],
-          justifyContent: 'center',
-          alignItems: ['center', 'center', 'center', 'flex-start'],
-          order: [-1, -1, -1, 0]
-        })}
-      >
-        <Subhead
-          css={theme({
-            textAlign: ['center', 'center', 'center', 'left'],
-            width: '100%'
-          })}
-        >
-          Built on <span css={{ color: accent }}>open source</span>,
-          <br />
-          trusted by developers
-        </Subhead>
-        <Caption
-          css={theme({
-            pt: [3, 3, 4, 4],
-            px: [4, 4, 4, 0],
-            maxWidth: [
-              layout.small,
-              layout.small,
-              layout.normal,
-              layout.normal
-            ],
-            textAlign: ['center', 'center', 'center', 'left']
-          })}
-        >
-          {caption}
-        </Caption>
-        <Flex
-          css={theme({
-            pt: [3, 3, 4, 4],
-            width: '100%',
-            justifyContent: ['center', 'center', 'center', 'flex-start']
-          })}
-        >
-          <ArrowLink
-            href='https://github.com/microlinkhq'
-            css={theme({ fontSize: ['20px', '20px', '24px', '24px'] })}
-          >
-            Explore on GitHub
-          </ArrowLink>
-        </Flex>
-      </Flex>
-    </Flex>
-  </Container>
-)
+    </Container>
+  )
+}
 
 export default OpenSource

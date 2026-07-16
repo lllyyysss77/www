@@ -39,7 +39,7 @@ import CaptionBase from 'components/patterns/Caption/Caption'
 import Faq from 'components/patterns/Faq/Faq'
 import Features from 'components/patterns/Features/Features'
 import Layout from 'components/patterns/Layout'
-import OpenSource, { getRepoStarsLabel } from 'components/patterns/OpenSource'
+import OpenSource, { getRepoStars } from 'components/patterns/OpenSource'
 import { CurrencyProvider } from 'components/hook/use-currency'
 import Plans from 'components/patterns/Plans/Plans'
 import MultiCodeEditorInteractive from 'components/patterns/MultiCodeEditor/MultiCodeEditorInteractive'
@@ -1839,36 +1839,7 @@ const Timings = ({ timingMs, timingUrl, timingHistory }) => {
   )
 }
 
-const REPOS = [
-  {
-    name: 'browserless',
-    org: 'microlinkhq',
-    description:
-      'The headless Chrome/Chromium driver on top of Puppeteer. Fast, scalable, and reliable browser automation.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '1.8k',
-    primary: true
-  },
-  {
-    name: 'html-get',
-    org: 'microlinkhq',
-    description:
-      'Get the HTML from any website, using prerendering when necessary.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '100'
-  },
-  {
-    name: 'metascraper',
-    org: 'microlinkhq',
-    description:
-      'A library to easily scrape metadata from an article on the web using Open Graph, JSON+LD, and HTML metadata.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '2.3k'
-  }
-]
+const REPOS = ['browserless', 'html-get', 'metascraper']
 
 const livePulse = keyframes`
   0%, 62% { color: inherit; }
@@ -3648,11 +3619,11 @@ export const Head = () => (
             interactionType: {
               '@type': 'https://schema.org/LikeAction'
             },
-            userInteractionCount: getRepoStarsLabel(REPOS[1], true),
+            userInteractionCount: getRepoStars(REPOS[1]),
             interactionService: {
               '@type': 'WebSite',
               name: 'GitHub',
-              url: `https://github.com/microlinkhq/${REPOS[1].name}`
+              url: `https://github.com/microlinkhq/${REPOS[1]}`
             }
           },
           about: [

@@ -41,7 +41,7 @@ import Faq from 'components/patterns/Faq/Faq'
 import Features from 'components/patterns/Features/Features'
 import FetchProvider from 'components/patterns/FetchProvider'
 import Layout from 'components/patterns/Layout'
-import OpenSource, { getRepoStarsLabel } from 'components/patterns/OpenSource'
+import OpenSource, { getRepoStars } from 'components/patterns/OpenSource'
 import NerdStatsOverlay, {
   extractNerdStats,
   buildMqlQuery
@@ -1808,36 +1808,7 @@ const Pricing = () => {
 
 // ─── Open Source ──────────────────────────────────────────────────────────────
 
-const REPOS = [
-  {
-    name: 'metascraper',
-    org: 'microlinkhq',
-    description:
-      'The rule-based library that powers Microlink link previews. Normalize Open Graph, JSON-LD, Twitter Cards, microdata, RDFa, oEmbed, and HTML tags from any URL.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '2.6k',
-    primary: true
-  },
-  {
-    name: 'browserless',
-    org: 'microlinkhq',
-    description:
-      'The headless Chrome/Chromium driver on top of Puppeteer. Renders JavaScript-heavy pages so metadata injected at runtime is captured every time.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '1.8k'
-  },
-  {
-    name: 'sdk',
-    org: 'microlinkhq',
-    description:
-      'Drop-in React, Vue, and vanilla JS preview component. The same metadata payload, rendered without writing markup.',
-    language: 'JavaScript',
-    languageColor: colors.yellow3,
-    stars: '616'
-  }
-]
+const REPOS = ['metascraper', 'browserless', 'sdk']
 
 // ─── Playground ───────────────────────────────────────────────────────────────
 
@@ -2492,7 +2463,7 @@ export const Head = () => (
             interactionType: {
               '@type': 'https://schema.org/LikeAction'
             },
-            userInteractionCount: getRepoStarsLabel(REPOS[0], true),
+            userInteractionCount: getRepoStars(REPOS[0]),
             interactionService: {
               '@type': 'WebSite',
               name: 'GitHub',
