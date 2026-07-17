@@ -33,7 +33,7 @@ console.log(result.profiling)
 | `phases.run`     | Time spent executing the function                               |
 | `phases.total`   | Wall-clock time from start to finish                            |
 | `cpu`            | Peak CPU time in milliseconds                                   |
-| `memory`         | Peak resident memory usage in bytes                             |
+| `memory`         | Resident memory (RSS) when the function returned, in bytes      |
 | `size`           | Bundled code size in bytes                                      |
 
 Use profiling to understand where time is spent. If install is high, your dependencies are being installed for the first time — subsequent runs use the cache. If run is high, the function itself is doing heavy work.
