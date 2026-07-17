@@ -974,8 +974,6 @@ const fmtBytes = bytes => {
     : `${Math.max(1, Math.round(bytes / 1024))} KB`
 }
 
-const fmtMb = mb => (mb == null ? '—' : `${Math.round(mb)} MB`)
-
 const Stat = ({ label, value }) => (
   <Box css={theme({ textAlign: 'center' })}>
     <Box
@@ -1024,7 +1022,7 @@ const Profiling = ({ profiling }) => {
       >
         <Stat label='Total' value={fmtMs(total)} />
         <Stat label='CPU' value={fmtMs(cpu)} />
-        <Stat label='Memory' value={fmtMb(memory)} />
+        <Stat label='Memory' value={fmtBytes(memory)} />
         <Stat label='Size' value={fmtBytes(size)} />
       </Flex>
 
