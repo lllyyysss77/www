@@ -331,6 +331,21 @@ const fallbackCopy = text => {
   }
 }
 
+const normalizeInputUrl = raw => {
+  const trimmed = (raw || '').trim()
+  if (!trimmed) return null
+  const withProtocol = /^https?:\/\//i.test(trimmed)
+    ? trimmed
+    : `https://${trimmed}`
+  try {
+    const parsed = new URL(withProtocol)
+    if (!parsed.hostname.includes('.')) return null
+    return parsed.href
+  } catch {
+    return null
+  }
+}
+
 const Hero = function Hero ({
   data,
   isLoading,
@@ -346,7 +361,10 @@ const Hero = function Hero ({
   const copyTimerRef = useRef(null)
   const userInteractedRef = useRef(false)
   const onSubmitRef = useRef(onSubmit)
-  onSubmitRef.current = onSubmit
+
+  useEffect(() => {
+    onSubmitRef.current = onSubmit
+  }, [onSubmit])
 
   const handleInputChange = e => {
     if (!userInteractedRef.current) {
@@ -357,12 +375,12 @@ const Hero = function Hero ({
   }
 
   useEffect(() => {
-    if (userInteractedRef.current) return
+    const timers = []
+    if (userInteractedRef.current) return () => timers.forEach(clearTimeout)
     onSubmitRef.current(INITIAL_PLACEHOLDER_URL, {
       queryUrl: INITIAL_PLACEHOLDER_URL,
       syncQuery: false
     })
-    const timers = []
     let previousUrl = INITIAL_PLACEHOLDER_URL
     let timeOffset = INITIAL_DELAY_MS
 
@@ -405,21 +423,6 @@ const Hero = function Hero ({
 
     return () => timers.forEach(clearTimeout)
   }, [])
-
-  const normalizeInputUrl = raw => {
-    const trimmed = (raw || '').trim()
-    if (!trimmed) return null
-    const withProtocol = /^https?:\/\//i.test(trimmed)
-      ? trimmed
-      : `https://${trimmed}`
-    try {
-      const parsed = new URL(withProtocol)
-      if (!parsed.hostname.includes('.')) return null
-      return parsed.href
-    } catch {
-      return null
-    }
-  }
 
   const handleInputSubmit = e => {
     e.preventDefault()
@@ -1616,9 +1619,10 @@ const CustomerStoryLogo = styled('img')`
 `
 
 const CustomerStories = () => {
-  const stories = CUSTOMER_STORY_SLUGS.map(slug =>
-    CUSTOMERS.find(c => c.slug === slug)
-  ).filter(Boolean)
+  const stories = CUSTOMER_STORY_SLUGS.flatMap(slug => {
+    const story = CUSTOMERS.find(c => c.slug === slug)
+    return story ? [story] : []
+  })
 
   if (stories.length === 0) return null
 
@@ -1708,7 +1712,11 @@ const CustomerStories = () => {
 const CTA_DURATION = 6.2
 const CTA_SWEEP_PCT = (1.2 / CTA_DURATION) * 100
 const CTA_LEAD_TEXT = 'Embed'
-const CTA_LEAD_CHARS = CTA_LEAD_TEXT.split('')
+const CTA_LEAD_CHARS = CTA_LEAD_TEXT.split('').map((char, index) => ({
+  char,
+  id: `${char}${index}`,
+  index
+}))
 const CTA_CHAR_PCT = CTA_SWEEP_PCT / CTA_LEAD_CHARS.length
 
 const ctaCharAnim = index => {
@@ -1761,8 +1769,8 @@ const CallToAction = () => (
           textAlign: 'center'
         })}
       >
-        {CTA_LEAD_CHARS.map((char, i) => (
-          <CtaChar key={i} $i={i}>
+        {CTA_LEAD_CHARS.map(({ char, id, index }) => (
+          <CtaChar key={id} $i={index}>
             {char}
           </CtaChar>
         ))}{' '}
@@ -2124,9 +2132,10 @@ const TOP_FAQ_ITEMS = [
 const PLAYGROUND_TOOL_PATHS = ['/tools/embed-url']
 const EMBEDDING_TOOLS =
   TOOL_CATALOG.find(section => section.category === 'Embedding')?.tools ?? []
-const PLAYGROUND_TOOLS = PLAYGROUND_TOOL_PATHS.map(path =>
-  EMBEDDING_TOOLS.find(tool => tool.href === path)
-).filter(Boolean)
+const PLAYGROUND_TOOLS = PLAYGROUND_TOOL_PATHS.flatMap(path => {
+  const tool = EMBEDDING_TOOLS.find(tool => tool.href === path)
+  return tool ? [tool] : []
+})
 
 const livePulse = keyframes`
   0%, 62% { color: inherit; }

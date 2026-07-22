@@ -1183,6 +1183,12 @@ const EXAMPLE_URLS = [
   { url: 'facebook.com', hideOnMobile: true }
 ]
 
+const normalizeUrl = rawUrl => {
+  const trimmed = rawUrl.trim()
+  if (!trimmed) return ''
+  return prependHttp(trimmed)
+}
+
 const Omnibar = ({
   url,
   setUrl,
@@ -1200,12 +1206,6 @@ const Omnibar = ({
     },
     [setUrl]
   )
-
-  const normalizeUrl = rawUrl => {
-    const trimmed = rawUrl.trim()
-    if (!trimmed) return ''
-    return prependHttp(trimmed)
-  }
 
   const handleSubmit = useCallback(
     nextValue => {
@@ -1406,8 +1406,9 @@ const compactHtml = html =>
 const serializeIframeScripts = scripts => {
   if (!Array.isArray(scripts) || scripts.length === 0) return ''
   return scripts
-    .filter(s => s && s.src)
-    .map(({ src, async, charset }) => {
+    .flatMap(script => {
+      if (!script || !script.src) return []
+      const { src, async, charset } = script
       const attrs = [`src="${escAttr(src)}"`]
       if (async) attrs.push('async')
       if (charset) attrs.push(`charset="${escAttr(charset)}"`)
@@ -1685,6 +1686,7 @@ const LayoutTab = ({ config, set, setHoverTarget }) => {
               <CheckboxWrap key={id} {...hover(id)}>
                 <input
                   type='checkbox'
+                  aria-label={label}
                   checked={!!config.elements[id]}
                   onChange={e => set(`elements.${id}`, e.target.checked)}
                 />
@@ -1699,6 +1701,7 @@ const LayoutTab = ({ config, set, setHoverTarget }) => {
                   <CheckboxWrap>
                     <input
                       type='checkbox'
+                      aria-label='Site name on top'
                       checked={!!config.metaBefore}
                       onChange={e => set('metaBefore', e.target.checked)}
                     />
@@ -2008,7 +2011,7 @@ const ConfigEditor = ({ config, setConfig, setHoverTarget }) => {
   const set = useCallback(
     (path, value) => {
       setConfig(prev => {
-        const next = JSON.parse(JSON.stringify(prev))
+        const next = structuredClone(prev)
         const keys = path.split('.')
         let cur = next
         for (let i = 0; i < keys.length - 1; i++) cur = cur[keys[i]]
@@ -2065,15 +2068,16 @@ const ResultArea = ({
   const [useCard, setUseCard] = useState(false)
   const [editOverrides, setEditOverrides] = useState({})
   const [editHint, setEditHint] = useState('idle')
-  const hintShownRef = useRef(false)
+  const [prevData, setPrevData] = useState(data)
+  const hintShownForRef = useRef()
   const hintTimerRef = useRef(null)
 
-  useEffect(() => {
+  if (data !== prevData) {
+    setPrevData(data)
     setUseCard(false)
     setEditOverrides({})
-    hintShownRef.current = false
     setEditHint('idle')
-  }, [data])
+  }
 
   useEffect(
     () => () => {
@@ -2083,8 +2087,8 @@ const ResultArea = ({
   )
 
   const handlePreviewMouseEnter = useCallback(() => {
-    if (hintShownRef.current) return
-    hintShownRef.current = true
+    if (hintShownForRef.current === data) return
+    hintShownForRef.current = data
     setEditHint('visible')
     hintTimerRef.current = setTimeout(() => {
       setEditHint('leaving')
@@ -2093,7 +2097,7 @@ const ResultArea = ({
         hintTimerRef.current = null
       }, 240)
     }, 3500)
-  }, [])
+  }, [data])
 
   const onEditField = useCallback((field, value) => {
     setEditOverrides(prev => {
@@ -2326,13 +2330,14 @@ const EmbedTool = ({
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
-  const [lastUrl, setLastUrl] = useState('')
+  const lastUrlRef = useRef('')
   const [config, setConfigInternal] = useState(DEFAULT_CONFIG)
   const [storedConfig, setStoredConfig] = useLocalStorage(
     LOCAL_STORAGE_KEY,
     null
   )
   const hydratedRef = useRef(false)
+  const userChangedConfigRef = useRef(false)
   const requestIdRef = useRef(0)
 
   useEffect(() => {
@@ -2344,16 +2349,15 @@ const EmbedTool = ({
     }
   }, [storedConfig])
 
-  const setConfig = useCallback(
-    updater => {
-      setConfigInternal(prev => {
-        const next = typeof updater === 'function' ? updater(prev) : updater
-        setStoredConfig(next)
-        return next
-      })
-    },
-    [setStoredConfig]
-  )
+  const setConfig = useCallback(updater => {
+    userChangedConfigRef.current = true
+    setConfigInternal(updater)
+  }, [])
+
+  useEffect(() => {
+    if (!userChangedConfigRef.current) return
+    setStoredConfig(config)
+  }, [config, setStoredConfig])
 
   const executeSubmit = useCallback(
     async nextUrl => {
@@ -2362,17 +2366,16 @@ const EmbedTool = ({
       setIsLoading(true)
       setError(null)
       setData(null)
-      setLastUrl(nextUrl)
-
-      const localFallback = buildLocalEmbedResponse(nextUrl)
-      if (localFallback) {
-        if (requestId !== requestIdRef.current) return
-        setData(localFallback)
-        setIsLoading(false)
-        return
-      }
+      lastUrlRef.current = nextUrl
 
       try {
+        const localFallback = buildLocalEmbedResponse(nextUrl)
+        if (localFallback) {
+          if (requestId !== requestIdRef.current) return
+          setData(localFallback)
+          return
+        }
+
         const response = await mql(nextUrl, {
           iframe: true,
           audio: true,
@@ -2405,10 +2408,11 @@ const EmbedTool = ({
   )
 
   const handleRetry = useCallback(() => {
-    if (lastUrl) executeSubmit(lastUrl)
-  }, [lastUrl, executeSubmit])
+    if (lastUrlRef.current) executeSubmit(lastUrlRef.current)
+  }, [executeSubmit])
 
   const handleResetConfig = useCallback(() => {
+    userChangedConfigRef.current = false
     setConfigInternal(DEFAULT_CONFIG)
     setStoredConfig(null)
   }, [setStoredConfig])

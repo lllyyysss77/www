@@ -18,13 +18,13 @@ import styled, { css, keyframes } from 'styled-components'
 import { aspectRatio } from 'helpers/aspect-ratio'
 import { wordBreak } from 'helpers/style'
 import { blinkCursorLayoutStyle, blinkCursorStyle } from './blink-cursor'
-import React, { useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 
 import CodeCopy from '../Codecopy'
 import Text from '../Text'
 import Box from '../Box'
 
-export const TerminalWindow = styled(Box)`
+const TerminalWindow = styled(Box)`
   position: relative;
   overflow: auto;
   border-radius: ${radii[3]};
@@ -55,10 +55,16 @@ const fromString = text => {
 
   const lines = text.split(/\r?\n/)
 
-  return lines.map((item, index) => (
-    <span key={index}>
+  const keyedLines = lines.map((item, index) => ({
+    id: `${item}-${index}`,
+    item,
+    newline: index < lines.length - 1
+  }))
+
+  return keyedLines.map(({ id, item, newline }) => (
+    <span key={id}>
       {item}
-      {index < lines.length - 1 ? '\n' : null}
+      {newline ? '\n' : null}
     </span>
   ))
 }
@@ -164,7 +170,7 @@ const TerminalWindowButtons = styled('div')`
   align-items: center;
 `
 
-export const TerminalTitle = ({ children, showWindowButtons = true }) => (
+const TerminalTitle = ({ children, showWindowButtons = true }) => (
   <TerminalTitleWrapper $showWindowButtons={showWindowButtons}>
     <Text
       css={theme({
@@ -312,7 +318,10 @@ const Terminal = ({
   text: textProp,
   ...props
 }) => {
-  const content = typeof children === 'string' ? fromString(children) : children
+  const content = useMemo(
+    () => (typeof children === 'string' ? fromString(children) : children),
+    [children]
+  )
   const text = textProp ?? childrenTextAll(children)
 
   return (

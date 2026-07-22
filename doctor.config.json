@@ -1,0 +1,216 @@
+{
+  "ignore": {
+    "files": [
+      ".cache/**",
+      "public/**"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "src/components/pages/metadata/hero/use-reveal-lines.js",
+          "src/pages/embed/index.js",
+          "src/pages/link-preview.js",
+          "src/pages/metadata.js"
+        ],
+        "rules": [
+          "react-doctor/effect-needs-cleanup"
+        ]
+      },
+      {
+        "files": [
+          "src/html.js",
+          "src/components/markdown/**",
+          "src/components/elements/Annotation.js",
+          "src/components/icons/Signature.js",
+          "src/components/pages/blog/webgl-without-a-gpu/**",
+          "src/components/hook/healthcheck-fragment.js",
+          "src/components/hook/oss-fragment.js"
+        ],
+        "rules": [
+          "deslop/unused-file"
+        ]
+      },
+      {
+        "files": [
+          "src/helpers/skills.js",
+          "src/components/pages/embed/PreviewVariantsShowcase.js"
+        ],
+        "rules": [
+          "deslop/unused-export"
+        ]
+      },
+      {
+        "files": [
+          "src/components/hook/use-breakpoint.js",
+          "src/components/hook/use-hover.js"
+        ],
+        "rules": [
+          "react-doctor/effect-needs-cleanup"
+        ]
+      },
+      {
+        "files": [
+          "src/components/hook/use-fingerprint.js"
+        ],
+        "rules": [
+          "react-doctor/no-unguarded-browser-global-in-render-or-hook-init"
+        ]
+      },
+      {
+        "files": [
+          "package.json"
+        ],
+        "rules": [
+          "deslop/unused-dependency"
+        ]
+      },
+      {
+        "files": [
+          "src/components/pages/builder/Builder.js",
+          "src/components/pages/builder/generators.js",
+          "src/components/pages/embed-url/EmbedTool.js",
+          "src/components/pages/embed/InteractiveExample.js",
+          "src/components/pages/home/hero/composer.js",
+          "src/html.js"
+        ],
+        "rules": [
+          "react-doctor/dangerous-html-sink"
+        ]
+      },
+      {
+        "files": [
+          "src/helpers/get-api-url.js"
+        ],
+        "rules": [
+          "react-doctor/insecure-crypto-risk"
+        ]
+      },
+      {
+        "files": [
+          "gatsby-ssr.js"
+        ],
+        "rules": [
+          "react-doctor/unsafe-json-in-html"
+        ]
+      },
+      {
+        "files": [
+          "src/components/pages/screenshot/hero/viewport.js",
+          "src/components/pages/screenshot/lang/screenshot-demo/viewport.js",
+          "src/pages/screenshot.js"
+        ],
+        "rules": [
+          "react-doctor/no-unknown-property"
+        ]
+      },
+      {
+        "files": [
+          "src/components/elements/PdfViewer/PdfViewer.js",
+          "src/pages/markdown.js",
+          "src/pages/metadata.js",
+          "src/pages/pdf.js",
+          "src/pages/screenshot.js"
+        ],
+        "rules": [
+          "react-doctor/no-set-state-after-await-in-effect"
+        ]
+      },
+      {
+        "files": [
+          "src/components/pages/embed-url/EmbedTool.js",
+          "src/pages/markdown.js",
+          "src/pages/pdf.js",
+          "src/pages/screenshot.js"
+        ],
+        "rules": [
+          "react-doctor/no-loading-flag-reset-outside-finally"
+        ]
+      },
+      {
+        "files": [
+          "src/components/icons/Signature.js"
+        ],
+        "rules": [
+          "react-doctor/no-giant-component"
+        ]
+      },
+      {
+        "files": [
+          "src/components/patterns/RaceContainer/use-race-schedule.js",
+          "src/helpers/hoc/with-debounce.js"
+        ],
+        "rules": [
+          "react-doctor/exhaustive-deps"
+        ]
+      },
+      {
+        "files": [
+          "src/components/patterns/LiveTiming/LiveTiming.js"
+        ],
+        "rules": [
+          "react-doctor/no-derived-state",
+          "react-doctor/no-derived-state-effect"
+        ]
+      },
+      {
+        "files": [
+          "src/components/elements/PdfViewer/PdfViewer.js"
+        ],
+        "rules": [
+          "react-doctor/async-await-in-loop"
+        ]
+      },
+      {
+        "files": [
+          "src/components/patterns/RaceContainer/RaceContainer.js"
+        ],
+        "rules": [
+          "react-doctor/js-tosorted-immutable"
+        ]
+      },
+      {
+        "files": [
+          "src/components/pages/embed/PreviewCards.js"
+        ],
+        "rules": [
+          "react-doctor/no-tiny-text"
+        ]
+      },
+      {
+        "files": [
+          "src/components/pages/markdown/shared.js",
+          "src/components/pages/metadata/hero/json-lines.js",
+          "src/pages/tools/website-screenshot/bulk.js",
+          "src/pages/tools/website-to-pdf/bulk.js"
+        ],
+        "rules": [
+          "react-doctor/no-array-index-as-key"
+        ]
+      },
+      {
+        "files": [
+          "src/components/elements/Terminal/Terminal.js"
+        ],
+        "rules": [
+          "react-doctor/no-many-boolean-props"
+        ]
+      },
+      {
+        "files": [
+          "src/components/elements/Link/index.js"
+        ],
+        "rules": [
+          "react-doctor/no-polymorphic-children"
+        ]
+      },
+      {
+        "files": [
+          "src/components/pages/sharing-debugger/hero/use-sharing-debugger-state.js"
+        ],
+        "rules": [
+          "react-doctor/rendering-hydration-no-flicker"
+        ]
+      }
+    ]
+  }
+}
