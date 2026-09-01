@@ -1,0 +1,6 @@
+interface:
+  display_name: "Www"
+  short_description: "Repo-specific patterns and workflows for www"
+  default_prompt: "Use the www repo skill to follow existing architecture, testing, and workflow conventions."
+policy:
+  allow_implicit_invocation: true
